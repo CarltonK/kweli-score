@@ -10,7 +10,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Apple
   cupertino_icons: ^1.0.1
+  # Fonts
+  google_fonts: ^1.1.1
+  # State management
+  provider: ^4.3.2+3
+  # DateFormat
+  intl: ^0.16.1
+  # Share
+  share: ^0.6.5+4
+  # Network
+  http: ^0.12.2
+  # Connectivity
+  connectivity: ^2.0.2
+  # Settings
+  app_settings: 4.0.4
 
 dev_dependencies:
   flutter_test:
@@ -21,6 +37,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-    # - images/
+  assets:
+    - assets/images/
 
