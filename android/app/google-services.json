@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1005943723015",
+    "project_id": "kwelismart",
+    "storage_bucket": "kwelismart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005943723015:android:f53b3a6b165a16278306a2",
+        "android_client_info": {
+          "package_name": "com.kweli.kweliscore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005943723015-be8qfl1be77ks5s6tam0kml3g2sn8ss2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB86OfEUnTbPhgaebOgnJ1fI3N6UgwLM-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005943723015-be8qfl1be77ks5s6tam0kml3g2sn8ss2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
