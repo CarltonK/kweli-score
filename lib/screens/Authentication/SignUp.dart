@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kweliscore/screens/Authentication/login.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class _SignUpState extends State<SignUp> {
             ),
             TextFormField(
               autofocus: false,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               validator: (value) {
                 //Check if fname exists
@@ -55,7 +56,7 @@ class _SignUpState extends State<SignUp> {
             ),
             TextFormField(
               autofocus: false,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               validator: (value) {
                 //Check if lname exists
@@ -139,7 +140,7 @@ class _SignUpState extends State<SignUp> {
             ),
             TextFormField(
               autofocus: false,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               validator: (value) {
                 //Check if password exists
@@ -168,7 +169,7 @@ class _SignUpState extends State<SignUp> {
             ),
             TextFormField(
               autofocus: false,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               validator: (value) {
                 //Check if password exists
@@ -208,7 +209,12 @@ class _SignUpState extends State<SignUp> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white)),
                 ),
-                onPressed: () => {}),
+                onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                      )
+                    }),
           ],
         ),
       ),
