@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/screens/Payment%20Packages/free_package.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class Package extends StatelessWidget {
