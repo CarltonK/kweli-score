@@ -26,13 +26,13 @@ class Validator {
   }
 
   String idValidator(String value) {
-    //Check if fname exists
+    //Check if ID exists
     if (value.isEmpty) {
       return 'Please provide your ID Number';
     }
-    //Check if phone is not 10 digits
-    if (value.length != 10) {
-      return 'Your ID number should be 10 digits';
+    //Check if ID is 7 or 8 digits
+    if (value.length < 7 || value.length > 8) {
+      return 'Your ID number should be 7 or 8 digits';
     }
     return null;
   }
@@ -47,8 +47,8 @@ class Validator {
       return 'Your phone number should be 10 digits';
     }
     //Check if phone starts with '07'
-    if (!value.startsWith('07')) {
-      return 'Your phone number should start with 07';
+    if (!value.startsWith('07') || !value.startsWith('01')) {
+      return 'Your phone number should start with 07 or 01';
     }
     return null;
   }
