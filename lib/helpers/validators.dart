@@ -1,7 +1,7 @@
 class Validator {
   Validator.empty();
 
-  passwordValidator(String value) {
+  String passwordValidator(String value) {
     //Check if password exists
     if (value.isEmpty) {
       return 'Please provide your Password';
@@ -13,7 +13,7 @@ class Validator {
     return null;
   }
 
-  emailValidator(String value) {
+  String emailValidator(String value) {
     //Check if email exists
     if (value.isEmpty) {
       return 'Please provide an email';
@@ -25,23 +25,19 @@ class Validator {
     return null;
   }
 
-  fnameValidator(String value) {
+  String idValidator(String value) {
     //Check if fname exists
     if (value.isEmpty) {
-      return 'Please provide your First Name';
+      return 'Please provide your ID Number';
+    }
+    //Check if phone is not 10 digits
+    if (value.length != 10) {
+      return 'Your ID number should be 10 digits';
     }
     return null;
   }
 
-  lnameValidator(String value) {
-    //Check if fname exists
-    if (value.isEmpty) {
-      return 'Please provide your Last Name';
-    }
-    return null;
-  }
-
-  phoneValidator(String value) {
+  String phoneValidator(String value) {
     //Check if number exists
     if (value.isEmpty) {
       return 'Please provide your Phone Number';
