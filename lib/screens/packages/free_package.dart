@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:lorem_ipsum/lorem_ipsum.dart';
 
 class FreePackage extends StatefulWidget {
   @override

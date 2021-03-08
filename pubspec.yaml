@@ -27,8 +27,6 @@ dependencies:
   connectivity: ^2.0.2
   # Settings
   app_settings: 4.0.4
-  #Lorem Ipsum
-  lorem_ipsum: any
 
 dev_dependencies:
   flutter_test:
