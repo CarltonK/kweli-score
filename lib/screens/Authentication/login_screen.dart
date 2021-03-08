@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
-import 'package:kweliscore/screens/package.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class Login extends StatelessWidget {

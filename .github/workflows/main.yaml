@@ -15,9 +15,17 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'beta'
-
+        
+    # Web
     - run: flutter config --enable-web
+
+    # Clean Build
+    - run: flutter clean
+
+    # Fresh packages
     - run: flutter pub get
+
+    # Build
     - run: flutter build apk --shrink --target-platform android-arm
     - run: flutter build web
 
