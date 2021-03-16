@@ -5,6 +5,129 @@ import 'package:kweliscore/utilities/utilities.dart';
 
 class SignUp extends StatelessWidget {
   static Validator _validator = Validator.empty();
+  Widget _idTF() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      textInputAction: TextInputAction.next,
+      validator: _validator.idValidator,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'ID Number',
+      ),
+    );
+  }
+
+  Widget _emailTF() {
+    return TextFormField(
+      autofocus: false,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      validator: _validator.emailValidator,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Email',
+      ),
+    );
+  }
+
+  Widget _phoneNumberTF() {
+    return TextFormField(
+      autofocus: false,
+      keyboardType: TextInputType.phone,
+      textInputAction: TextInputAction.next,
+      validator: _validator.phoneValidator,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Phone NUmber',
+      ),
+    );
+  }
+
+  Widget _passwordTF() {
+    return TextFormField(
+      autofocus: false,
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      validator: _validator.passwordValidator,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Password',
+        suffixIcon: IconButton(
+          icon: Icon(Icons.remove_red_eye),
+          onPressed: null,
+        ),
+      ),
+    );
+  }
+
+  Widget _confirmPasswordTF() {
+    return TextFormField(
+      autofocus: false,
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      validator: _validator.passwordValidator,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Confirm Pasword',
+        suffixIcon: IconButton(
+          icon: Icon(Icons.remove_red_eye),
+          onPressed: null,
+        ),
+      ),
+    );
+  }
+
+  Widget _signupRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Image(
+              image: AssetImage('assets/images/facebook.jpg'),
+              fit: BoxFit.contain),
+        ),
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Image(
+            image: AssetImage('assets/images/google.png'),
+            fit: BoxFit.contain,
+          ),
+        ),
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Image(
+            image: AssetImage(
+              'assets/images/twitter.png',
+            ),
+            fit: BoxFit.contain,
+          ),
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,77 +145,15 @@ class SignUp extends StatelessWidget {
               const SizedBox(height: 20),
               Text('Kweli Score', style: Constants.boldHeadlineStyle),
               const SizedBox(height: 20),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-                validator: _validator.idValidator,
-                decoration: InputDecoration(
-                  border: Constants.blackInputBorder,
-                  enabledBorder: Constants.blackInputBorder,
-                  focusedBorder: Constants.blackInputBorder,
-                  labelText: 'ID Number',
-                ),
-              ),
+              _idTF(),
               const SizedBox(height: 10),
-              TextFormField(
-                autofocus: false,
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                validator: _validator.emailValidator,
-                decoration: InputDecoration(
-                  border: Constants.blackInputBorder,
-                  enabledBorder: Constants.blackInputBorder,
-                  focusedBorder: Constants.blackInputBorder,
-                  labelText: 'Email',
-                ),
-              ),
+              _emailTF(),
               const SizedBox(height: 10),
-              TextFormField(
-                autofocus: false,
-                keyboardType: TextInputType.phone,
-                textInputAction: TextInputAction.next,
-                validator: _validator.phoneValidator,
-                decoration: InputDecoration(
-                  border: Constants.blackInputBorder,
-                  enabledBorder: Constants.blackInputBorder,
-                  focusedBorder: Constants.blackInputBorder,
-                  labelText: 'Phone NUmber',
-                ),
-              ),
+              _phoneNumberTF(),
               const SizedBox(height: 10),
-              TextFormField(
-                autofocus: false,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                validator: _validator.passwordValidator,
-                decoration: InputDecoration(
-                  border: Constants.blackInputBorder,
-                  enabledBorder: Constants.blackInputBorder,
-                  focusedBorder: Constants.blackInputBorder,
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.remove_red_eye),
-                    onPressed: null,
-                  ),
-                ),
-              ),
+              _passwordTF(),
               const SizedBox(height: 10),
-              TextFormField(
-                autofocus: false,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                validator: _validator.passwordValidator,
-                decoration: InputDecoration(
-                  border: Constants.blackInputBorder,
-                  enabledBorder: Constants.blackInputBorder,
-                  focusedBorder: Constants.blackInputBorder,
-                  labelText: 'Confirm Pasword',
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.remove_red_eye),
-                    onPressed: null,
-                  ),
-                ),
-              ),
+              _confirmPasswordTF(),
               const SizedBox(height: 20),
               MaterialButton(
                 minWidth: size.width,
@@ -113,6 +174,13 @@ class SignUp extends StatelessWidget {
                   )
                 },
               ),
+              const SizedBox(height: 60),
+              Text(
+                'Or Sign Up with',
+                style: Constants.boldSubheadlineStyle,
+              ),
+              const SizedBox(height: 20),
+         //     _signupRow(),
             ],
           ),
         ),
