@@ -8,3 +8,6 @@ export 'packages/free_package.dart';
 
 // Home
 export 'home/home_screen.dart';
+
+//Widgets
+export 'Widgets/custom_fab.dart';
