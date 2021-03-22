@@ -15,12 +15,7 @@ class _FreePackageState extends State<FreePackage> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Package()),
-            )
-          },
+          onPressed: () => {Navigator.of(context).pop()},
         ),
       ),
       body: Container(
