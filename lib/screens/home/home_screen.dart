@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/screens/Widgets/custom_fab.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -42,10 +44,7 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
-        child: IconButton(icon: Icon(Icons.add), onPressed: () => {}),
-      ),
+      floatingActionButton: CustomFab(),
     );
   }
 }
