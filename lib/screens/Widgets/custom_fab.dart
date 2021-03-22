@@ -90,13 +90,9 @@ class _CustomFabState extends State<CustomFab>
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Transform(
-            transform: Matrix4.translationValues(
-                0.0, _translateButton.value * 2.0, 0.0),
-            child: galleryBtn()),
-        Transform(
             transform:
                 Matrix4.translationValues(0.0, _translateButton.value, 0.0),
-            child: cameraBtn()),
+            child: galleryBtn()),
         fabBtn()
       ],
     );
