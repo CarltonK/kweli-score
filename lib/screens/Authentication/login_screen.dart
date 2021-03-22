@@ -138,11 +138,21 @@ class Login extends StatelessWidget {
               _forgetPasswordBTN(),
               const SizedBox(height: 60),
               Text(
-                'Or Sign In with',
+                "Don't have a account yet?",
                 style: Constants.boldSubheadlineStyle,
               ),
-              const SizedBox(height: 20),
-              _socialSignInRow(),
+              FlatButton(
+                onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUp()),
+                  )
+                },
+                child: Text('Sign Up here',
+                    style: TextStyle(decoration: TextDecoration.underline)),
+              ),
+              // const SizedBox(height: 20),
+              // _socialSignInRow(),
             ],
           ),
         ),
