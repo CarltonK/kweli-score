@@ -85,15 +85,15 @@ class Login extends StatelessWidget {
   }
 
 //Forgot Password Flat Button
-  Widget _forgetPasswordBTN() {
-    return FlatButton(
-      onPressed: () => {},
-      child: Text(
-        'Forgot Password?',
-        style: Constants.blackBoldNormal,
-      ),
-    );
-  }
+  // Widget _forgetPasswordBTN() {
+  //   return FlatButton(
+  //     onPressed: () => {},
+  //     child: Text(
+  //       'Forgot Password?',
+  //       style: Constants.blackBoldNormal,
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +135,18 @@ class Login extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 10),
-              _forgetPasswordBTN(),
+              FlatButton(
+                onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ForgotPassword()),
+                  )
+                },
+                child: Text(
+                  'Forgot Password?',
+                  style: Constants.blackBoldNormal,
+                ),
+              ),
               const SizedBox(height: 60),
               Text(
                 "Don't have a account yet?",
