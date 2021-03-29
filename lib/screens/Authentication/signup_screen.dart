@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatelessWidget {
   static Validator _validator = Validator.empty();
@@ -133,55 +135,59 @@ class SignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: size.height,
-          width: size.width,
-          padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              Text('Kweli Score', style: Constants.boldHeadlineStyle),
-              const SizedBox(height: 20),
-              _idTF(),
-              const SizedBox(height: 10),
-              _emailTF(),
-              const SizedBox(height: 10),
-              _phoneNumberTF(),
-              const SizedBox(height: 10),
-              _passwordTF(),
-              const SizedBox(height: 10),
-              _confirmPasswordTF(),
-              const SizedBox(height: 20),
-              MaterialButton(
-                minWidth: size.width,
-                elevation: 5,
-                height: 55,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+    return Consumer<AuthProvider>(builder: (context, value, child) {
+          return child;
+        },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            height: size.height,
+            width: size.width,
+            padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20),
+                Text('Kweli Score', style: Constants.boldHeadlineStyle),
+                const SizedBox(height: 20),
+                _idTF(),
+                const SizedBox(height: 10),
+                _emailTF(),
+                const SizedBox(height: 10),
+                _phoneNumberTF(),
+                const SizedBox(height: 10),
+                _passwordTF(),
+                const SizedBox(height: 10),
+                _confirmPasswordTF(),
+                const SizedBox(height: 20),
+                MaterialButton(
+                  minWidth: size.width,
+                  elevation: 5,
+                  height: 55,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  color: Colors.lightBlueAccent,
+                  child: Text(
+                    'Sign Up',
+                    style: Constants.whiteBoldSubheadlineStyle,
+                  ),
+                  onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    )
+                  },
                 ),
-                color: Colors.lightBlueAccent,
-                child: Text(
-                  'Sign Up',
-                  style: Constants.whiteBoldSubheadlineStyle,
+                const SizedBox(height: 60),
+                Text(
+                  'Or Sign Up with',
+                  style: Constants.boldSubheadlineStyle,
                 ),
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login()),
-                  )
-                },
-              ),
-              const SizedBox(height: 60),
-              Text(
-                'Or Sign Up with',
-                style: Constants.boldSubheadlineStyle,
-              ),
-              const SizedBox(height: 20),
-         //     _signupRow(),
-            ],
+                const SizedBox(height: 20),
+           //     _signupRow(),
+              ],
+            ),
           ),
         ),
       ),
