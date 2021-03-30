@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
+import 'package:kweliscore/provider/auth_provider.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   static Validator _validator = Validator.empty();
@@ -128,10 +130,12 @@ class Login extends StatelessWidget {
                   style: Constants.whiteBoldSubheadlineStyle,
                 ),
                 onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Package()),
-                  )
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Package()),
+                  // )
+                  Provider.of<AuthProvider>(context, listen: false)
+                      .anonymousSignIn()
                 },
               ),
               const SizedBox(height: 10),

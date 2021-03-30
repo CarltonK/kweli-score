@@ -16,7 +16,7 @@ dependencies:
   # Fonts
   google_fonts: ^1.1.1
   # State management
-  provider: 
+  provider: ^4.3.3
   # DateFormat
   intl: ^0.16.1
   # Share
@@ -27,6 +27,13 @@ dependencies:
   connectivity: ^2.0.2
   # Settings
   app_settings: 4.0.4
+  # Firebase
+  # ***---REQUIREMENT---***
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.1
+
+  # Spinner
+  flutter_spinkit: ^4.1.2
 
 dev_dependencies:
   flutter_test:
