@@ -99,29 +99,13 @@ class AuthProvider with ChangeNotifier {
         password: user.password,
       );
       currentUser = result.user;
-      
 
       return Future.value(currentUser);
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       _status = Status.Unauthenticated;
       notifyListeners();
-      var response;
-      if (e.toString().contains("ERROR_WRONG_PASSWORD")) {
-        response = 'Invalid credentials. Please try again.';
-      }
-      if (e.toString().contains("ERROR_INVALID_EMAIL")) {
-        response = 'The email format entered is invalid.';
-      }
-      if (e.toString().contains("ERROR_USER_NOT_FOUND")) {
-        response = 'Please register first.';
-      }
-      if (e.toString().contains("ERROR_USER_DISABLED")) {
-        response = 'Your account has been disabled.';
-      }
-      if (e.toString().contains("ERROR_TOO_MANY_REQUESTS")) {
-        response = 'Too many requests. Please try again in 2 minutes.';
-      }
-      return response;
+
+      return e.message;
     }
   }
 
