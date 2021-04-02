@@ -46,10 +46,11 @@ class Validator {
     if (value.length != 10) {
       return 'Your phone number should be 10 digits';
     }
-    //Check if phone starts with '07'
-    if (!value.startsWith('07') || !value.startsWith('01')) {
-      return 'Your phone number should start with 07 or 01';
+    //Check if phone starts with '07' or '01'
+    if (!value.startsWith('07')) {
+      return 'Your phone number should start with 07';
     }
+
     return null;
   }
 }

@@ -3,6 +3,7 @@ class UserModel {
   String password;
   String phoneNumber;
   String idNumber;
+  String uid;
 
   UserModel({
     this.email,
@@ -10,4 +11,11 @@ class UserModel {
     this.phoneNumber,
     this.idNumber,
   });
+
+  Map<String, dynamic> toFirestoreDoc() => {
+        'email': email,
+        'uid': uid,
+        'phoneNumber': phoneNumber,
+        'idNumber': idNumber,
+      };
 }

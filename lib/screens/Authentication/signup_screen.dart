@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
+import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 
 class SignUp extends StatelessWidget {
+  static UserModel _userModel;
+
+  final _formKey = GlobalKey<FormState>();
+
+  static String email;
+  static String idNumber;
+  static String phoneNumber;
+  static String password;
+  static String password2;
+
+  AuthProvider _authProvider;
+
+  // static dynamic result;
+
+  // static dynamic userProvider;
+
   static Validator _validator = Validator.empty();
+
+  _onIdNumberSaved(String value) {
+    idNumber = value.trim();
+  }
+
   Widget _idTF() {
     return TextFormField(
+      onSaved: _onIdNumberSaved,
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
       validator: _validator.idValidator,
@@ -21,8 +44,13 @@ class SignUp extends StatelessWidget {
     );
   }
 
+  _onEmailSaved(String value) {
+    email = value.trim();
+  }
+
   Widget _emailTF() {
     return TextFormField(
+      onSaved: _onEmailSaved,
       autofocus: false,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
@@ -36,8 +64,13 @@ class SignUp extends StatelessWidget {
     );
   }
 
+  _onPhoneNumberSaved(String value) {
+    phoneNumber = value.trim();
+  }
+
   Widget _phoneNumberTF() {
     return TextFormField(
+      onSaved: _onPhoneNumberSaved,
       autofocus: false,
       keyboardType: TextInputType.phone,
       textInputAction: TextInputAction.next,
@@ -51,8 +84,14 @@ class SignUp extends StatelessWidget {
     );
   }
 
+  _onPasswordSaved(String value) {
+    password = value.trim();
+  }
+
   Widget _passwordTF() {
     return TextFormField(
+      onSaved: _onPasswordSaved,
+      obscureText: true,
       autofocus: false,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
@@ -70,8 +109,14 @@ class SignUp extends StatelessWidget {
     );
   }
 
+  _onConfirmPasswordSaved(String value) {
+    password2 = value.trim();
+  }
+
   Widget _confirmPasswordTF() {
     return TextFormField(
+      onSaved: _onConfirmPasswordSaved,
+      obscureText: true,
       autofocus: false,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
@@ -89,104 +134,135 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  Widget _signupRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Image(
-              image: AssetImage('assets/images/facebook.jpg'),
-              fit: BoxFit.contain),
-        ),
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Image(
-            image: AssetImage('assets/images/google.png'),
-            fit: BoxFit.contain,
-          ),
-        ),
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Image(
-            image: AssetImage(
-              'assets/images/twitter.png',
-            ),
-            fit: BoxFit.contain,
-          ),
-        )
-      ],
-    );
+  // Future<bool> serverCall(UserModel user) async {
+  //   result = await userProvider.createUserEmailPass(user);
+
+  //   if (result == 'Your password is weak. Please choose another') {
+  //     return false;
+  //   } else if (result == "The email format entered is invalid") {
+  //     return false;
+  //   } else if (result == "An account with the same email exists") {
+  //     return false;
+  //   } else if (result == null) {
+  //     result = "Please check your internet connection";
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
+
+  void _registerBtnPressed(BuildContext context) async {
+    final FormState form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+
+      _userModel = UserModel(
+        email: email,
+        password: password,
+        idNumber: idNumber,
+        phoneNumber: phoneNumber,
+      );
+      _authProvider.createUser(_userModel);
+    }
   }
+
+  // Widget _signupRow() {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //     children: [
+  //       Container(
+  //         height: 50,
+  //         width: 50,
+  //         decoration: BoxDecoration(
+  //           shape: BoxShape.circle,
+  //         ),
+  //         child: Image(
+  //             image: AssetImage('assets/images/facebook.jpg'),
+  //             fit: BoxFit.contain),
+  //       ),
+  //       Container(
+  //         height: 50,
+  //         width: 50,
+  //         decoration: BoxDecoration(
+  //           shape: BoxShape.circle,
+  //         ),
+  //         child: Image(
+  //           image: AssetImage('assets/images/google.png'),
+  //           fit: BoxFit.contain,
+  //         ),
+  //       ),
+  //       Container(
+  //         height: 50,
+  //         width: 50,
+  //         decoration: BoxDecoration(
+  //           shape: BoxShape.circle,
+  //         ),
+  //         child: Image(
+  //           image: AssetImage(
+  //             'assets/images/twitter.png',
+  //           ),
+  //           fit: BoxFit.contain,
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-    return Consumer<AuthProvider>(builder: (context, value, child) {
-          return child;
-        },
+    return Consumer<AuthProvider>(
+      builder: (context, value, child) {
+        _authProvider = value;
+        return child;
+      },
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: Form(
+          key: _formKey,
           child: Container(
             height: size.height,
             width: size.width,
             padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20),
-                Text('Kweli Score', style: Constants.boldHeadlineStyle),
-                const SizedBox(height: 20),
-                _idTF(),
-                const SizedBox(height: 10),
-                _emailTF(),
-                const SizedBox(height: 10),
-                _phoneNumberTF(),
-                const SizedBox(height: 10),
-                _passwordTF(),
-                const SizedBox(height: 10),
-                _confirmPasswordTF(),
-                const SizedBox(height: 20),
-                MaterialButton(
-                  minWidth: size.width,
-                  elevation: 5,
-                  height: 55,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  Text('Kweli Score', style: Constants.boldHeadlineStyle),
+                  const SizedBox(height: 20),
+                  _idTF(),
+                  const SizedBox(height: 10),
+                  _emailTF(),
+                  const SizedBox(height: 10),
+                  _phoneNumberTF(),
+                  const SizedBox(height: 10),
+                  _passwordTF(),
+                  const SizedBox(height: 10),
+                  _confirmPasswordTF(),
+                  const SizedBox(height: 20),
+                  MaterialButton(
+                      minWidth: size.width,
+                      elevation: 5,
+                      height: 55,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      color: Colors.lightBlueAccent,
+                      child: Text(
+                        'Sign Up',
+                        style: Constants.whiteBoldSubheadlineStyle,
+                      ),
+                      onPressed: () => _registerBtnPressed(context)),
+                  const SizedBox(height: 60),
+                  Text(
+                    'Or Sign Up with',
+                    style: Constants.boldSubheadlineStyle,
                   ),
-                  color: Colors.lightBlueAccent,
-                  child: Text(
-                    'Sign Up',
-                    style: Constants.whiteBoldSubheadlineStyle,
-                  ),
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()),
-                    )
-                  },
-                ),
-                const SizedBox(height: 60),
-                Text(
-                  'Or Sign Up with',
-                  style: Constants.boldSubheadlineStyle,
-                ),
-                const SizedBox(height: 20),
-           //     _signupRow(),
-              ],
+                  const SizedBox(height: 20),
+                  //     _signupRow(),
+                ],
+              ),
             ),
           ),
         ),
