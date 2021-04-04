@@ -1,12 +1,8 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
-import 'package:kweliscore/provider/auth_provider.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
@@ -24,14 +20,12 @@ class Login extends StatelessWidget {
   static String password;
   static String password2;
 
-  AuthProvider _authProvider;
-
   static Validator _validator = Validator.empty();
-  //email textField
-  _onEmailSaved(String value) {
-    email = value.trim();
-  }
+  static Dialogs _dialogs = Dialogs.empty();
 
+  /*
+  ******EMAIL STUFF******
+  */
   Widget _emailTF() {
     return TextFormField(
       onSaved: _onEmailSaved,
@@ -48,11 +42,13 @@ class Login extends StatelessWidget {
     );
   }
 
-//password textField
-  _onPasswordSaved(String value) {
-    password = value.trim();
+  _onEmailSaved(String value) {
+    email = value.trim();
   }
 
+  /*
+  ******PASSWORD STUFF******
+  */
   Widget _passwordTF() {
     return TextFormField(
       obscureText: true,
@@ -74,67 +70,31 @@ class Login extends StatelessWidget {
     );
   }
 
-//Social Buttons Sign In
-  Widget _socialSignInRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Image(
-              image: AssetImage('assets/images/facebook.jpg'),
-              fit: BoxFit.contain),
-        ),
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Image(
-            image: AssetImage('assets/images/google.png'),
-            fit: BoxFit.contain,
-          ),
-        ),
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Image(
-            image: AssetImage(
-              'assets/images/twitter.png',
-            ),
-            fit: BoxFit.contain,
-          ),
-        )
-      ],
-    );
+  _onPasswordSaved(String value) {
+    password = value.trim();
   }
 
-  dynamic result;
+  /*
+  ******SOCIAL SIGN IN STUFF******
+  */
+  // Widget _socialSignInRow() {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //     children: [
+  //       SocialSignInButton(path: 'assets/images/facebook.jpg'),
+  //       SocialSignInButton(path: 'assets/images/google.png'),
+  //       SocialSignInButton(path: 'assets/images/twitter.png'),
+  //     ],
+  //   );
+  // }
 
-  Future dialogInfo(BuildContext context, String message) {
-    return showCupertinoModalPopup(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: Text(message),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      ),
-    );
-  }
+  static dynamic result;
 
   Future<bool> serverCall(UserModel user, BuildContext context) async {
     result = await Provider.of<AuthProvider>(
       context,
       listen: false,
     ).signInEmailPass(_userModel);
-    print('RESULT=$result');
     if (result.runtimeType == String) {
       return false;
     }
@@ -150,10 +110,11 @@ class Login extends StatelessWidget {
         email: email,
         password: password,
       );
+
       serverCall(_userModel, context).then((value) {
         if (!value) {
           Timer(Duration(seconds: 1), () {
-            dialogInfo(_scaffoldKey.currentContext, result);
+            _dialogs.dialogInfo(_scaffoldKey.currentContext, result);
           });
         }
       });
@@ -166,12 +127,12 @@ class Login extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-      body: Form(
-        key: _formKey,
-        child: Container(
-          height: size.height,
-          width: size.width,
-          padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+      body: Container(
+        height: size.height,
+        width: size.width,
+        padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+        child: Form(
+          key: _formKey,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -222,8 +183,10 @@ class Login extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => SignUp()),
                     )
                   },
-                  child: Text('Sign Up here',
-                      style: TextStyle(decoration: TextDecoration.underline)),
+                  child: Text(
+                    'Sign Up here',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  ),
                 ),
                 // const SizedBox(height: 20),
                 // _socialSignInRow(),

@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kweliscore/screens/Widgets/widgets.dart';
+import 'package:kweliscore/widgets/widgets.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -18,7 +18,12 @@ void main() {
     //   create: (context) => DatabaseProvider(),
     // ),
   ];
-  runApp(MultiProvider(providers: providers, child: MyApp()));
+  runApp(
+    MultiProvider(
+      providers: providers,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
