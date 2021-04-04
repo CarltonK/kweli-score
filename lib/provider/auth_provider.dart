@@ -43,10 +43,10 @@ class AuthProvider with ChangeNotifier {
       currentUser = result.user;
 
       return Future.value(currentUser);
-    } catch (e) {
+    } on FirebaseAuthException catch (error) {
       _status = Status.Unauthenticated;
       notifyListeners();
-      return null;
+      return error.message;
     }
   }
 
@@ -70,20 +70,10 @@ class AuthProvider with ChangeNotifier {
       //  await database.saveUser(user, uid);
 
       return Future.value(currentUser);
-    } catch (e) {
+    } on FirebaseAuthException catch (error) {
       _status = Status.Unauthenticated;
       notifyListeners();
-      var response;
-      if (e.toString().contains("ERROR_WEAK_PASSWORD")) {
-        response = 'Your password is weak. Please choose another.';
-      }
-      if (e.toString().contains("ERROR_INVALID_EMAIL")) {
-        response = 'The email format entered is invalid.';
-      }
-      if (e.toString().contains("ERROR_EMAIL_ALREADY_IN_USE")) {
-        response = 'An account with the same email exists.';
-      }
-      return response;
+      return error.message;
     }
   }
 
@@ -101,11 +91,10 @@ class AuthProvider with ChangeNotifier {
       currentUser = result.user;
 
       return Future.value(currentUser);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (error) {
       _status = Status.Unauthenticated;
       notifyListeners();
-
-      return e.message;
+      return error.message;
     }
   }
 

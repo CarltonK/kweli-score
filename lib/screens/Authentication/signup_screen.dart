@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
-import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 
@@ -17,18 +16,13 @@ class SignUp extends StatelessWidget {
   static String password;
   static String password2;
 
-  AuthProvider _authProvider;
-
-  // static dynamic result;
-
-  // static dynamic userProvider;
-
   static Validator _validator = Validator.empty();
 
-  _onIdNumberSaved(String value) {
-    idNumber = value.trim();
-  }
+  // static dynamic result
 
+  /*
+  ******ID STUFF******
+  */
   Widget _idTF() {
     return TextFormField(
       onSaved: _onIdNumberSaved,
@@ -44,10 +38,13 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  _onEmailSaved(String value) {
-    email = value.trim();
+  _onIdNumberSaved(String value) {
+    idNumber = value.trim();
   }
 
+  /*
+  ******EMAIL STUFF******
+  */
   Widget _emailTF() {
     return TextFormField(
       onSaved: _onEmailSaved,
@@ -64,10 +61,13 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  _onPhoneNumberSaved(String value) {
-    phoneNumber = value.trim();
+  _onEmailSaved(String value) {
+    email = value.trim();
   }
 
+  /*
+  ******PHONE NUMBER STUFF******
+  */
   Widget _phoneNumberTF() {
     return TextFormField(
       onSaved: _onPhoneNumberSaved,
@@ -84,10 +84,13 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  _onPasswordSaved(String value) {
-    password = value.trim();
+  _onPhoneNumberSaved(String value) {
+    phoneNumber = value.trim();
   }
 
+  /*
+  ******PASSWORD STUFF******
+  */
   Widget _passwordTF() {
     return TextFormField(
       onSaved: _onPasswordSaved,
@@ -109,10 +112,13 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  _onConfirmPasswordSaved(String value) {
-    password2 = value.trim();
+  _onPasswordSaved(String value) {
+    password = value.trim();
   }
 
+  /*
+  ******CONFIRM PASSWORD STUFF******
+  */
   Widget _confirmPasswordTF() {
     return TextFormField(
       onSaved: _onConfirmPasswordSaved,
@@ -132,6 +138,10 @@ class SignUp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onConfirmPasswordSaved(String value) {
+    password2 = value.trim();
   }
 
   // Future<bool> serverCall(UserModel user) async {
@@ -162,107 +172,60 @@ class SignUp extends StatelessWidget {
         idNumber: idNumber,
         phoneNumber: phoneNumber,
       );
-      _authProvider.createUser(_userModel);
+
+      Provider.of<AuthProvider>(context, listen: false).createUser(_userModel);
     }
   }
-
-  // Widget _signupRow() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //     children: [
-  //       Container(
-  //         height: 50,
-  //         width: 50,
-  //         decoration: BoxDecoration(
-  //           shape: BoxShape.circle,
-  //         ),
-  //         child: Image(
-  //             image: AssetImage('assets/images/facebook.jpg'),
-  //             fit: BoxFit.contain),
-  //       ),
-  //       Container(
-  //         height: 50,
-  //         width: 50,
-  //         decoration: BoxDecoration(
-  //           shape: BoxShape.circle,
-  //         ),
-  //         child: Image(
-  //           image: AssetImage('assets/images/google.png'),
-  //           fit: BoxFit.contain,
-  //         ),
-  //       ),
-  //       Container(
-  //         height: 50,
-  //         width: 50,
-  //         decoration: BoxDecoration(
-  //           shape: BoxShape.circle,
-  //         ),
-  //         child: Image(
-  //           image: AssetImage(
-  //             'assets/images/twitter.png',
-  //           ),
-  //           fit: BoxFit.contain,
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-    return Consumer<AuthProvider>(
-      builder: (context, value, child) {
-        _authProvider = value;
-        return child;
-      },
-      child: Scaffold(
-        body: Form(
+    return Scaffold(
+      body: Container(
+        height: size.height,
+        width: size.width,
+        padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+        child: Form(
           key: _formKey,
-          child: Container(
-            height: size.height,
-            width: size.width,
-            padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 20),
-                  Text('Kweli Score', style: Constants.boldHeadlineStyle),
-                  const SizedBox(height: 20),
-                  _idTF(),
-                  const SizedBox(height: 10),
-                  _emailTF(),
-                  const SizedBox(height: 10),
-                  _phoneNumberTF(),
-                  const SizedBox(height: 10),
-                  _passwordTF(),
-                  const SizedBox(height: 10),
-                  _confirmPasswordTF(),
-                  const SizedBox(height: 20),
-                  MaterialButton(
-                      minWidth: size.width,
-                      elevation: 5,
-                      height: 55,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      color: Colors.lightBlueAccent,
-                      child: Text(
-                        'Sign Up',
-                        style: Constants.whiteBoldSubheadlineStyle,
-                      ),
-                      onPressed: () => _registerBtnPressed(context)),
-                  const SizedBox(height: 60),
-                  Text(
-                    'Or Sign Up with',
-                    style: Constants.boldSubheadlineStyle,
-                  ),
-                  const SizedBox(height: 20),
-                  //     _signupRow(),
-                ],
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20),
+                Text('Kweli Score', style: Constants.boldHeadlineStyle),
+                const SizedBox(height: 20),
+                _idTF(),
+                const SizedBox(height: 10),
+                _emailTF(),
+                const SizedBox(height: 10),
+                _phoneNumberTF(),
+                const SizedBox(height: 10),
+                _passwordTF(),
+                const SizedBox(height: 10),
+                _confirmPasswordTF(),
+                const SizedBox(height: 20),
+                MaterialButton(
+                    minWidth: size.width,
+                    elevation: 5,
+                    height: 55,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    color: Colors.lightBlueAccent,
+                    child: Text(
+                      'Sign Up',
+                      style: Constants.whiteBoldSubheadlineStyle,
+                    ),
+                    onPressed: () => _registerBtnPressed(context)),
+                const SizedBox(height: 60),
+                Text(
+                  'Or Sign Up with',
+                  style: Constants.boldSubheadlineStyle,
+                ),
+                const SizedBox(height: 20),
+                //     _signupRow(),
+              ],
             ),
           ),
         ),
