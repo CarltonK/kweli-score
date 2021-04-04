@@ -63,6 +63,7 @@ class AuthProvider with ChangeNotifier {
       );
       currentUser = result.user;
       String uid = currentUser.uid;
+      print('The new user is identified by $uid');
 
       // Send an email verification
       currentUser.sendEmailVerification();
