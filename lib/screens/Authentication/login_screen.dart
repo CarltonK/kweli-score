@@ -27,17 +27,20 @@ class Login extends StatelessWidget {
   ******EMAIL STUFF******
   */
   Widget _emailTF() {
-    return TextFormField(
-      onSaved: _onEmailSaved,
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.emailValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Email',
-        prefixIcon: Icon(Icons.email),
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onEmailSaved,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        validator: _validator.emailValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Email',
+          prefixIcon: Icon(Icons.email),
+        ),
       ),
     );
   }
@@ -50,21 +53,24 @@ class Login extends StatelessWidget {
   ******PASSWORD STUFF******
   */
   Widget _passwordTF() {
-    return TextFormField(
-      obscureText: true,
-      onSaved: _onPasswordSaved,
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Password',
-        prefixIcon: Icon(Icons.vpn_key),
-        suffixIcon: IconButton(
-          icon: Icon(Icons.remove_red_eye),
-          onPressed: null,
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        obscureText: true,
+        onSaved: _onPasswordSaved,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        validator: _validator.passwordValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Password',
+          prefixIcon: Icon(Icons.vpn_key),
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: null,
+          ),
         ),
       ),
     );
@@ -140,24 +146,36 @@ class Login extends StatelessWidget {
                 const SizedBox(height: 60),
                 Text('Kweli Score', style: Constants.boldHeadlineStyle),
                 const SizedBox(height: 40),
-                _emailTF(),
-                const SizedBox(height: 20),
-                _passwordTF(),
-                const SizedBox(height: 40),
-                MaterialButton(
-                  minWidth: size.width,
+                Card(
                   elevation: 5,
-                  height: 55,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      _emailTF(),
+                      const SizedBox(height: 20),
+                      _passwordTF(),
+                      const SizedBox(height: 40),
+                      MaterialButton(
+                        minWidth: 310,
+                        elevation: 5,
+                        height: 55,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        color: Colors.lightBlueAccent,
+                        child: Text(
+                          'Sign In',
+                          style: Constants.whiteBoldSubheadlineStyle,
+                        ),
+                        onPressed: () => _loginBtnPressed(context),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
                   ),
-                  color: Colors.lightBlueAccent,
-                  child: Text(
-                    'Sign In',
-                    style: Constants.whiteBoldSubheadlineStyle,
-                  ),
-                  onPressed: () => _loginBtnPressed(context),
                 ),
+
                 const SizedBox(height: 10),
                 FlatButton(
                   onPressed: () => {

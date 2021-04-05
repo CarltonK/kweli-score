@@ -24,16 +24,19 @@ class SignUp extends StatelessWidget {
   ******ID STUFF******
   */
   Widget _idTF() {
-    return TextFormField(
-      onSaved: _onIdNumberSaved,
-      keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
-      validator: _validator.idValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'ID Number',
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onIdNumberSaved,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+        validator: _validator.idValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'ID Number',
+        ),
       ),
     );
   }
@@ -46,17 +49,20 @@ class SignUp extends StatelessWidget {
   ******EMAIL STUFF******
   */
   Widget _emailTF() {
-    return TextFormField(
-      onSaved: _onEmailSaved,
-      autofocus: false,
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      validator: _validator.emailValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Email',
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onEmailSaved,
+        autofocus: false,
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
+        validator: _validator.emailValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Email',
+        ),
       ),
     );
   }
@@ -69,17 +75,20 @@ class SignUp extends StatelessWidget {
   ******PHONE NUMBER STUFF******
   */
   Widget _phoneNumberTF() {
-    return TextFormField(
-      onSaved: _onPhoneNumberSaved,
-      autofocus: false,
-      keyboardType: TextInputType.phone,
-      textInputAction: TextInputAction.next,
-      validator: _validator.phoneValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Phone NUmber',
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onPhoneNumberSaved,
+        autofocus: false,
+        keyboardType: TextInputType.phone,
+        textInputAction: TextInputAction.next,
+        validator: _validator.phoneValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Phone NUmber',
+        ),
       ),
     );
   }
@@ -92,21 +101,24 @@ class SignUp extends StatelessWidget {
   ******PASSWORD STUFF******
   */
   Widget _passwordTF() {
-    return TextFormField(
-      onSaved: _onPasswordSaved,
-      obscureText: true,
-      autofocus: false,
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Password',
-        suffixIcon: IconButton(
-          icon: Icon(Icons.remove_red_eye),
-          onPressed: null,
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onPasswordSaved,
+        obscureText: true,
+        autofocus: false,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        validator: _validator.passwordValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Password',
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: null,
+          ),
         ),
       ),
     );
@@ -120,21 +132,24 @@ class SignUp extends StatelessWidget {
   ******CONFIRM PASSWORD STUFF******
   */
   Widget _confirmPasswordTF() {
-    return TextFormField(
-      onSaved: _onConfirmPasswordSaved,
-      obscureText: true,
-      autofocus: false,
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Confirm Pasword',
-        suffixIcon: IconButton(
-          icon: Icon(Icons.remove_red_eye),
-          onPressed: null,
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onConfirmPasswordSaved,
+        obscureText: true,
+        autofocus: false,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        validator: _validator.passwordValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Confirm Pasword',
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: null,
+          ),
         ),
       ),
     );
@@ -195,36 +210,40 @@ class SignUp extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text('Kweli Score', style: Constants.boldHeadlineStyle),
                 const SizedBox(height: 20),
-                _idTF(),
-                const SizedBox(height: 10),
-                _emailTF(),
-                const SizedBox(height: 10),
-                _phoneNumberTF(),
-                const SizedBox(height: 10),
-                _passwordTF(),
-                const SizedBox(height: 10),
-                _confirmPasswordTF(),
-                const SizedBox(height: 20),
-                MaterialButton(
-                    minWidth: size.width,
-                    elevation: 5,
-                    height: 55,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    color: Colors.lightBlueAccent,
-                    child: Text(
-                      'Sign Up',
-                      style: Constants.whiteBoldSubheadlineStyle,
-                    ),
-                    onPressed: () => _registerBtnPressed(context)),
-                const SizedBox(height: 60),
-                Text(
-                  'Or Sign Up with',
-                  style: Constants.boldSubheadlineStyle,
+                Card(
+                  elevation: 5,
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      _idTF(),
+                      const SizedBox(height: 10),
+                      _emailTF(),
+                      const SizedBox(height: 10),
+                      _phoneNumberTF(),
+                      const SizedBox(height: 10),
+                      _passwordTF(),
+                      const SizedBox(height: 10),
+                      _confirmPasswordTF(),
+                      const SizedBox(height: 20),
+                      MaterialButton(
+                          minWidth: 310,
+                          elevation: 5,
+                          height: 55,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          color: Colors.lightBlueAccent,
+                          child: Text(
+                            'Sign Up',
+                            style: Constants.whiteBoldSubheadlineStyle,
+                          ),
+                          onPressed: () => _registerBtnPressed(context)),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 20),
-                //     _signupRow(),
               ],
             ),
           ),
