@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
+
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class SignUp extends StatelessWidget {
   static UserModel _userModel;
@@ -17,6 +21,7 @@ class SignUp extends StatelessWidget {
   static String password2;
 
   static Validator _validator = Validator.empty();
+  static Dialogs _dialogs = Dialogs.empty();
 
   // static dynamic result
 
@@ -24,16 +29,19 @@ class SignUp extends StatelessWidget {
   ******ID STUFF******
   */
   Widget _idTF() {
-    return TextFormField(
-      onSaved: _onIdNumberSaved,
-      keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
-      validator: _validator.idValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'ID Number',
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onIdNumberSaved,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+        validator: _validator.idValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'ID Number',
+        ),
       ),
     );
   }
@@ -46,17 +54,20 @@ class SignUp extends StatelessWidget {
   ******EMAIL STUFF******
   */
   Widget _emailTF() {
-    return TextFormField(
-      onSaved: _onEmailSaved,
-      autofocus: false,
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      validator: _validator.emailValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Email',
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onEmailSaved,
+        autofocus: false,
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
+        validator: _validator.emailValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Email',
+        ),
       ),
     );
   }
@@ -69,17 +80,20 @@ class SignUp extends StatelessWidget {
   ******PHONE NUMBER STUFF******
   */
   Widget _phoneNumberTF() {
-    return TextFormField(
-      onSaved: _onPhoneNumberSaved,
-      autofocus: false,
-      keyboardType: TextInputType.phone,
-      textInputAction: TextInputAction.next,
-      validator: _validator.phoneValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Phone NUmber',
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onPhoneNumberSaved,
+        autofocus: false,
+        keyboardType: TextInputType.phone,
+        textInputAction: TextInputAction.next,
+        validator: _validator.phoneValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Phone Number',
+        ),
       ),
     );
   }
@@ -91,22 +105,26 @@ class SignUp extends StatelessWidget {
   /*
   ******PASSWORD STUFF******
   */
+
   Widget _passwordTF() {
-    return TextFormField(
-      onSaved: _onPasswordSaved,
-      obscureText: true,
-      autofocus: false,
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Password',
-        suffixIcon: IconButton(
-          icon: Icon(Icons.remove_red_eye),
-          onPressed: null,
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onPasswordSaved,
+        obscureText: true,
+        autofocus: false,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        validator: _validator.passwordValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Password',
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: () => {},
+          ),
         ),
       ),
     );
@@ -120,21 +138,24 @@ class SignUp extends StatelessWidget {
   ******CONFIRM PASSWORD STUFF******
   */
   Widget _confirmPasswordTF() {
-    return TextFormField(
-      onSaved: _onConfirmPasswordSaved,
-      obscureText: true,
-      autofocus: false,
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
-      decoration: InputDecoration(
-        border: Constants.blackInputBorder,
-        enabledBorder: Constants.blackInputBorder,
-        focusedBorder: Constants.blackInputBorder,
-        labelText: 'Confirm Pasword',
-        suffixIcon: IconButton(
-          icon: Icon(Icons.remove_red_eye),
-          onPressed: null,
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        onSaved: _onConfirmPasswordSaved,
+        obscureText: true,
+        autofocus: false,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        validator: _validator.passwordValidator,
+        decoration: InputDecoration(
+          border: Constants.blackInputBorder,
+          enabledBorder: Constants.blackInputBorder,
+          focusedBorder: Constants.blackInputBorder,
+          labelText: 'Confirm Pasword',
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: null,
+          ),
         ),
       ),
     );
@@ -144,22 +165,18 @@ class SignUp extends StatelessWidget {
     password2 = value.trim();
   }
 
-  // Future<bool> serverCall(UserModel user) async {
-  //   result = await userProvider.createUserEmailPass(user);
+  static dynamic result;
 
-  //   if (result == 'Your password is weak. Please choose another') {
-  //     return false;
-  //   } else if (result == "The email format entered is invalid") {
-  //     return false;
-  //   } else if (result == "An account with the same email exists") {
-  //     return false;
-  //   } else if (result == null) {
-  //     result = "Please check your internet connection";
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
+  Future<bool> serverCall(UserModel user, BuildContext context) async {
+    result = await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    ).createUser(_userModel);
+    if (result.runtimeType == String) {
+      return false;
+    }
+    return true;
+  }
 
   void _registerBtnPressed(BuildContext context) async {
     final FormState form = _formKey.currentState;
@@ -182,6 +199,7 @@ class SignUp extends StatelessWidget {
     // Dimensions
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         height: size.height,
         width: size.width,
@@ -195,36 +213,36 @@ class SignUp extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text('Kweli Score', style: Constants.boldHeadlineStyle),
                 const SizedBox(height: 20),
-                _idTF(),
-                const SizedBox(height: 10),
-                _emailTF(),
-                const SizedBox(height: 10),
-                _phoneNumberTF(),
-                const SizedBox(height: 10),
-                _passwordTF(),
-                const SizedBox(height: 10),
-                _confirmPasswordTF(),
-                const SizedBox(height: 20),
-                MaterialButton(
-                    minWidth: size.width,
-                    elevation: 5,
-                    height: 55,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    color: Colors.lightBlueAccent,
-                    child: Text(
-                      'Sign Up',
-                      style: Constants.whiteBoldSubheadlineStyle,
-                    ),
-                    onPressed: () => _registerBtnPressed(context)),
-                const SizedBox(height: 60),
-                Text(
-                  'Or Sign Up with',
-                  style: Constants.boldSubheadlineStyle,
+                Card(
+                  elevation: 5,
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      _idTF(),
+                      _emailTF(),
+                      _phoneNumberTF(),
+                      _passwordTF(),
+                      _confirmPasswordTF(),
+                      const SizedBox(height: 20),
+                      MaterialButton(
+                          minWidth: 310,
+                          elevation: 5,
+                          height: 55,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          color: Colors.lightBlueAccent,
+                          child: Text(
+                            'Sign Up',
+                            style: Constants.whiteBoldSubheadlineStyle,
+                          ),
+                          onPressed: () => _registerBtnPressed(context)),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 20),
-                //     _signupRow(),
               ],
             ),
           ),
