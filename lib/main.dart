@@ -5,7 +5,6 @@ import 'package:kweliscore/widgets/widgets.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-
 import 'provider/providers.dart';
 
 void main() {

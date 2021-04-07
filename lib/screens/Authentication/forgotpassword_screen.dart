@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:kweliscore/widgets/widgets.dart';
 
 class ForgotPassword extends StatelessWidget {
   @override
@@ -8,17 +9,14 @@ class ForgotPassword extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => {Navigator.of(context).pop()}),
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.only(
-          top: 60,
-          left: 20,
-          right: 20,
-        ),
+        padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
         child: Column(
           children: [
             Card(
@@ -26,17 +24,12 @@ class ForgotPassword extends StatelessWidget {
               color: Colors.white,
               child: Column(
                 children: [
-                  Text(
-                    'It happens',
-                    style: Constants.boldHeadlineStyle,
-                  ),
+                  Text('It happens', style: Constants.boldHeadlineStyle),
                   Text(
                     "We'll send you an email",
                     style: Constants.boldSubheadlineStyle,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: TextFormField(
@@ -52,26 +45,9 @@ class ForgotPassword extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  MaterialButton(
-                    minWidth: 300,
-                    elevation: 5,
-                    height: 55,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    color: Colors.lightBlueAccent,
-                    child: Text(
-                      'Send Email',
-                      style: Constants.whiteBoldSubheadlineStyle,
-                    ),
-                    onPressed: () => {},
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  )
+                  const SizedBox(height: 30),
+                  ActionButton(onPressed: () => {}),
+                  const SizedBox(height: 30),
                 ],
               ),
             )
