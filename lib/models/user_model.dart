@@ -4,15 +4,17 @@ class UserModel {
   String phoneNumber;
   String idNumber;
   String uid;
+  String token;
 
   UserModel({
     this.email,
     this.password,
     this.phoneNumber,
     this.idNumber,
+    this.token,
   });
 
-  Map<String, dynamic> toFirestoreDoc() => {
+  Map<String, dynamic> toFirestore() => {
         'email': email,
         'uid': uid,
         'phoneNumber': phoneNumber,

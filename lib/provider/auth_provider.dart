@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/provider/providers.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -9,6 +10,7 @@ class AuthProvider with ChangeNotifier {
   final FirebaseAuth auth;
   User currentUser;
   Status _status = Status.Uninitialized;
+  DatabaseProvider database = DatabaseProvider();
 
   Status get status => _status;
   User get user => currentUser;
@@ -67,8 +69,9 @@ class AuthProvider with ChangeNotifier {
 
       // Send an email verification
       currentUser.sendEmailVerification();
+
       // Save the user to the database
-      //  await database.saveUser(user, uid);
+        await database.saveUser(user, uid);
 
       return Future.value(currentUser);
     } on FirebaseAuthException catch (error) {
