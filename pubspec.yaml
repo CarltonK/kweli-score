@@ -31,16 +31,16 @@ dependencies:
   # ***---REQUIREMENT---***
   firebase_core: ^0.7.0
   firebase_auth: ^0.20.1
-  firebase_messaging: 
-  cloud_firestore:
+  firebase_messaging: ^6.0.15
+  cloud_firestore: ^0.16.0+1
   # Spinner
   flutter_spinkit: ^4.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
+  # integration_test:
+  #   sdk: flutter
 
 flutter:
   uses-material-design: true
