@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
-
-
 class InfoDialog extends StatelessWidget {
   final String message;
 
   const InfoDialog({Key key, this.message}) : super(key: key);
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.all(40),
-          margin: EdgeInsets.only(
-            top: 10,
-          ),
+          padding: const EdgeInsets.all(40),
+          margin: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             color: Colors.white,
@@ -28,7 +22,8 @@ class InfoDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                message,
+                // Pass message, if null pass empty string
+                message ?? '',
                 style: Constants.blackBoldNormal,
                 textAlign: TextAlign.center,
               ),
@@ -42,10 +37,8 @@ class InfoDialog extends StatelessWidget {
             backgroundColor: Colors.transparent,
             radius: 25,
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              child: FlutterLogo(
-                size: 100,
-              ),
+              borderRadius: BorderRadius.all(const Radius.circular(12)),
+              child: const FlutterLogo(size: 100),
             ),
           ),
         ),

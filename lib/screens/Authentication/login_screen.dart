@@ -5,6 +5,7 @@ import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -19,6 +20,8 @@ class Login extends StatelessWidget {
   static String phoneNumber;
   static String password;
   static String password2;
+
+  static dynamic result;
 
   static Validator _validator = Validator.empty();
   static Dialogs _dialogs = Dialogs.empty();
@@ -94,8 +97,6 @@ class Login extends StatelessWidget {
   //   );
   // }
 
-  static dynamic result;
-
   Future<bool> serverCall(UserModel user, BuildContext context) async {
     result = await Provider.of<AuthProvider>(
       context,
@@ -154,27 +155,13 @@ class Login extends StatelessWidget {
                       _emailTF(),
                       _passwordTF(),
                       const SizedBox(height: 40),
-                      MaterialButton(
-                        minWidth: 310,
-                        elevation: 5,
-                        height: 55,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        color: Colors.lightBlueAccent,
-                        child: Text(
-                          'Sign In',
-                          style: Constants.whiteBoldSubheadlineStyle,
-                        ),
+                      ActionButton(
                         onPressed: () => _loginBtnPressed(context),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 10),
                 FlatButton(
                   onPressed: () => {

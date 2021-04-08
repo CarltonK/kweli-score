@@ -5,6 +5,7 @@ import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -224,22 +225,10 @@ class SignUp extends StatelessWidget {
                       _passwordTF(),
                       _confirmPasswordTF(),
                       const SizedBox(height: 20),
-                      MaterialButton(
-                          minWidth: 310,
-                          elevation: 5,
-                          height: 55,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          color: Colors.lightBlueAccent,
-                          child: Text(
-                            'Sign Up',
-                            style: Constants.whiteBoldSubheadlineStyle,
-                          ),
-                          onPressed: () => _registerBtnPressed(context)),
-                      const SizedBox(
-                        height: 30,
+                      ActionButton(
+                        onPressed: () => _registerBtnPressed(context),
                       ),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),
