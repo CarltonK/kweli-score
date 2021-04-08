@@ -71,7 +71,7 @@ class AuthProvider with ChangeNotifier {
       currentUser.sendEmailVerification();
 
       // Save the user to the database
-        await database.saveUser(user, uid);
+      await database.saveUser(user, uid);
 
       return Future.value(currentUser);
     } on FirebaseAuthException catch (error) {

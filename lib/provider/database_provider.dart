@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kweliscore/models/user_model.dart';
+import 'package:kweliscore/models/models.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class DatabaseProvider {
