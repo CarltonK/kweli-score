@@ -14,10 +14,11 @@ class UserModel {
     this.token,
   });
 
-  Map<String, dynamic> toFirestore(String token) => {
+  Map<String, dynamic> toFirestore() => {
         'email': email,
         'uid': uid,
         'phoneNumber': phoneNumber,
         'idNumber': idNumber,
+        'token' : token,
       };
 }
