@@ -153,7 +153,6 @@ class Login extends StatelessWidget {
                   child: Column(
                     children: [
                       _emailTF(),
-                      const SizedBox(height: 20),
                       _passwordTF(),
                       const SizedBox(height: 40),
                       ActionButton(
