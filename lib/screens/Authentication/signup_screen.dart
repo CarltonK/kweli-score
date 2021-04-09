@@ -192,6 +192,14 @@ class SignUp extends StatelessWidget {
       );
 
       Provider.of<AuthProvider>(context, listen: false).createUser(_userModel);
+
+      serverCall(_userModel, context).then((value) {
+        if (!value) {
+          Timer(Duration(seconds: 1), () {
+            _dialogs.dialogInfo(_scaffoldKey.currentContext, result);
+          });
+        }
+      });
     }
   }
 
