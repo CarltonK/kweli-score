@@ -114,6 +114,7 @@ class AuthProvider with ChangeNotifier {
         await auth.sendPasswordResetEmail(email: email);
       }
     } on FirebaseAuthException catch (error) {
+      print(error);
       return error.message;
     }
   }
