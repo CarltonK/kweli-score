@@ -1,9 +1,6 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/validators.dart';
-import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
@@ -12,17 +9,15 @@ import 'package:provider/provider.dart';
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ForgotPassword extends StatelessWidget {
-  static UserModel _userModel;
-
   static Validator _validator = Validator.empty();
   static Dialogs _dialogs = Dialogs.empty();
-  static String email;
+  static String _email;
   static dynamic result;
 
   final _formKey = GlobalKey<FormState>();
 
   _onEmailSaved(String value) {
-    email = value.trim();
+    _email = value.trim();
   }
 
   Widget _resetPasswordTF() {
@@ -38,7 +33,7 @@ class ForgotPassword extends StatelessWidget {
           enabledBorder: Constants.blackInputBorder,
           focusedBorder: Constants.blackInputBorder,
           labelText: 'Email',
-          prefixIcon: Icon(Icons.email),
+          prefixIcon: const Icon(Icons.email),
         ),
       ),
     );
@@ -49,11 +44,19 @@ class ForgotPassword extends StatelessWidget {
       context,
       listen: false,
     ).resetPassword(email);
-    print(result);
     if (result.runtimeType == String) {
       return false;
     }
     return true;
+  }
+
+  void returnHome(BuildContext context) {
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+  }
+
+  void popDialog(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
   void _resetBtnPressed(BuildContext context) {
@@ -61,16 +64,24 @@ class ForgotPassword extends StatelessWidget {
     if (form.validate()) {
       form.save();
 
-      _userModel = UserModel(email: email);
-
-      serverCall(_userModel.email, context).then((value) {
+      serverCall(_email, context).then((value) {
+        dynamic currentCtx = _scaffoldKey.currentContext;
         if (value) {
           Timer(Duration(seconds: 1), () {
             _dialogs.dialogInfo(
-                _scaffoldKey.currentContext, 'We have sent you an email');
+              currentCtx,
+              'Success',
+              'We have sent you an email',
+              () => returnHome(context),
+            );
           });
         } else {
-          _dialogs.dialogInfo(_scaffoldKey.currentContext, result);
+          _dialogs.dialogInfo(
+            currentCtx,
+            'Error',
+            result,
+            () => popDialog(context),
+          );
         }
       });
     }
