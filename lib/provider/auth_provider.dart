@@ -103,6 +103,23 @@ class AuthProvider with ChangeNotifier {
   }
 
   /*
+  USER PASSWORD RESET
+  */
+  Future resetPassword(String email) async {
+    try {
+      // Check if email exists
+      List<String> signInMethods = await auth.fetchSignInMethodsForEmail(email);
+      if (signInMethods.length > 0) {
+        // Send password reset email
+        await auth.sendPasswordResetEmail(email: email);
+      }
+    } on FirebaseAuthException catch (error) {
+      print(error);
+      return error.message;
+    }
+  }
+
+  /*
   USER LOGOUT
   */
   Future<void> signOut() async {
