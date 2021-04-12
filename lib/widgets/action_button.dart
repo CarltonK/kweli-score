@@ -3,8 +3,13 @@ import 'package:kweliscore/utilities/utilities.dart';
 
 class ActionButton extends StatelessWidget {
   final Function onPressed;
+  final String action;
 
-  ActionButton({Key key, @required this.onPressed}) : super(key: key);
+  ActionButton({
+    Key key,
+    @required this.action,
+    @required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,7 @@ class ActionButton extends StatelessWidget {
       height: 55,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: Colors.lightBlueAccent,
-      child: Text('Sign In', style: Constants.whiteBoldSubheadlineStyle),
+      child: Text(action, style: Constants.whiteBoldSubheadlineStyle),
       onPressed: onPressed,
     );
   }

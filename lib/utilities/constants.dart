@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Constants {
+  // Constructor
+  Constants.empty();
   /*
   TEXT STYLES
   */
@@ -31,4 +33,8 @@ class Constants {
   static const InputBorder blackInputBorder = UnderlineInputBorder(
     borderSide: BorderSide(color: Colors.black),
   );
+
+  // Sizing
+  static const double padding = 20;
+  static const double avatarRadius = 45;
 }

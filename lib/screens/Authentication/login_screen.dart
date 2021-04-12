@@ -157,6 +157,7 @@ class Login extends StatelessWidget {
                       const SizedBox(height: 40),
                       ActionButton(
                         onPressed: () => _loginBtnPressed(context),
+                        action: 'Sign In',
                       ),
                       const SizedBox(height: 30),
                     ],

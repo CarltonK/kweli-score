@@ -196,7 +196,10 @@ class SignUp extends StatelessWidget {
       serverCall(_userModel, context).then((value) {
         if (!value) {
           Timer(Duration(seconds: 1), () {
-            _dialogs.dialogInfo(_scaffoldKey.currentContext, result);
+            _dialogs.dialogInfo(
+              _scaffoldKey.currentContext,
+              result,
+            );
           });
         }
       });
@@ -235,6 +238,7 @@ class SignUp extends StatelessWidget {
                       const SizedBox(height: 20),
                       ActionButton(
                         onPressed: () => _registerBtnPressed(context),
+                        action: 'Sign Up',
                       ),
                       const SizedBox(height: 30),
                     ],

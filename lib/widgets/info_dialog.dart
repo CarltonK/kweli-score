@@ -2,43 +2,81 @@ import 'package:flutter/material.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class InfoDialog extends StatelessWidget {
-  final String message;
+  final String status;
+  final String detail;
+  final String buttonText;
+  final Function buttonPressed;
 
-  const InfoDialog({Key key, this.message}) : super(key: key);
+  const InfoDialog({
+    Key key,
+    this.status = 'Warning',
+    @required this.detail,
+    this.buttonText = 'Cancel',
+    @required this.buttonPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.all(40),
-          margin: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(
+            left: Constants.padding,
+            top: Constants.avatarRadius + Constants.padding,
+            right: Constants.padding,
+            bottom: Constants.padding,
+          ),
+          margin: const EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(Constants.padding),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                // Pass message, if null pass empty string
-                message ?? '',
+                status ?? 'Warning',
+                style: Constants.boldHeadlineStyle.copyWith(
+                  color: status == 'Warning'
+                      ? Colors.orange
+                      : status == 'Error'
+                          ? Colors.red
+                          : Colors.green,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                detail ?? '',
                 style: Constants.blackBoldNormal,
                 textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 22),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: FlatButton(
+                  onPressed: buttonPressed,
+                  child: Text(
+                    buttonText ?? 'Cancel',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
               ),
             ],
           ),
         ),
         Positioned(
-          left: 20,
-          right: 20,
+          left: Constants.padding,
+          right: Constants.padding,
           child: CircleAvatar(
             backgroundColor: Colors.transparent,
-            radius: 25,
+            radius: Constants.avatarRadius,
             child: ClipRRect(
-              borderRadius: BorderRadius.all(const Radius.circular(12)),
-              child: const FlutterLogo(size: 100),
+              borderRadius: BorderRadius.all(
+                const Radius.circular(Constants.avatarRadius),
+              ),
+              child: const FlutterLogo(size: 150),
             ),
           ),
         ),
