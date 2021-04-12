@@ -108,7 +108,10 @@ class ForgotPassword extends StatelessWidget {
                     const SizedBox(height: 20),
                     _resetPasswordTF(),
                     const SizedBox(height: 30),
-                    ActionButton(onPressed: () => _resetBtnPressed(context)),
+                    ActionButton(
+                      onPressed: () => _resetBtnPressed(context),
+                      action: 'Send Email',
+                    ),
                     const SizedBox(height: 30),
                   ],
                 ),
