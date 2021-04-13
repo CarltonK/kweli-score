@@ -114,7 +114,7 @@ class Login extends StatelessWidget {
       form.save();
 
       _userModel = UserModel(
-        email: email,
+        emailAddress: email,
         password: password,
       );
 
