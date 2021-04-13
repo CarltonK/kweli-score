@@ -184,9 +184,9 @@ class SignUp extends StatelessWidget {
       form.save();
 
       _userModel = UserModel(
-        email: email,
+        emailAddress: email,
         password: password,
-        idNumber: idNumber,
+        nationalIdNumber: idNumber,
         phoneNumber: phoneNumber,
       );
 

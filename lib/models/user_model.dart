@@ -1,24 +1,24 @@
 class UserModel {
-  String email;
+  String emailAddress;
   String password;
   String phoneNumber;
-  String idNumber;
-  String uid;
-  String token;
+  String nationalIdNumber;
+  String userId;
+  String deviceToken;
 
   UserModel({
-    this.email,
+    this.emailAddress,
     this.password,
     this.phoneNumber,
-    this.idNumber,
-    this.token,
+    this.nationalIdNumber,
+    this.deviceToken,
   });
 
   Map<String, dynamic> toFirestore() => {
-        'email': email,
-        'uid': uid,
+        'emailAddress': emailAddress,
+        'uid': userId,
         'phoneNumber': phoneNumber,
-        'idNumber': idNumber,
-        'token' : token,
+        'nationalIdNumber': nationalIdNumber,
+        'deviceToken': deviceToken,
       };
 }
