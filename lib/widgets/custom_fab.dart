@@ -1,4 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kweliscore/widgets/widgets.dart';
+
 
 class CustomFab extends StatefulWidget {
   @override
@@ -24,6 +30,11 @@ class _CustomFabState extends State<CustomFab>
     }
     isOpened = !isOpened;
   }
+
+  File _imageFile;
+  String filePath, urlResult;
+  String uid;
+  //StorageUploadTask storageUploadTask;
 
   @override
   void initState() {
@@ -60,6 +71,33 @@ class _CustomFabState extends State<CustomFab>
         child: AnimatedIcon(
             icon: AnimatedIcons.menu_close, progress: _animateIcon),
         onPressed: animate);
+  }
+
+  /// Select an image via gallery or camera
+  Future<void> pickImage(ImageSource source) async {
+    await ImagePicker.pickImage(source: source).then((value) {
+      if (value != null) {
+        setState(() {
+          _imageFile = value;
+        });
+
+        ///   _changePic();
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return CreatePost(
+              file: _imageFile,
+              uid: uid,
+            );
+          },
+        );
+      }
+    });
+  }
+
+  void galleryBtnPressed() {
+    pickImage(ImageSource.gallery);
   }
 
   Widget galleryBtn() {
