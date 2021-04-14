@@ -113,7 +113,7 @@ class _FreePackageState extends State<FreePackage> {
               onPressed: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Home()),
+                  MaterialPageRoute(builder: (context) => HomePage()),
                 )
               },
             ),

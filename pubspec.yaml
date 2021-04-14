@@ -33,8 +33,14 @@ dependencies:
   firebase_auth: ^0.20.1
   firebase_messaging: ^6.0.15
   cloud_firestore: ^0.16.0+1
+  firebase_crashlytics: ^0.4.0+1
+  firebase_analytics: ^7.0.1
   # Spinner
   flutter_spinkit: ^4.1.2
+  #Image picker
+  image_picker:
+  #File picker
+  # file_picker:
 
 dev_dependencies:
   flutter_test:
