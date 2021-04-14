@@ -41,27 +41,28 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: FutureBuilder<FirebaseApp>(
-          future: _initialization,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Container(
-                alignment: Alignment.center,
-                color: Colors.white,
-                child: Text('Error -> ${snapshot.error.toString()}'),
-              );
-            }
-            if (snapshot.connectionState == ConnectionState.done) {
-              return Consumer<AuthProvider>(
-                builder: (context, value, child) {
-                  if (value.status == Status.Authenticated) return Home();
-                  if (value.status == Status.Authenticating) return Indicator();
-                  return child;
-                },
-                child: Login(),
-              );
-            }
-            return Indicator();
-          }),
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Container(
+              alignment: Alignment.center,
+              color: Colors.white,
+              child: Text('Error -> ${snapshot.error.toString()}'),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Consumer<AuthProvider>(
+              builder: (context, value, child) {
+                if (value.status == Status.Authenticated) return Home();
+                if (value.status == Status.Authenticating) return Indicator();
+                return child;
+              },
+              child: Login(),
+            );
+          }
+          return Indicator();
+        },
+      ),
     );
   }
 }

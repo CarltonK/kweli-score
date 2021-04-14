@@ -60,7 +60,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     try {
       UserCredential result = await auth.createUserWithEmailAndPassword(
-        email: user.email,
+        email: user.emailAddress,
         password: user.password,
       );
       currentUser = result.user;
@@ -89,7 +89,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     try {
       UserCredential result = await auth.signInWithEmailAndPassword(
-        email: user.email,
+        email: user.emailAddress,
         password: user.password,
       );
       currentUser = result.user;
@@ -112,6 +112,8 @@ class AuthProvider with ChangeNotifier {
       if (signInMethods.length > 0) {
         // Send password reset email
         await auth.sendPasswordResetEmail(email: email);
+      } else {
+        return 'The user could not be found';
       }
     } on FirebaseAuthException catch (error) {
       print(error);

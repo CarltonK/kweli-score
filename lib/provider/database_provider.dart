@@ -8,9 +8,9 @@ class DatabaseProvider {
   final FirebaseMessaging fcm = FirebaseMessaging();
 
   Future saveUser(UserModel user, String uid) async {
-    user.uid = uid;
+    user.userId = uid;
     try {
-      user.token = await fcm.getToken();
+      user.deviceToken = await fcm.getToken();
       await _db.collection("users").doc(uid).set(user.toFirestore());
     } catch (e) {
       print("saveUser ERROR -> ${e.toString()}");

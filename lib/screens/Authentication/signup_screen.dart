@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
-import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -169,14 +167,15 @@ class SignUp extends StatelessWidget {
   static dynamic result;
 
   Future<bool> serverCall(UserModel user, BuildContext context) async {
-    result = await Provider.of<AuthProvider>(
-      context,
-      listen: false,
-    ).createUser(_userModel);
+    result = await Provider.of(context, listen: false).createUser(_userModel);
     if (result.runtimeType == String) {
       return false;
     }
     return true;
+  }
+
+  void popDialog(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
   void _registerBtnPressed(BuildContext context) async {
@@ -185,18 +184,30 @@ class SignUp extends StatelessWidget {
       form.save();
 
       _userModel = UserModel(
-        email: email,
+        emailAddress: email,
         password: password,
-        idNumber: idNumber,
+        nationalIdNumber: idNumber,
         phoneNumber: phoneNumber,
       );
 
-      Provider.of<AuthProvider>(context, listen: false).createUser(_userModel);
-
       serverCall(_userModel, context).then((value) {
         if (!value) {
-          Timer(Duration(seconds: 1), () {
-            _dialogs.dialogInfo(_scaffoldKey.currentContext, result);
+          Timer(Duration(milliseconds: 500), () {
+            _dialogs.dialogInfo(
+              _scaffoldKey.currentContext,
+              'Error',
+              result,
+              () => popDialog(context),
+            );
+          });
+        } else {
+          Timer(Duration(milliseconds: 500), () {
+            _dialogs.dialogInfo(
+              _scaffoldKey.currentContext,
+              'Success',
+              'Welcome to Kweli',
+              () => popDialog(context),
+            );
           });
         }
       });
@@ -235,6 +246,7 @@ class SignUp extends StatelessWidget {
                       const SizedBox(height: 20),
                       ActionButton(
                         onPressed: () => _registerBtnPressed(context),
+                        action: 'Sign Up',
                       ),
                       const SizedBox(height: 30),
                     ],
