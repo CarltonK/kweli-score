@@ -22,28 +22,34 @@ class Login extends StatelessWidget {
   static String password2;
 
   static dynamic result;
+  static dynamic authProvider;
 
   static Validator _validator = Validator.empty();
   static Dialogs _dialogs = Dialogs.empty();
 
+  //Intro Text
+  Widget _introText() {
+    return Text(
+      'Welcome',
+      style: Constants.boldHeadlineStyle,
+    );
+  }
+
   /*
   ******EMAIL STUFF******
   */
-  Widget _emailTF() {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: TextFormField(
-        onSaved: _onEmailSaved,
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        validator: _validator.emailValidator,
-        decoration: InputDecoration(
-          border: Constants.blackInputBorder,
-          enabledBorder: Constants.blackInputBorder,
-          focusedBorder: Constants.blackInputBorder,
-          labelText: 'Email',
-          prefixIcon: Icon(Icons.email),
-        ),
+  Widget _emailTF(BuildContext context) {
+    return TextFormField(
+      onSaved: _onEmailSaved,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      validator: _validator.emailValidator,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Email address',
+        prefixIcon: Icon(Icons.email),
       ),
     );
   }
@@ -55,25 +61,22 @@ class Login extends StatelessWidget {
   /*
   ******PASSWORD STUFF******
   */
-  Widget _passwordTF() {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: TextFormField(
-        obscureText: true,
-        onSaved: _onPasswordSaved,
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        validator: _validator.passwordValidator,
-        decoration: InputDecoration(
-          border: Constants.blackInputBorder,
-          enabledBorder: Constants.blackInputBorder,
-          focusedBorder: Constants.blackInputBorder,
-          labelText: 'Password',
-          prefixIcon: Icon(Icons.vpn_key),
-          suffixIcon: IconButton(
-            icon: Icon(Icons.remove_red_eye),
-            onPressed: null,
-          ),
+  Widget _passwordTF(BuildContext context) {
+    return TextFormField(
+      obscureText: true,
+      onSaved: _onPasswordSaved,
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      validator: _validator.passwordValidator,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Password',
+        prefixIcon: Icon(Icons.vpn_key),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.remove_red_eye),
+          onPressed: null,
         ),
       ),
     );
@@ -108,6 +111,33 @@ class Login extends StatelessWidget {
     return true;
   }
 
+  //LOGIN BUTTON STUFF
+  Widget _loginButton(BuildContext context) {
+    return Positioned(
+      bottom: 20,
+      right: 15,
+      child: authProvider.status == Status.Authenticating
+          ? Center(
+              child: CircularProgressIndicator(
+              backgroundColor: Theme.of(context).primaryColor,
+            ))
+          : Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Theme.of(context).primaryColor),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                ),
+                onPressed: () => _loginBtnPressed(context),
+              ),
+            ),
+    );
+  }
+
   void _loginBtnPressed(BuildContext context) {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
@@ -120,86 +150,72 @@ class Login extends StatelessWidget {
 
       serverCall(_userModel, context).then((value) {
         if (!value) {
-          Timer(Duration(seconds: 1), () {
-            _dialogs.dialogInfo(_scaffoldKey.currentContext, result);
+          Timer(Duration(seconds: 2), () {
+            _dialogs.dialogInfo(context, result);
           });
         }
       });
     }
   }
 
+  Widget _forgotPasswordButton(BuildContext context) {
+    return Positioned(
+      bottom: 20,
+      child: TextButton(
+        onPressed: () {
+          Navigator.of(context)
+              .push(SlideRightTransition(page: ForgotPassword()));
+        },
+        child: Text(
+          'Forgot Password ?',
+          style: Constants.blackBoldNormal,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      key: _scaffoldKey,
-      body: Container(
-        height: size.height,
-        width: size.width,
-        padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 60),
-                Text('Kweli Score', style: Constants.boldHeadlineStyle),
-                const SizedBox(height: 40),
-                Card(
-                  elevation: 5,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      _emailTF(),
-                      _passwordTF(),
-                      const SizedBox(height: 40),
-                      ActionButton(
-                        onPressed: () => _loginBtnPressed(context),
-                        action: 'Sign In',
-                      ),
-                      const SizedBox(height: 30),
-                    ],
-                  ),
+
+    return Consumer<AuthProvider>(
+        builder: (context, AuthProvider value, child) {
+      authProvider = value;
+      return GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Container(
+              height: size.height,
+              width: size.width,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 60,
+                    ),
+                    _introText(),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    _emailTF(context),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _passwordTF(context),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                FlatButton(
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ForgotPassword()),
-                    )
-                  },
-                  child: Text(
-                    'Forgot Password?',
-                    style: Constants.blackBoldNormal,
-                  ),
-                ),
-                const SizedBox(height: 60),
-                Text(
-                  "Don't have a account yet?",
-                  style: Constants.boldSubheadlineStyle,
-                ),
-                FlatButton(
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
-                    )
-                  },
-                  child: Text(
-                    'Sign Up here',
-                    style: TextStyle(decoration: TextDecoration.underline),
-                  ),
-                ),
-                // const SizedBox(height: 20),
-                // _socialSignInRow(),
-              ],
+              ),
             ),
-          ),
+            _forgotPasswordButton(context),
+            _loginButton(context)
+          ],
         ),
-      ),
-    );
+      );
+    });
   }
 }
