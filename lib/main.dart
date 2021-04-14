@@ -1,4 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_analytics/firebase_analytics.dart';
+//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/widgets/widgets.dart';
@@ -53,11 +55,11 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             return Consumer<AuthProvider>(
               builder: (context, value, child) {
-                if (value.status == Status.Authenticated) return Home();
+                if (value.status == Status.Authenticated) return HomePage();
                 if (value.status == Status.Authenticating) return Indicator();
                 return child;
               },
-              child: Login(),
+              child: MainAuthentication(),
             );
           }
           return Indicator();

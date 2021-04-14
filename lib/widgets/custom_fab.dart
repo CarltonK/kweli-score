@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+//import 'package:file_picker/file_picker.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 
 class CustomFab extends StatefulWidget {
@@ -84,7 +85,7 @@ class _CustomFabState extends State<CustomFab>
           barrierDismissible: false,
           context: context,
           builder: (context) {
-            return CreatePost(
+            return FileUpload(
               file: _imageFile,
               uid: uid,
             );

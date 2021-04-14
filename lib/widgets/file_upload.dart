@@ -2,18 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-class CreatePost extends StatefulWidget {
+class FileUpload extends StatefulWidget {
   final File file;
   final String uid;
-  CreatePost({@required this.file, @required this.uid});
+  FileUpload({@required this.file, @required this.uid});
 
   @override
-  _CreatePostState createState() => _CreatePostState();
+  _FileUploadState createState() => _FileUploadState();
 }
 
-class _CreatePostState extends State<CreatePost> {
+class _FileUploadState extends State<FileUpload> {
   Widget _cancelPost() {
-    return FlatButton(
+    return TextButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Icon(
           Icons.cancel,
@@ -23,7 +23,7 @@ class _CreatePostState extends State<CreatePost> {
   }
 
   Widget _uploadPost() {
-    return FlatButton(
+    return TextButton(
         onPressed: () {},
         child: Icon(
           Icons.send,
@@ -45,16 +45,7 @@ class _CreatePostState extends State<CreatePost> {
         children: <Widget>[
           ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.file(widget.file)
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Write a caption...'
-                ),
-              )
+              child: Image.file(widget.file)),
         ],
       ),
     );
