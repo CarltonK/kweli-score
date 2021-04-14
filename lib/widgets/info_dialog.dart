@@ -55,7 +55,7 @@ class InfoDialog extends StatelessWidget {
               const SizedBox(height: 22),
               Align(
                 alignment: Alignment.bottomRight,
-                child: FlatButton(
+                child: TextButton(
                   onPressed: buttonPressed,
                   child: Text(
                     buttonText ?? 'Cancel',
