@@ -3,16 +3,18 @@ import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<HomePage> {
+  AuthProvider _authProvider;
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, value, child) {
+        _authProvider = value;
         return child;
       },
       child: Scaffold(
@@ -22,9 +24,9 @@ class _HomeState extends State<Home> {
           ),
           actions: [
             IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: () =>
-                    Provider.of<AuthProvider>(context, listen: false).signOut())
+              icon: const Icon(Icons.exit_to_app),
+              onPressed: () => _authProvider.signOut(),
+            )
           ],
         ),
         body: Container(

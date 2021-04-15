@@ -60,12 +60,11 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     try {
       UserCredential result = await auth.createUserWithEmailAndPassword(
-        email: user.email,
+        email: user.emailAddress,
         password: user.password,
       );
       currentUser = result.user;
       String uid = currentUser.uid;
-      print('The new user is identified by $uid');
 
       // Send an email verification
       currentUser.sendEmailVerification();
@@ -74,7 +73,7 @@ class AuthProvider with ChangeNotifier {
       await database.saveUser(user, uid);
 
       return Future.value(currentUser);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseException catch (error) {
       _status = Status.Unauthenticated;
       notifyListeners();
       return error.message;
@@ -89,7 +88,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     try {
       UserCredential result = await auth.signInWithEmailAndPassword(
-        email: user.email,
+        email: user.emailAddress,
         password: user.password,
       );
       currentUser = result.user;
@@ -112,9 +111,10 @@ class AuthProvider with ChangeNotifier {
       if (signInMethods.length > 0) {
         // Send password reset email
         await auth.sendPasswordResetEmail(email: email);
+      } else {
+        return 'The user could not be found';
       }
     } on FirebaseAuthException catch (error) {
-      print(error);
       return error.message;
     }
   }

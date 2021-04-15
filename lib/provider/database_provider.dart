@@ -8,12 +8,32 @@ class DatabaseProvider {
   final FirebaseMessaging fcm = FirebaseMessaging();
 
   Future saveUser(UserModel user, String uid) async {
-    user.uid = uid;
+    user.userId = uid;
     try {
-      user.token = await fcm.getToken();
-      await _db.collection("users").doc(uid).set(user.toFirestore());
-    } catch (e) {
-      print("saveUser ERROR -> ${e.toString()}");
+      // Register device to receive notifications
+      user.deviceToken = await fcm.getToken();
+
+      // User document reference
+      DocumentReference userDoc = _db.collection('users').doc(uid);
+
+      // Save document
+      await userDoc.set(user.toFirestore());
+    } on FirebaseException catch (error) {
+      throw error;
+    }
+  }
+
+  Future saveStatement(String uid, String statementFile) async {
+    try {
+      // Statement document reference
+      DocumentReference statementDoc = _db.collection('statements').doc();
+
+      StatementModel _statement = StatementModel(uid, statementFile);
+
+      // Save statement
+      await statementDoc.set(_statement.toFirestore());
+    } on FirebaseException catch (error) {
+      throw error;
     }
   }
 }
