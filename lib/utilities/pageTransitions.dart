@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class SlideLeftTransition extends PageRouteBuilder {
   final Widget page;
-  SlideLeftTransition({this.page})
+  final String routeName;
+  SlideLeftTransition({this.page, @required this.routeName})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -23,12 +24,14 @@ class SlideLeftTransition extends PageRouteBuilder {
             ).animate(animation),
             child: child,
           ),
+          settings: RouteSettings(name: routeName),
         );
 }
 
 class SlideRightTransition extends PageRouteBuilder {
   final Widget page;
-  SlideRightTransition({this.page})
+  final String routeName;
+  SlideRightTransition({this.page, @required this.routeName})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -49,12 +52,14 @@ class SlideRightTransition extends PageRouteBuilder {
             ).animate(animation),
             child: child,
           ),
+          settings: RouteSettings(name: routeName),
         );
 }
 
 class ScaleRoute extends PageRouteBuilder {
   final Widget page;
-  ScaleRoute({this.page})
+  final String routeName;
+  ScaleRoute({this.page, @required this.routeName})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -80,5 +85,6 @@ class ScaleRoute extends PageRouteBuilder {
             ),
             child: child,
           ),
+          settings: RouteSettings(name: routeName),
         );
 }
