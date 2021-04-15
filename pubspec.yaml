@@ -35,11 +35,12 @@ dependencies:
   cloud_firestore: ^0.16.0+1
   firebase_crashlytics: ^0.4.0+1
   firebase_analytics: ^7.0.1
+  firebase_storage: ^7.0.0
   firebase_performance: ^0.5.0+1
   # Spinner
   flutter_spinkit: ^4.1.2
   # File picker
-  # file_picker:
+  file_picker: ^2.1.7
 
 dev_dependencies:
   flutter_test:
