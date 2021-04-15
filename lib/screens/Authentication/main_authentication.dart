@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
-
 class MainAuthentication extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -15,12 +14,10 @@ class _State extends State<MainAuthentication> with TickerProviderStateMixin {
   int _selectedPage = 0;
 
   final List<Widget> tabs = [
-    Text(
-      "Sign In",
-      style: Constants.blackBoldNormal,
-    ),
+    Text("Sign In", style: Constants.blackBoldNormal),
     Text("Sign Up", style: Constants.blackBoldNormal)
   ];
+  final List<Widget> _pages = [Login(), SignUp()];
 
   Widget _appBar() {
     return Row(
@@ -34,16 +31,7 @@ class _State extends State<MainAuthentication> with TickerProviderStateMixin {
             indicatorColor: Theme.of(context).primaryColor,
             labelPadding: EdgeInsets.all(8),
             indicatorWeight: 2,
-            onTap: (value) {
-              setState(() {
-                _selectedPage = value;
-                _pageController.animateToPage(
-                  _selectedPage,
-                  duration: Duration(milliseconds: 100),
-                  curve: Curves.ease,
-                );
-              });
-            },
+            onTap: appBarTabTap,
             tabs: tabs,
           ),
         ),
@@ -51,7 +39,16 @@ class _State extends State<MainAuthentication> with TickerProviderStateMixin {
     );
   }
 
-  List<Widget> _pages = [Login(), SignUp()];
+  appBarTabTap(int value) {
+    setState(() {
+      _selectedPage = value;
+      _pageController.animateToPage(
+        _selectedPage,
+        duration: Duration(milliseconds: 100),
+        curve: Curves.ease,
+      );
+    });
+  }
 
   Widget _pageSelection() {
     return Expanded(
@@ -103,7 +100,7 @@ class Home extends StatelessWidget {
         child: Container(
           height: size.height,
           width: size.width,
-          padding: EdgeInsets.fromLTRB(20, 40, 10, 0),
+          padding: const EdgeInsets.fromLTRB(20, 40, 10, 0),
           child: Column(
             children: <Widget>[bar, body],
           ),

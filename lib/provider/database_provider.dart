@@ -10,13 +10,16 @@ class DatabaseProvider {
   Future saveUser(UserModel user, String uid) async {
     user.userId = uid;
     try {
+      // Register device to receive notifications
       user.deviceToken = await fcm.getToken();
-      await _db.collection("users").doc(uid).set(user.toFirestore());
-    } catch (e) {
-      print("saveUser ERROR -> ${e.toString()}");
+
+      // User document reference
+      DocumentReference userDoc = _db.collection("users").doc(uid);
+
+      // Save document
+      await userDoc.set(user.toFirestore());
+    } on FirebaseException catch (error) {
+      throw error;
     }
   }
-
-  //Save document uploads to DB
-
 }
