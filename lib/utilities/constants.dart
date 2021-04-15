@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Constants {
   // Constructor
   Constants.empty();
+
   /*
   TEXT STYLES
   */
