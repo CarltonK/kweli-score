@@ -6,7 +6,7 @@ import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+// final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class SignUp extends StatelessWidget {
   static UserModel _userModel;
@@ -23,25 +23,16 @@ class SignUp extends StatelessWidget {
   static Validator _validator = Validator.empty();
   static Dialogs _dialogs = Dialogs.empty();
 
-  // static dynamic result
+  static dynamic result;
 
-  //Intro Text
-
+  // Intro Text
   Widget _introText() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Hello,',
-          style: Constants.boldHeadlineStyle,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'Enter your information below',
-          style: Constants.blackBoldNormal,
-        )
+        Text('Hello,', style: Constants.boldHeadlineStyle),
+        const SizedBox(height: 10),
+        Text('Enter your information below', style: Constants.blackBoldNormal)
       ],
     );
   }
@@ -60,6 +51,7 @@ class SignUp extends StatelessWidget {
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
         labelText: 'ID Number',
+        prefixIcon: const Icon(Icons.perm_identity),
       ),
     );
   }
@@ -83,6 +75,7 @@ class SignUp extends StatelessWidget {
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Email',
+        prefixIcon: const Icon(Icons.email),
       ),
     );
   }
@@ -106,6 +99,7 @@ class SignUp extends StatelessWidget {
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Phone Number',
+        prefixIcon: const Icon(Icons.phone),
       ),
     );
   }
@@ -117,7 +111,6 @@ class SignUp extends StatelessWidget {
   /*
   ******PASSWORD STUFF******
   */
-
   Widget _passwordTF(BuildContext context) {
     return TextFormField(
       onSaved: _onPasswordSaved,
@@ -132,7 +125,7 @@ class SignUp extends StatelessWidget {
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Password',
         suffixIcon: IconButton(
-          icon: Icon(Icons.remove_red_eye),
+          icon: const Icon(Icons.remove_red_eye),
           onPressed: () => {},
         ),
       ),
@@ -160,8 +153,8 @@ class SignUp extends StatelessWidget {
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Confirm Pasword',
         suffixIcon: IconButton(
-          icon: Icon(Icons.remove_red_eye),
-          onPressed: null,
+          icon: const Icon(Icons.remove_red_eye),
+          onPressed: () {},
         ),
       ),
     );
@@ -170,8 +163,6 @@ class SignUp extends StatelessWidget {
   _onConfirmPasswordSaved(String value) {
     password2 = value.trim();
   }
-
-  static dynamic result;
 
   Future<bool> serverCall(UserModel user, BuildContext context) async {
     result = await authProvider.createUser(_userModel);
@@ -184,27 +175,21 @@ class SignUp extends StatelessWidget {
   //Button Stuff
   Widget _registerButton(BuildContext context) {
     return Positioned(
-        bottom: 20,
-        right: 15,
-        child: authProvider.status == Status.Authenticating
-            ? Center(
-                child: CircularProgressIndicator(
-                backgroundColor: Theme.of(context).primaryColor,
-              ))
-            : Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Theme.of(context).primaryColor),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => _registerBtnPressed(context),
-                ),
-              ));
+      bottom: 20,
+      right: 15,
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).primaryColor,
+        ),
+        child: IconButton(
+          icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+          onPressed: () => _registerBtnPressed(context),
+        ),
+      ),
+    );
   }
 
   void popDialog(BuildContext context) {
@@ -252,9 +237,11 @@ class SignUp extends StatelessWidget {
     // Dimensions
     Size size = MediaQuery.of(context).size;
     return Consumer<AuthProvider>(
-        builder: (context, AuthProvider value, child) {
-      authProvider = value;
-      return GestureDetector(
+      builder: (context, AuthProvider value, child) {
+        authProvider = value;
+        return child;
+      },
+      child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
           fit: StackFit.expand,
@@ -263,22 +250,22 @@ class SignUp extends StatelessWidget {
             Container(
               height: double.infinity,
               width: size.width,
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Form(
                 key: _formKey,
                 child: ListView(
                   children: <Widget>[
-                    SizedBox(height: 60),
+                    const SizedBox(height: 60),
                     _introText(),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     _phoneNumberTF(context),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _idTF(context),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _emailTF(context),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _passwordTF(context),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _confirmPasswordTF(context),
                   ],
                 ),
@@ -287,7 +274,7 @@ class SignUp extends StatelessWidget {
             _registerButton(context)
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 }

@@ -8,7 +8,7 @@ import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+// final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class Login extends StatelessWidget {
   static UserModel _userModel;
@@ -27,7 +27,7 @@ class Login extends StatelessWidget {
   static Validator _validator = Validator.empty();
   static Dialogs _dialogs = Dialogs.empty();
 
-  //Intro Text
+  // Intro Text
   Widget _introText() {
     return Text(
       'Welcome',
@@ -49,7 +49,7 @@ class Login extends StatelessWidget {
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Email address',
-        prefixIcon: Icon(Icons.email),
+        prefixIcon: const Icon(Icons.email),
       ),
     );
   }
@@ -75,7 +75,7 @@ class Login extends StatelessWidget {
         labelText: 'Password',
         prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: IconButton(
-          icon: Icon(Icons.remove_red_eye),
+          icon: const Icon(Icons.remove_red_eye),
           onPressed: null,
         ),
       ),
@@ -101,40 +101,33 @@ class Login extends StatelessWidget {
   // }
 
   Future<bool> serverCall(UserModel user, BuildContext context) async {
-    result = await Provider.of<AuthProvider>(
-      context,
-      listen: false,
-    ).signInEmailPass(_userModel);
+    result = await authProvider.signInEmailPass(_userModel);
     if (result.runtimeType == String) {
       return false;
     }
     return true;
   }
 
-  //LOGIN BUTTON STUFF
+  // LOGIN BUTTON STUFF
   Widget _loginButton(BuildContext context) {
     return Positioned(
       bottom: 20,
       right: 15,
-      child: authProvider.status == Status.Authenticating
-          ? Center(
-              child: CircularProgressIndicator(
-              backgroundColor: Theme.of(context).primaryColor,
-            ))
-          : Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Theme.of(context).primaryColor),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white,
-                ),
-                onPressed: () => _loginBtnPressed(context),
-              ),
-            ),
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).primaryColor,
+        ),
+        child: IconButton(
+          icon: const Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.white,
+          ),
+          onPressed: () => _loginBtnPressed(context),
+        ),
+      ),
     );
   }
 
@@ -150,7 +143,7 @@ class Login extends StatelessWidget {
 
       serverCall(_userModel, context).then((value) {
         if (!value) {
-          Timer(Duration(seconds: 2), () {
+          Timer(Duration(milliseconds: 500), () {
             _dialogs.dialogInfo(context, result);
           });
         }
@@ -178,11 +171,12 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-
     return Consumer<AuthProvider>(
-        builder: (context, AuthProvider value, child) {
-      authProvider = value;
-      return GestureDetector(
+      builder: (context, AuthProvider value, child) {
+        authProvider = value;
+        return child;
+      },
+      child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
           fit: StackFit.expand,
@@ -190,22 +184,16 @@ class Login extends StatelessWidget {
             Container(
               height: size.height,
               width: size.width,
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Form(
                 key: _formKey,
                 child: ListView(
                   children: <Widget>[
-                    SizedBox(
-                      height: 60,
-                    ),
+                    const SizedBox(height: 60),
                     _introText(),
-                    SizedBox(
-                      height: 50,
-                    ),
+                    const SizedBox(height: 50),
                     _emailTF(context),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     _passwordTF(context),
                   ],
                 ),
@@ -215,7 +203,7 @@ class Login extends StatelessWidget {
             _loginButton(context)
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 }

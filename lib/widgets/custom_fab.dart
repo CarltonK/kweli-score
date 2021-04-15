@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-//import 'package:file_picker/file_picker.dart';
-import 'package:kweliscore/widgets/widgets.dart';
+// import 'package:kweliscore/widgets/widgets.dart';
+// import 'package:file_picker/file_picker.dart';
 
 class CustomFab extends StatefulWidget {
   @override
@@ -30,30 +27,34 @@ class _CustomFabState extends State<CustomFab>
     isOpened = !isOpened;
   }
 
-  File _imageFile;
+  // File _statementFile;
   String filePath, urlResult;
   String uid;
-  //StorageUploadTask storageUploadTask;
+  // StorageUploadTask storageUploadTask;
 
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300))
-          ..addListener(() {
-            setState(() {});
-          });
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    )..addListener(() {});
 
-    _animateIcon =
-        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _animateIcon = Tween<double>(begin: 0.0, end: 1.0).animate(
+      _animationController,
+    );
     _animateColor = ColorTween(begin: Colors.blue, end: Colors.red).animate(
-        CurvedAnimation(
-            parent: _animationController,
-            curve: Interval(0.0, 1.0, curve: _curve)));
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Interval(0.0, 1.0, curve: _curve),
+      ),
+    );
     _translateButton = Tween<double>(begin: _fabHeight, end: -15.0).animate(
-        CurvedAnimation(
-            parent: _animationController,
-            curve: Interval(0.0, 0.75, curve: _curve)));
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Interval(0.0, 0.75, curve: _curve),
+      ),
+    );
   }
 
   @override
@@ -64,59 +65,26 @@ class _CustomFabState extends State<CustomFab>
 
   Widget fabBtn() {
     return FloatingActionButton(
-        backgroundColor: _animateColor.value,
-        tooltip: 'Quick Menu',
-        heroTag: 'fab',
-        child: AnimatedIcon(
-            icon: AnimatedIcons.menu_close, progress: _animateIcon),
-        onPressed: animate);
-  }
-
-  /// Select an image via gallery or camera
-  Future<void> pickImage(ImageSource source) async {
-    await ImagePicker.pickImage(source: source).then((value) {
-      if (value != null) {
-        setState(() {
-          _imageFile = value;
-        });
-
-        ///   _changePic();
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) {
-            return FileUpload(
-              file: _imageFile,
-              uid: uid,
-            );
-          },
-        );
-      }
-    });
-  }
-
-  void galleryBtnPressed() {
-    pickImage(ImageSource.gallery);
-  }
-
-  Widget galleryBtn() {
-    return Container(
-      child: FloatingActionButton(
-        onPressed: galleryBtnPressed,
-        heroTag: 'gallery',
-        tooltip: 'Gallery',
-        child: Icon(Icons.storage),
+      backgroundColor: _animateColor.value,
+      tooltip: 'Quick Menu',
+      heroTag: 'fab',
+      child: AnimatedIcon(
+        icon: AnimatedIcons.menu_close,
+        progress: _animateIcon,
       ),
+      onPressed: animate,
     );
   }
 
-  Widget cameraBtn() {
+  void fileChooserBtnPressed() {}
+
+  Widget fileChooserBtn() {
     return Container(
       child: FloatingActionButton(
-        onPressed: null,
-        heroTag: 'camera',
-        tooltip: 'Camera',
-        child: Icon(Icons.camera),
+        onPressed: fileChooserBtnPressed,
+        heroTag: 'gallery',
+        tooltip: 'Files',
+        child: const Icon(Icons.storage),
       ),
     );
   }
@@ -127,9 +95,13 @@ class _CustomFabState extends State<CustomFab>
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Transform(
-            transform:
-                Matrix4.translationValues(0.0, _translateButton.value, 0.0),
-            child: galleryBtn()),
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value,
+            0.0,
+          ),
+          child: fileChooserBtn(),
+        ),
         fabBtn()
       ],
     );
