@@ -89,18 +89,20 @@ class ForgotPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Dimensions
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: size.height,
+        width: size.width,
         padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
         child: Form(
           key: _formKey,
@@ -119,7 +121,7 @@ class ForgotPassword extends StatelessWidget {
                     const SizedBox(height: 20),
                     _resetPasswordTF(),
                     const SizedBox(height: 30),
-                    ActionButton(
+                    GlobalActionButton(
                       onPressed: () => _resetBtnPressed(context),
                       action: 'Send Email',
                     ),

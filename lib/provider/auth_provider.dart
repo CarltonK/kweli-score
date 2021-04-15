@@ -65,7 +65,6 @@ class AuthProvider with ChangeNotifier {
       );
       currentUser = result.user;
       String uid = currentUser.uid;
-      print('The new user is identified by $uid');
 
       // Send an email verification
       currentUser.sendEmailVerification();
@@ -74,7 +73,7 @@ class AuthProvider with ChangeNotifier {
       await database.saveUser(user, uid);
 
       return Future.value(currentUser);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseException catch (error) {
       _status = Status.Unauthenticated;
       notifyListeners();
       return error.message;
@@ -116,7 +115,6 @@ class AuthProvider with ChangeNotifier {
         return 'The user could not be found';
       }
     } on FirebaseAuthException catch (error) {
-      print(error);
       return error.message;
     }
   }

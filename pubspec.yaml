@@ -37,9 +37,7 @@ dependencies:
   firebase_analytics: ^7.0.1
   # Spinner
   flutter_spinkit: ^4.1.2
-  #Image picker
-  image_picker:
-  #File picker
+  # File picker
   # file_picker:
 
 dev_dependencies:
