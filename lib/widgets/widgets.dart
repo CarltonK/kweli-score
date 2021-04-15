@@ -2,7 +2,6 @@ export 'custom_fab.dart';
 export 'social_sign_in_button.dart';
 export 'info_dialog.dart';
 export 'file_upload.dart';
-export 'pageTransitions.dart';
 
 // Global
 export 'global/global_loader.dart';
