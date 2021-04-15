@@ -22,7 +22,7 @@ class StorageProvider {
       String dateTimeString = now.toIso8601String();
 
       // Unique file name for the file
-      String filePath = '$uid/statements/$dateTimeString.pdf';
+      String filePath = 'statements/$uid/$dateTimeString.pdf';
 
       //Create a storage reference
       Reference reference = storage.ref().child(filePath);
