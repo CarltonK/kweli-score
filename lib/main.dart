@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
-// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/widgets/widgets.dart';
@@ -19,12 +20,17 @@ void main() {
       create: (context) => DatabaseProvider(),
     ),
   ];
-  runApp(
-    MultiProvider(
-      providers: providers,
-      child: MyApp(),
-    ),
-  );
+
+  runZonedGuarded(() {
+    runApp(
+      MultiProvider(
+        providers: providers,
+        child: MyApp(),
+      ),
+    );
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -52,6 +58,10 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
+            // Pass all uncaught errors to Crashlytics.
+            FlutterError.onError =
+                FirebaseCrashlytics.instance.recordFlutterError;
+
             return Consumer<AuthProvider>(
               builder: (context, value, child) {
                 if (value.status == Status.Authenticated) return HomePage();
