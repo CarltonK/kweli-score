@@ -31,11 +31,11 @@ class StorageProvider {
       storageUploadTask = reference.putFile(file);
 
       // Get a snapshot of the upload
-      taskSnapshot = storageUploadTask.snapshot;
+      taskSnapshot = await storageUploadTask;
 
       // Get the download url
       String urlResult = await taskSnapshot.ref.getDownloadURL();
-      _databaseProvider.saveStatement(uid, urlResult);
+      await _databaseProvider.saveStatement(uid, urlResult);
     } on FirebaseException catch (error) {
       throw error;
     }

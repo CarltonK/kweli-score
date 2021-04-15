@@ -9,7 +9,7 @@ class GlobalLoader extends StatelessWidget {
       color: Colors.white,
       child: SpinKitWave(
         color: Theme.of(context).accentColor,
-        size: 100,
+        size: 200,
       ),
     );
   }

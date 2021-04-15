@@ -20,6 +20,9 @@ void main() {
     Provider(
       create: (context) => DatabaseProvider(),
     ),
+    Provider(
+      create: (context) => StorageProvider(),
+    ),
   ];
 
   runZonedGuarded(() {
