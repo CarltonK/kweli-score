@@ -1,6 +1,9 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:kweliscore/widgets/widgets.dart';
-// import 'package:file_picker/file_picker.dart';
 
 class CustomFab extends StatefulWidget {
   @override
@@ -27,14 +30,15 @@ class _CustomFabState extends State<CustomFab>
     isOpened = !isOpened;
   }
 
-  // File _statementFile;
-  String filePath, urlResult;
-  String uid;
+  File _statementFile;
+  String urlResult, uid;
+  List<String> allowedExtentions;
   // StorageUploadTask storageUploadTask;
 
   @override
   void initState() {
     super.initState();
+    allowedExtentions = ['pdf'];
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
@@ -76,7 +80,24 @@ class _CustomFabState extends State<CustomFab>
     );
   }
 
-  void fileChooserBtnPressed() {}
+  void fileChooserBtnPressed() async {
+    await pickFiles();
+  }
+
+  pickFiles() async {
+    try {
+      FilePickerResult result = await FilePicker.platform.pickFiles();
+
+      if (result != null) {
+        _statementFile = File(result.files.single.path);
+      } else {
+        // User canceled the picker
+        print("User canceled the picker");
+      }
+    } on PlatformException catch (error) {
+      print("Unsupported operation" + error.toString());
+    } catch (e) {}
+  }
 
   Widget fileChooserBtn() {
     return Container(
