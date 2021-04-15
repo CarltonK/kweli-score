@@ -90,6 +90,7 @@ class _CustomFabState extends State<CustomFab>
 
       if (result != null) {
         _statementFile = File(result.files.single.path);
+        print('File is located at: ${_statementFile.path}');
       } else {
         // User canceled the picker
         print("User canceled the picker");

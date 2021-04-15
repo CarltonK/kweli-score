@@ -1,31 +1,43 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:kweliscore/provider/providers.dart';
 
 class StorageProvider {
-  StorageUploadTask storageUploadTask;
-  StorageTaskSnapshot taskSnapshot;
+  UploadTask storageUploadTask;
+  TaskSnapshot taskSnapshot;
+  FirebaseStorage storage;
+  DatabaseProvider _databaseProvider;
 
   StorageProvider() {
-    print('Firebase Storage has been initialized');
+    storage = FirebaseStorage.instance;
+    _databaseProvider = DatabaseProvider();
   }
 
-  Future<String> startUpload(File file, String uid) async {
+  Future<void> startUpload(File file, String uid) async {
     try {
-      /// Unique file name for the file
-      String filePath = 'profile/$uid/dp.png';
+      // Get the current date
+      DateTime now = DateTime.now();
+
+      // Convert date to a string
+      String dateTimeString = now.toIso8601String();
+
+      // Unique file name for the file
+      String filePath = '$uid/statements/$dateTimeString.pdf';
+
       //Create a storage reference
-      StorageReference reference =
-          FirebaseStorage.instance.ref().child(filePath);
+      Reference reference = storage.ref().child(filePath);
+
       //Create a task that will handle the upload
-      storageUploadTask = reference.putFile(
-        file,
-      );
-      taskSnapshot = await storageUploadTask.onComplete;
+      storageUploadTask = reference.putFile(file);
+
+      // Get a snapshot of the upload
+      taskSnapshot = storageUploadTask.snapshot;
+
+      // Get the download url
       String urlResult = await taskSnapshot.ref.getDownloadURL();
-      return urlResult;
-    } catch (e) {
-      print('startUpload ERROR -> ${e.toString()}');
-      return null;
+      _databaseProvider.saveStatement(uid, urlResult);
+    } on FirebaseException catch (error) {
+      throw error;
     }
   }
 }

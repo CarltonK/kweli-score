@@ -14,10 +14,24 @@ class DatabaseProvider {
       user.deviceToken = await fcm.getToken();
 
       // User document reference
-      DocumentReference userDoc = _db.collection("users").doc(uid);
+      DocumentReference userDoc = _db.collection('users').doc(uid);
 
       // Save document
       await userDoc.set(user.toFirestore());
+    } on FirebaseException catch (error) {
+      throw error;
+    }
+  }
+
+  Future saveStatement(String uid, String statementFile) async {
+    try {
+      // Statement document reference
+      DocumentReference statementDoc = _db.collection('statements').doc();
+
+      StatementModel _statement = StatementModel(uid, statementFile);
+
+      // Save statement
+      await statementDoc.set(_statement.toFirestore());
     } on FirebaseException catch (error) {
       throw error;
     }
