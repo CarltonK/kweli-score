@@ -155,8 +155,10 @@ class Login extends StatelessWidget {
       bottom: 20,
       child: TextButton(
         onPressed: () {
-          Navigator.of(context)
-              .push(SlideRightTransition(page: ForgotPassword()));
+          Navigator.of(context).push(
+            SlideRightTransition(
+                page: ForgotPassword(), routeName: 'password-reset'),
+          );
         },
         child: Text(
           'Forgot Password ?',

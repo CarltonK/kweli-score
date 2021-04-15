@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,6 +38,11 @@ class MyApp extends StatelessWidget {
   // Initialize firebase outside build to avoid future builder triggers
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
+    analytics: analytics,
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,6 +55,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
+      navigatorObservers: <NavigatorObserver>[observer],
       home: FutureBuilder<FirebaseApp>(
         future: _initialization,
         builder: (context, snapshot) {
