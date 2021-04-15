@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
-class ActionButton extends StatelessWidget {
+class GlobalActionButton extends StatelessWidget {
   final Function onPressed;
   final String action;
 
-  ActionButton({
+  GlobalActionButton({
     Key key,
     @required this.action,
     @required this.onPressed,

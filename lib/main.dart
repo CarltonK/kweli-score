@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
-//import 'package:firebase_analytics/firebase_analytics.dart';
-//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/widgets/widgets.dart';
@@ -15,9 +15,9 @@ void main() {
     ChangeNotifierProvider(
       create: (context) => AuthProvider.instance(),
     ),
-    // Provider(
-    //   create: (context) => DatabaseProvider(),
-    // ),
+    Provider(
+      create: (context) => DatabaseProvider(),
+    ),
   ];
   runApp(
     MultiProvider(
@@ -30,6 +30,7 @@ void main() {
 class MyApp extends StatelessWidget {
   // Initialize firebase outside build to avoid future builder triggers
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,23 +47,22 @@ class MyApp extends StatelessWidget {
         future: _initialization,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Container(
-              alignment: Alignment.center,
-              color: Colors.white,
-              child: Text('Error -> ${snapshot.error.toString()}'),
+            return GlobalErrorContained(
+              errorMessage: '${snapshot.error.toString()}',
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Consumer<AuthProvider>(
               builder: (context, value, child) {
                 if (value.status == Status.Authenticated) return HomePage();
-                if (value.status == Status.Authenticating) return Indicator();
+                if (value.status == Status.Authenticating)
+                  return GlobalLoader();
                 return child;
               },
               child: MainAuthentication(),
             );
           }
-          return Indicator();
+          return GlobalLoader();
         },
       ),
     );
