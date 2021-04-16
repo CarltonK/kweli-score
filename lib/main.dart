@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:kweliscore/screens/screens.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'provider/providers.dart';
@@ -56,26 +55,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OverlaySupport(
-      child: MaterialApp(
-        title: 'Kweli Score',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          textTheme: GoogleFonts.muliTextTheme(
-            Theme.of(context).textTheme,
-          ),
+    return MaterialApp(
+      title: 'Kweli Score',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.muliTextTheme(
+          Theme.of(context).textTheme,
         ),
-        navigatorObservers: <NavigatorObserver>[observer],
-        home: Consumer<AuthProvider>(
-          builder: (context, value, child) {
-            if (value.status == Status.Authenticated) return HomePage();
-            if (value.status == Status.Authenticating) return GlobalLoader();
-            return child;
-          },
-          child: MainAuthentication(),
-        ),
+      ),
+      navigatorObservers: <NavigatorObserver>[observer],
+      home: Consumer<AuthProvider>(
+        builder: (context, value, child) {
+          if (value.status == Status.Authenticated) return HomePage();
+          if (value.status == Status.Authenticating) return GlobalLoader();
+          return child;
+        },
+        child: MainAuthentication(),
       ),
     );
   }
