@@ -38,7 +38,8 @@ class NotificationHelper {
     );
   }
 
-  Future<dynamic> _backgroundHandler(Map<String, dynamic> message) async {
+  static Future<dynamic> _backgroundHandler(
+      Map<String, dynamic> message) async {
     print('onBackgroundMessage received: $message');
   }
 
