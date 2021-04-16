@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/helpers/helpers.dart';
+import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +13,36 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage> {
   AuthProvider _authProvider;
+  NotificationHelper _notificationHelper;
+  NotificationModel _notificationInfo;
+  Dialogs _dialogs;
+
+  void popDialog() {
+    Navigator.of(context).pop();
+  }
+
+  Future<dynamic> _onMessage(Map<String, dynamic> message) async {
+    // print('onMessage received: $message');
+
+    // Parse the message received
+    _notificationInfo = NotificationModel.fromJson(message);
+
+    _dialogs.dialogInfo(
+      context,
+      _notificationInfo.title,
+      _notificationInfo.body,
+      () => popDialog(),
+    );
+  }
+
+  @override
+  void initState() {
+    _notificationHelper = NotificationHelper.empty();
+    _notificationHelper.notificationHandler(_onMessage);
+    _dialogs = Dialogs.empty();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(

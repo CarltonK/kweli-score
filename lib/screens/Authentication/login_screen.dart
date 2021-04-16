@@ -23,7 +23,7 @@ class Login extends StatelessWidget {
   static dynamic result;
   static dynamic authProvider;
 
-  static Validator _validator = Validator.empty();
+  static ValidationHelper _validator = ValidationHelper.empty();
   static Dialogs _dialogs = Dialogs.empty();
 
   // Intro Text

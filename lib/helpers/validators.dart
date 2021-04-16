@@ -1,5 +1,5 @@
-class Validator {
-  Validator.empty();
+class ValidationHelper {
+  ValidationHelper.empty();
 
   String passwordValidator(String value) {
     //Check if password exists
