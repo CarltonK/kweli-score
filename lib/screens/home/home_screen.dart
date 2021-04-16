@@ -9,10 +9,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
+  AuthProvider _authProvider;
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, value, child) {
+        _authProvider = value;
         return child;
       },
       child: Scaffold(
@@ -22,9 +24,9 @@ class _HomeState extends State<HomePage> {
           ),
           actions: [
             IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: () =>
-                    Provider.of<AuthProvider>(context, listen: false).signOut())
+              icon: const Icon(Icons.exit_to_app),
+              onPressed: () => _authProvider.signOut(),
+            )
           ],
         ),
         body: Container(

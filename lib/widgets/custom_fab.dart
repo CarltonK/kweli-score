@@ -1,6 +1,9 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-// import 'package:kweliscore/widgets/widgets.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:kweliscore/provider/providers.dart';
+import 'package:provider/provider.dart';
 
 class CustomFab extends StatefulWidget {
   @override
@@ -27,18 +30,28 @@ class _CustomFabState extends State<CustomFab>
     isOpened = !isOpened;
   }
 
-  // File _statementFile;
-  String filePath, urlResult;
-  String uid;
+  File _statementFile;
+  String urlResult, uid;
+  List<String> _allowedExtentions;
+  FileType _pickingType;
   // StorageUploadTask storageUploadTask;
 
   @override
   void initState() {
     super.initState();
+
+    // Get userId
+    uid = context.read<AuthProvider>().currentUser.uid;
+
+    _allowedExtentions = ['pdf'];
+    _pickingType = FileType.custom;
+
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
-    )..addListener(() {});
+    )..addListener(() {
+        setState(() {});
+      });
 
     _animateIcon = Tween<double>(begin: 0.0, end: 1.0).animate(
       _animationController,
@@ -76,14 +89,34 @@ class _CustomFabState extends State<CustomFab>
     );
   }
 
-  void fileChooserBtnPressed() {}
+  void fileChooserBtnPressed() => pickFiles();
+
+  pickFiles() async {
+    try {
+      FilePickerResult result = await FilePicker.platform.pickFiles(
+        type: _pickingType,
+        allowedExtensions: [..._allowedExtentions],
+      );
+
+      if (result != null) {
+        _statementFile = File(result.files.single.path);
+        Provider.of<StorageProvider>(context, listen: false).startUpload(
+          _statementFile,
+          uid,
+        );
+      }
+    } on PlatformException catch (error) {
+      print("Platform Exception: " + error.toString());
+    } catch (error) {
+      print("Unsupported operation: " + error.toString());
+    }
+  }
 
   Widget fileChooserBtn() {
     return Container(
       child: FloatingActionButton(
-        onPressed: fileChooserBtnPressed,
-        heroTag: 'gallery',
-        tooltip: 'Files',
+        onPressed: () => fileChooserBtnPressed(),
+        tooltip: 'Select',
         child: const Icon(Icons.storage),
       ),
     );
@@ -94,6 +127,14 @@ class _CustomFabState extends State<CustomFab>
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value * 2.0,
+            0.0,
+          ),
+          child: const SizedBox(),
+        ),
         Transform(
           transform: Matrix4.translationValues(
             0.0,
