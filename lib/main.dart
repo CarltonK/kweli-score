@@ -11,8 +11,11 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'provider/providers.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // bugfix/KS-23
+  await Firebase.initializeApp();
+
   final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(
       create: (context) => AuthProvider.instance(),
@@ -25,12 +28,16 @@ void main() {
     ),
   ];
 
-  runApp(
-    MultiProvider(
-      providers: providers,
-      child: MyApp(),
-    ),
-  );
+  runZonedGuarded(() {
+    runApp(
+      MultiProvider(
+        providers: providers,
+        child: MyApp(),
+      ),
+    );
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -64,8 +71,6 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            // Initialize Crashlytics
-            FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
             // Pass all uncaught errors to Crashlytics.
             FlutterError.onError =
                 FirebaseCrashlytics.instance.recordFlutterError;
