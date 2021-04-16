@@ -25,16 +25,12 @@ void main() {
     ),
   ];
 
-  runZonedGuarded(() {
-    runApp(
-      MultiProvider(
-        providers: providers,
-        child: MyApp(),
-      ),
-    );
-  }, (error, stackTrace) {
-    FirebaseCrashlytics.instance.recordError(error, stackTrace);
-  });
+  runApp(
+    MultiProvider(
+      providers: providers,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -68,6 +64,8 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
+            // Initialize Crashlytics
+            FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
             // Pass all uncaught errors to Crashlytics.
             FlutterError.onError =
                 FirebaseCrashlytics.instance.recordFlutterError;
