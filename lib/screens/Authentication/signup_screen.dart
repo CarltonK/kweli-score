@@ -20,7 +20,7 @@ class SignUp extends StatelessWidget {
   static String password2;
   static AuthProvider authProvider;
 
-  static Validator _validator = Validator.empty();
+  static ValidationHelper _validator = ValidationHelper.empty();
   static Dialogs _dialogs = Dialogs.empty();
 
   static dynamic result;
