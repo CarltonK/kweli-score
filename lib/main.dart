@@ -7,14 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:kweliscore/screens/screens.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'provider/providers.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+Future<void> _initializeFirebaseServices() async {
   // bugfix/KS-23
   await Firebase.initializeApp();
+
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _initializeFirebaseServices();
 
   final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(
@@ -41,9 +49,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // Initialize firebase outside build to avoid future builder triggers
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
     analytics: analytics,
@@ -51,42 +56,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Kweli Score',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.muliTextTheme(
-          Theme.of(context).textTheme,
+    return OverlaySupport(
+      child: MaterialApp(
+        title: 'Kweli Score',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: GoogleFonts.muliTextTheme(
+            Theme.of(context).textTheme,
+          ),
         ),
-      ),
-      navigatorObservers: <NavigatorObserver>[observer],
-      home: FutureBuilder<FirebaseApp>(
-        future: _initialization,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return GlobalErrorContained(
-              errorMessage: '${snapshot.error.toString()}',
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            // Pass all uncaught errors to Crashlytics.
-            FlutterError.onError =
-                FirebaseCrashlytics.instance.recordFlutterError;
-
-            return Consumer<AuthProvider>(
-              builder: (context, value, child) {
-                if (value.status == Status.Authenticated) return HomePage();
-                if (value.status == Status.Authenticating)
-                  return GlobalLoader();
-                return child;
-              },
-              child: MainAuthentication(),
-            );
-          }
-          return GlobalLoader();
-        },
+        navigatorObservers: <NavigatorObserver>[observer],
+        home: Consumer<AuthProvider>(
+          builder: (context, value, child) {
+            if (value.status == Status.Authenticated) return HomePage();
+            if (value.status == Status.Authenticating) return GlobalLoader();
+            return child;
+          },
+          child: MainAuthentication(),
+        ),
       ),
     );
   }

@@ -8,7 +8,7 @@ void main() {
     final String emailNone = "";
     final String emailNo = "email";
 
-    final Validator validator = Validator.empty();
+    final ValidationHelper validator = ValidationHelper.empty();
 
     expect(validator.emailValidator(emailYes), null);
     expect(validator.emailValidator(emailNone), "Please provide an email");

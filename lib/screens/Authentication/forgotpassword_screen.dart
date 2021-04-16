@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ForgotPassword extends StatelessWidget {
-  static Validator _validator = Validator.empty();
+  static ValidationHelper _validator = ValidationHelper.empty();
   static Dialogs _dialogs = Dialogs.empty();
   static String _email;
   static dynamic result;

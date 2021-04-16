@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,15 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage> {
   AuthProvider _authProvider;
+  NotificationHelper _notificationHelper;
+
+  @override
+  void initState() {
+    _notificationHelper = NotificationHelper.empty();
+    _notificationHelper.notificationHandler();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
