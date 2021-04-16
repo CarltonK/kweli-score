@@ -23,7 +23,7 @@ class NotificationHelper {
   }
 
   Future<dynamic> _onMessage(Map<String, dynamic> message) async {
-    print('onMessage received: $message');
+    // print('onMessage received: $message');
 
     // Parse the message received
     _notificationInfo = NotificationModel.fromJson(message);
@@ -39,16 +39,16 @@ class NotificationHelper {
 
   static Future<dynamic> _backgroundHandler(
       Map<String, dynamic> message) async {
-    print('onBackgroundMessage received: $message');
+    // print('onBackgroundMessage received: $message');
   }
 
   Future<dynamic> _onLaunch(Map<String, dynamic> message) async {
-    print('onLaunch: $message');
+    // print('onLaunch: $message');
     _notificationInfo = NotificationModel.fromJson(message);
   }
 
   Future<dynamic> _onResume(Map<String, dynamic> message) async {
-    print('onResume: $message');
+    // print('onResume: $message');
     _notificationInfo = NotificationModel.fromJson(message);
   }
 
