@@ -9,13 +9,16 @@ class GlobalErrorContained extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      color: Colors.white,
-      child: InfoDialog(
-        buttonPressed: () {},
-        status: 'Error',
-        detail: errorMessage,
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        color: Colors.white,
+        child: InfoDialog(
+          buttonPressed: () {},
+          buttonText: '',
+          status: 'Error',
+          detail: errorMessage,
+        ),
       ),
     );
   }
