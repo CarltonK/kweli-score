@@ -1,8 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
-import 'package:kweliscore/widgets/widgets.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 class NotificationHelper {
   FirebaseMessaging _messaging = FirebaseMessaging();
@@ -22,21 +19,6 @@ class NotificationHelper {
     );
   }
 
-  Future<dynamic> _onMessage(Map<String, dynamic> message) async {
-    // print('onMessage received: $message');
-
-    // Parse the message received
-    _notificationInfo = NotificationModel.fromJson(message);
-
-    showSimpleNotification(
-      Text(_notificationInfo.title),
-      leading: NotificationBadge(),
-      subtitle: Text(_notificationInfo.body),
-      background: Colors.cyan[700],
-      duration: Duration(seconds: 2),
-    );
-  }
-
   static Future<dynamic> _backgroundHandler(
       Map<String, dynamic> message) async {
     // print('onBackgroundMessage received: $message');
@@ -45,6 +27,7 @@ class NotificationHelper {
   Future<dynamic> _onLaunch(Map<String, dynamic> message) async {
     // print('onLaunch: $message');
     _notificationInfo = NotificationModel.fromJson(message);
+    _notificationInfo.toString();
   }
 
   Future<dynamic> _onResume(Map<String, dynamic> message) async {
@@ -52,7 +35,7 @@ class NotificationHelper {
     _notificationInfo = NotificationModel.fromJson(message);
   }
 
-  void notificationHandler() async {
+  void notificationHandler([Function(Map<String, dynamic>) _onMessage]) async {
     await _registerNotification();
     _messaging.configure(
       onMessage: _onMessage,
