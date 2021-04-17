@@ -11,10 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'provider/providers.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
   final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(
       create: (context) => AuthProvider.instance(),
@@ -30,8 +28,8 @@ void main() async {
   runZonedGuarded(() {
     runApp(
       MultiProvider(
-        providers: providers,
         child: MyApp(),
+        providers: providers,
       ),
     );
   }, (error, stackTrace) {
@@ -41,7 +39,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // Initialize firebase outside build to avoid future builder triggers
-  // final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
@@ -61,74 +59,32 @@ class MyApp extends StatelessWidget {
         ),
       ),
       navigatorObservers: <NavigatorObserver>[observer],
-      home: Consumer<AuthProvider>(
-        builder: (context, value, child) {
-          if (value.status == Status.Authenticated) return HomePage();
-          if (value.status == Status.Authenticating) return GlobalLoader();
-          return child;
+      home: FutureBuilder<FirebaseApp>(
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return GlobalErrorContained(
+              errorMessage: '${snapshot.error.toString()}',
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            // Pass all uncaught errors to Crashlytics.
+            FirebaseCrashlytics instance = FirebaseCrashlytics.instance;
+            FlutterError.onError = instance.recordFlutterError;
+
+            return Consumer<AuthProvider>(
+              builder: (context, value, child) {
+                if (value.status == Status.Authenticated) return HomePage();
+                if (value.status == Status.Authenticating)
+                  return GlobalLoader();
+                return child;
+              },
+              child: MainAuthentication(),
+            );
+          }
+          return GlobalLoader();
         },
-        child: MainAuthentication(),
       ),
-    );
-  }
-}
-
-/*
- * THIS IS A SECONDARY WAY OF INITIALIZING FIREBASE
- * CURRENTLY NOT IN USE
- */
-
-class BaseApp extends StatefulWidget {
-  @override
-  _BaseAppState createState() => _BaseAppState();
-}
-
-class _BaseAppState extends State<BaseApp> {
-  bool _initialized = false;
-  bool _error = false;
-
-  void initializeFlutterFire() async {
-    try {
-      // Wait for Firebase to initialize and set `_initialized` state to true
-      await Firebase.initializeApp();
-      setState(() {
-        _initialized = true;
-      });
-    } catch (e) {
-      // Set `_error` state to true if Firebase initialization fails
-      setState(() {
-        _error = true;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    initializeFlutterFire();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Show error message if initialization failed
-    if (_error) {
-      return GlobalErrorContained(
-        errorMessage: 'App could not be initialized',
-      );
-    }
-
-    // Show a loader until FlutterFire is initialized
-    if (!_initialized) {
-      return GlobalLoader();
-    }
-
-    return Consumer<AuthProvider>(
-      builder: (context, value, child) {
-        if (value.status == Status.Authenticated) return HomePage();
-        if (value.status == Status.Authenticating) return GlobalLoader();
-        return child;
-      },
-      child: MainAuthentication(),
     );
   }
 }
