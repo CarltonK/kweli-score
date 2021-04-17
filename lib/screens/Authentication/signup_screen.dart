@@ -124,6 +124,7 @@ class SignUp extends StatelessWidget {
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Password',
+        prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: IconButton(
           icon: const Icon(Icons.remove_red_eye),
           onPressed: () => {},
@@ -152,6 +153,7 @@ class SignUp extends StatelessWidget {
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Confirm Pasword',
+        prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: IconButton(
           icon: const Icon(Icons.remove_red_eye),
           onPressed: () {},
