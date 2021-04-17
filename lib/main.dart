@@ -11,8 +11,10 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'provider/providers.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(
       create: (context) => AuthProvider.instance(),
@@ -59,10 +61,22 @@ class MyApp extends StatelessWidget {
         ),
       ),
       navigatorObservers: <NavigatorObserver>[observer],
-      home: BaseApp(),
+      home: Consumer<AuthProvider>(
+        builder: (context, value, child) {
+          if (value.status == Status.Authenticated) return HomePage();
+          if (value.status == Status.Authenticating) return GlobalLoader();
+          return child;
+        },
+        child: MainAuthentication(),
+      ),
     );
   }
 }
+
+/*
+ * THIS IS A SECONDARY WAY OF INITIALIZING FIREBASE
+ * CURRENTLY NOT IN USE
+ */
 
 class BaseApp extends StatefulWidget {
   @override
