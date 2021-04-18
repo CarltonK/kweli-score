@@ -35,7 +35,8 @@ class NotificationHelper {
     _notificationInfo = NotificationModel.fromJson(message);
   }
 
-  void notificationHandler([Function(Map<String, dynamic>) _onMessage]) async {
+  void notificationHandler(
+      [Future<dynamic> Function(Map<String, dynamic>) _onMessage]) async {
     await _registerNotification();
     _messaging.configure(
       onMessage: _onMessage,
