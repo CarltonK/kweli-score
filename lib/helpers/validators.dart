@@ -4,11 +4,11 @@ class ValidationHelper {
   String passwordValidator(String value) {
     //Check if password exists
     if (value.isEmpty) {
-      return 'Please provide your Password';
+      return 'Please provide your password';
     }
     //Check if password is less than 7 characters
     if (value.length < 7) {
-      return 'Your pasword is too short';
+      return 'Your password is too short';
     }
     return null;
   }
@@ -28,11 +28,11 @@ class ValidationHelper {
   String idValidator(String value) {
     //Check if ID exists
     if (value.isEmpty) {
-      return 'Please provide your ID Number';
+      return 'Please provide your National ID Number';
     }
     //Check if ID is 7 or 8 digits
     if (value.length < 7 || value.length > 8) {
-      return 'Your ID number should be 7 or 8 digits';
+      return 'Your National ID number should be 7 or 8 digits';
     }
     return null;
   }
@@ -40,7 +40,7 @@ class ValidationHelper {
   String phoneValidator(String value) {
     //Check if number exists
     if (value.isEmpty) {
-      return 'Please provide your Phone Number';
+      return 'Please provide your phone number';
     }
     //Check if phone is not 10 digits
     if (value.length != 10) {
@@ -50,7 +50,6 @@ class ValidationHelper {
     if (!value.startsWith('07')) {
       return 'Your phone number should start with 07';
     }
-
     return null;
   }
 }

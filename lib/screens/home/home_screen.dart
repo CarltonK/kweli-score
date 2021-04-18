@@ -24,10 +24,9 @@ class _HomeState extends State<HomePage> {
   Future<dynamic> _onMessage(Map<String, dynamic> message) async {
     // print('onMessage received: $message');
 
-    // Parse the message received
     _notificationInfo = NotificationModel.fromJson(message);
 
-    _dialogs.dialogInfo(
+    await _dialogs.dialogInfo(
       context,
       _notificationInfo.title,
       _notificationInfo.body,
