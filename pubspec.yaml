@@ -40,7 +40,7 @@ dependencies:
   # Spinner
   flutter_spinkit: ^4.1.2
   # File picker
-  file_picker: ^2.1.7
+  # file_picker: ^2.1.7
   # # Overlay support
   # overlay_support: ^1.0.5-hotfix1
 
