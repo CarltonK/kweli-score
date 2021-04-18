@@ -143,7 +143,7 @@ class Login extends StatelessWidget {
       serverCall(_userModel, context).then((value) {
         if (!value) {
           Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(context, result);
+            _dialogs.dialogInfo(context, result.toString());
           });
         }
       });

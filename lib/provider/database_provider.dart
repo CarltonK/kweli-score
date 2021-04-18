@@ -18,8 +18,8 @@ class DatabaseProvider {
 
       // Save document
       await userDoc.set(user.toFirestore());
-    } on FirebaseException catch (error) {
-      throw error;
+    } on FirebaseException {
+      rethrow;
     }
   }
 
@@ -32,8 +32,8 @@ class DatabaseProvider {
 
       // Save statement
       await statementDoc.set(_statement.toFirestore());
-    } on FirebaseException catch (error) {
-      throw error;
+    } on FirebaseException {
+      rethrow;
     }
   }
 }

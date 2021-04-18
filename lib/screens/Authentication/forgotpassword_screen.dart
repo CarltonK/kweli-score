@@ -65,7 +65,7 @@ class ForgotPassword extends StatelessWidget {
       form.save();
 
       serverCall(_email, context).then((value) {
-        dynamic currentCtx = _scaffoldKey.currentContext;
+        BuildContext currentCtx = _scaffoldKey.currentContext;
         if (value) {
           Timer(Duration(seconds: 1), () {
             _dialogs.dialogInfo(
@@ -79,7 +79,7 @@ class ForgotPassword extends StatelessWidget {
           _dialogs.dialogInfo(
             currentCtx,
             'Error',
-            result,
+            result.toString(),
             () => popDialog(context),
           );
         }
