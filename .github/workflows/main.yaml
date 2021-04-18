@@ -15,12 +15,12 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable'
-        
+
+    # Clean Build
+    - run: flutter clean
+
     # Web
     - run: flutter config --enable-web
-
-    # # Clean Build
-    # - run: flutter clean
 
     # Fresh packages
     - run: flutter pub get
