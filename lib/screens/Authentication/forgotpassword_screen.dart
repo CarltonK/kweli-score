@@ -21,20 +21,34 @@ class ForgotPassword extends StatelessWidget {
   }
 
   Widget _resetPasswordTF() {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: TextFormField(
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        validator: _validator.emailValidator,
-        onSaved: _onEmailSaved,
-        decoration: InputDecoration(
-          border: Constants.blackInputBorder,
-          enabledBorder: Constants.blackInputBorder,
-          focusedBorder: Constants.blackInputBorder,
-          labelText: 'Email',
-          prefixIcon: const Icon(Icons.email),
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      validator: _validator.emailValidator,
+      onSaved: _onEmailSaved,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Email',
+        prefixIcon: const Icon(Icons.email),
+      ),
+    );
+  }
+
+  Widget _resetBtn(BuildContext context) {
+    return Container(
+      height: 60,
+      width: 60,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.blueAccent[200].withOpacity(0.7)),
+      child: IconButton(
+        icon: Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.white,
         ),
+        onPressed: () => _resetBtnPressed(context),
       ),
     );
   }
@@ -94,45 +108,57 @@ class ForgotPassword extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black54,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
+      backgroundColor: Colors.white,
       body: Container(
         height: size.height,
         width: size.width,
-        padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
+        padding: const EdgeInsets.only(
+          top: 0,
+          left: 30,
+          right: 30,
+          bottom: 0,
+        ),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              Card(
-                elevation: 5,
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Text('It happens', style: Constants.boldHeadlineStyle),
-                    Text(
-                      "We'll send you an email",
-                      style: Constants.boldSubheadlineStyle,
-                    ),
-                    const SizedBox(height: 20),
-                    _resetPasswordTF(),
-                    const SizedBox(height: 30),
-                    GlobalActionButton(
-                      onPressed: () => _resetBtnPressed(context),
-                      action: 'Send Email',
-                    ),
-                    const SizedBox(height: 30),
-                  ],
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.grey[200]),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Enter the email address associated with your account",
+                    style: Constants.boldSubheadlineStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  _resetPasswordTF(),
+                ],
               )
             ],
           ),
         ),
       ),
+      floatingActionButton: _resetBtn(context),
     );
   }
 }
