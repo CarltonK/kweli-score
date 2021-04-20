@@ -13,6 +13,8 @@ class Login extends StatelessWidget {
   static UserModel _userModel;
 
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  Login({Key key, this.scaffoldKey}) : super(key: key);
 
   static String email;
   static String idNumber;
@@ -130,6 +132,10 @@ class Login extends StatelessWidget {
     );
   }
 
+  void popDialog(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
   void _loginBtnPressed(BuildContext context) {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
@@ -142,8 +148,14 @@ class Login extends StatelessWidget {
 
       serverCall(_userModel, context).then((value) {
         if (!value) {
+          print(result);
           Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(context, result);
+            _dialogs.dialogInfo(
+              scaffoldKey.currentContext,
+              'Error',
+              result,
+              () => popDialog(scaffoldKey.currentContext),
+            );
           });
         }
       });
