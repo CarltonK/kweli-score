@@ -210,13 +210,13 @@ class SignUp extends StatelessWidget {
         phoneNumber: phoneNumber,
       );
 
-      serverCall(_userModel, context).then((value) {
+      await serverCall(_userModel, context).then((value) {
         if (!value) {
           Timer(Duration(milliseconds: 500), () {
             _dialogs.dialogInfo(
               context,
               'Error',
-              result,
+              result.toString(),
               () => popDialog(context),
             );
           });

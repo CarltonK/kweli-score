@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 
+// ignore: constant_identifier_names
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 class AuthProvider with ChangeNotifier {
@@ -67,7 +68,7 @@ class AuthProvider with ChangeNotifier {
       String uid = currentUser.uid;
 
       // Send an email verification
-      currentUser.sendEmailVerification();
+      await currentUser.sendEmailVerification();
 
       // Save the user to the database
       await database.saveUser(user, uid);
@@ -108,7 +109,7 @@ class AuthProvider with ChangeNotifier {
     try {
       // Check if email exists
       List<String> signInMethods = await auth.fetchSignInMethodsForEmail(email);
-      if (signInMethods.length > 0) {
+      if (signInMethods.isNotEmpty) {
         // Send password reset email
         await auth.sendPasswordResetEmail(email: email);
       } else {
@@ -123,7 +124,7 @@ class AuthProvider with ChangeNotifier {
   USER LOGOUT
   */
   Future<void> signOut() async {
-    auth.signOut();
+    await auth.signOut();
     _status = Status.Unauthenticated;
     notifyListeners();
     return Future.delayed(Duration.zero);

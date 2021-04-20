@@ -56,7 +56,7 @@ class InfoDialog extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomRight,
                 child: TextButton(
-                  onPressed: buttonPressed,
+                  onPressed: () => buttonPressed,
                   child: Text(
                     buttonText ?? 'Cancel',
                     style: TextStyle(fontSize: 18),

@@ -20,7 +20,7 @@ class GlobalActionButton extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: Colors.lightBlueAccent,
       child: Text(action, style: Constants.whiteBoldSubheadlineStyle),
-      onPressed: onPressed,
+      onPressed: () => onPressed,
     );
   }
 }

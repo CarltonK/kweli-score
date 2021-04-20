@@ -36,8 +36,8 @@ class StorageProvider {
       // Get the download url
       String urlResult = await taskSnapshot.ref.getDownloadURL();
       await _databaseProvider.saveStatement(uid, urlResult);
-    } on FirebaseException catch (error) {
-      throw error;
+    } on FirebaseException {
+      rethrow;
     }
   }
 }
