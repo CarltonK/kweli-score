@@ -241,7 +241,6 @@ class SignUp extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
           fit: StackFit.expand,
-          //  key: _scaffoldKey,
           children: <Widget>[
             Container(
               height: double.infinity,
