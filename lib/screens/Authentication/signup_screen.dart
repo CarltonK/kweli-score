@@ -12,6 +12,7 @@ class SignUp extends StatelessWidget {
   static UserModel _userModel;
 
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   static String email;
   static String idNumber;
@@ -24,6 +25,8 @@ class SignUp extends StatelessWidget {
   static Dialogs _dialogs = Dialogs.empty();
 
   static dynamic result;
+
+  SignUp({Key key, this.scaffoldKey}) : super(key: key);
 
   // Intro Text
   Widget _introText() {
@@ -214,20 +217,11 @@ class SignUp extends StatelessWidget {
         if (!value) {
           Timer(Duration(milliseconds: 500), () {
             _dialogs.dialogInfo(
-              context,
+              scaffoldKey.currentContext,
               'Error',
-              result.toString(),
-              () => popDialog(context),
+              result,
+              () => popDialog(scaffoldKey.currentContext),
             );
-          });
-        } else {
-          Timer(Duration(milliseconds: 500), () {
-            // _dialogs.dialogInfo(
-            //   _scaffoldKey.currentContext,
-            //   'Success',
-            //   'Welcome to Kweli',
-            //   () => popDialog(context),
-            // );
           });
         }
       });

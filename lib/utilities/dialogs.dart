@@ -6,7 +6,7 @@ import 'package:kweliscore/widgets/widgets.dart';
 class Dialogs {
   Dialogs.empty();
 
-  Future dialogInfo(
+ Future dialogInfo(
     BuildContext context, [
     String status,
     String detail,
@@ -29,5 +29,5 @@ class Dialogs {
         ),
       ),
     );
-  }
+  } 
 }
