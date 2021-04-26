@@ -28,8 +28,8 @@ void main() {
   runZonedGuarded(() {
     runApp(
       MultiProvider(
-        providers: providers,
         child: MyApp(),
+        providers: providers,
       ),
     );
   }, (error, stackTrace) {
@@ -74,9 +74,12 @@ class MyApp extends StatelessWidget {
 
             return Consumer<AuthProvider>(
               builder: (context, value, child) {
-                if (value.status == Status.Authenticated) return HomePage();
-                if (value.status == Status.Authenticating)
+                if (value.status == Status.Authenticated) {
+                  return HomePage();
+                }
+                if (value.status == Status.Authenticating) {
                   return GlobalLoader();
+                }
                 return child;
               },
               child: MainAuthentication(),
