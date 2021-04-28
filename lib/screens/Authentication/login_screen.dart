@@ -13,6 +13,8 @@ class Login extends StatelessWidget {
   static UserModel _userModel;
 
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  Login({Key key, this.scaffoldKey}) : super(key: key);
 
   static String email;
   static String idNumber;
@@ -25,6 +27,9 @@ class Login extends StatelessWidget {
 
   static ValidationHelper _validator = ValidationHelper.empty();
   static Dialogs _dialogs = Dialogs.empty();
+
+  // Focus Nodes
+  final _focusPassword = FocusNode();
 
   // Intro Text
   Widget _introText() {
@@ -43,6 +48,9 @@ class Login extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       validator: _validator.emailValidator,
+      onFieldSubmitted: (String value) {
+        FocusScope.of(context).requestFocus(_focusPassword);
+      },
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
@@ -67,6 +75,11 @@ class Login extends StatelessWidget {
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       validator: _validator.passwordValidator,
+      focusNode: _focusPassword,
+      onFieldSubmitted: (String value) {
+        FocusScope.of(context).unfocus();
+        _loginBtnPressed(context);
+      },
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
@@ -130,6 +143,10 @@ class Login extends StatelessWidget {
     );
   }
 
+  void popDialog(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
   void _loginBtnPressed(BuildContext context) {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
@@ -142,8 +159,14 @@ class Login extends StatelessWidget {
 
       serverCall(_userModel, context).then((value) {
         if (!value) {
+          print(result);
           Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(context, result.toString());
+            _dialogs.dialogInfo(
+              scaffoldKey.currentContext,
+              'Error',
+              result,
+              () => popDialog(scaffoldKey.currentContext),
+            );
           });
         }
       });
