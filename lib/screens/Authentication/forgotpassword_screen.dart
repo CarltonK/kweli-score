@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:kweliscore/helpers/validators.dart';
+import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -131,29 +130,25 @@ class ForgotPassword extends StatelessWidget {
         child: Form(
           key: _formKey,
           child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.grey[200]),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Enter the email address associated with your account",
-                    style: Constants.boldSubheadlineStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  _resetPasswordTF(),
-                ],
-              )
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: 150,
+                width: 150,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.grey[200]),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Enter the email address associated with your account",
+                style: Constants.boldSubheadlineStyle,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              _resetPasswordTF(),
             ],
           ),
         ),
