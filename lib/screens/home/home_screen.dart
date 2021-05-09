@@ -65,30 +65,46 @@ class _HomeState extends State<HomePage> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.only(top: 50, left: 20, right: 20),
-          child: Column(
-            children: [
-              Container(
-                height: 350,
-                width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(16),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: 350,
+                  width: 340,
+                  decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 200,
-                width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(16),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-            ],
+                Container(
+                  height: 200,
+                  width: 340,
+                  decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: BottomNavigationBar(items: [
+          BottomNavigationBarItem(
+            icon: IconButton(icon: Icon(Icons.autorenew), onPressed: () {}),
+            label: 'Refresh',
+          ),
+          BottomNavigationBarItem(
+            icon: IconButton(icon: Icon(Icons.business), onPressed: () {}),
+            label: 'Details',
+          ),
+          BottomNavigationBarItem(
+            icon: IconButton(icon: Icon(Icons.message), onPressed: () {}),
+            label: 'Contact Us',
+          )
+        ]),
         floatingActionButton: CustomFab(),
       ),
     );
