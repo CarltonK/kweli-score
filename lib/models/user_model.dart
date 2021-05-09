@@ -5,6 +5,7 @@ class UserModel {
   String nationalIdNumber;
   String userId;
   String deviceToken;
+  String fullName;
 
   UserModel({
     this.emailAddress,
@@ -12,6 +13,7 @@ class UserModel {
     this.phoneNumber,
     this.nationalIdNumber,
     this.deviceToken,
+    this.fullName,
   });
 
   Map<String, dynamic> toFirestore() => {
@@ -20,5 +22,6 @@ class UserModel {
         'phoneNumber': phoneNumber,
         'nationalIdNumber': nationalIdNumber,
         'deviceToken': deviceToken,
+        'fullName': fullName,
       };
 }

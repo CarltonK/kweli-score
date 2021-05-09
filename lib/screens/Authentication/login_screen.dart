@@ -9,12 +9,18 @@ import 'package:provider/provider.dart';
 
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class Login extends StatelessWidget {
-  static UserModel _userModel;
-
-  final _formKey = GlobalKey<FormState>();
+class Login extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   Login({Key key, this.scaffoldKey}) : super(key: key);
+
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
+
+  static UserModel _userModel;
 
   static String email;
   static String idNumber;
@@ -22,16 +28,16 @@ class Login extends StatelessWidget {
   static String password;
   static String password2;
 
+  bool _visiblePass = true;
+
   static dynamic result;
   static dynamic authProvider;
 
   static ValidationHelper _validator = ValidationHelper.empty();
   static Dialogs _dialogs = Dialogs.empty();
 
-  // Focus Nodes
   final _focusPassword = FocusNode();
 
-  // Intro Text
   Widget _introText() {
     return Text(
       'Welcome',
@@ -39,9 +45,6 @@ class Login extends StatelessWidget {
     );
   }
 
-  /*
-  ******EMAIL STUFF******
-  */
   Widget _emailTF(BuildContext context) {
     return TextFormField(
       onSaved: _onEmailSaved,
@@ -65,12 +68,9 @@ class Login extends StatelessWidget {
     email = value.trim();
   }
 
-  /*
-  ******PASSWORD STUFF******
-  */
   Widget _passwordTF(BuildContext context) {
     return TextFormField(
-      obscureText: true,
+      obscureText: _visiblePass,
       onSaved: _onPasswordSaved,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
@@ -86,9 +86,13 @@ class Login extends StatelessWidget {
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Password',
         prefixIcon: Icon(Icons.vpn_key),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.remove_red_eye),
-          onPressed: null,
+        suffixIcon: GestureDetector(
+          child: const Icon(Icons.remove_red_eye),
+          onTap: () {
+            setState(() {
+              _visiblePass = !_visiblePass;
+            });
+          },
         ),
       ),
     );
@@ -98,20 +102,6 @@ class Login extends StatelessWidget {
     password = value.trim();
   }
 
-  /*
-  ******SOCIAL SIGN IN STUFF******
-  */
-  // Widget _socialSignInRow() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //     children: [
-  //       SocialSignInButton(path: 'assets/images/facebook.jpg'),
-  //       SocialSignInButton(path: 'assets/images/google.png'),
-  //       SocialSignInButton(path: 'assets/images/twitter.png'),
-  //     ],
-  //   );
-  // }
-
   Future<bool> serverCall(UserModel user, BuildContext context) async {
     result = await authProvider.signInEmailPass(_userModel);
     if (result.runtimeType == String) {
@@ -120,7 +110,6 @@ class Login extends StatelessWidget {
     return true;
   }
 
-  // LOGIN BUTTON STUFF
   Widget _loginButton(BuildContext context) {
     return Positioned(
       bottom: 20,
@@ -162,10 +151,10 @@ class Login extends StatelessWidget {
           print(result);
           Timer(Duration(milliseconds: 500), () {
             _dialogs.dialogInfo(
-              scaffoldKey.currentContext,
+              widget.scaffoldKey.currentContext,
               'Error',
               result,
-              () => popDialog(scaffoldKey.currentContext),
+              () => popDialog(widget.scaffoldKey.currentContext),
             );
           });
         }

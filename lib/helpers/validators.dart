@@ -37,6 +37,14 @@ class ValidationHelper {
     return null;
   }
 
+  String fNameValidator(String value) {
+    //Check if Name exists
+    if (value.isEmpty) {
+      return 'Please provide your Full Name';
+    }
+    return null;
+  }
+
   String phoneValidator(String value) {
     //Check if number exists
     if (value.isEmpty) {
