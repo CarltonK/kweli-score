@@ -8,11 +8,19 @@ import 'package:provider/provider.dart';
 
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class SignUp extends StatelessWidget {
-  static UserModel _userModel;
-
-  final _formKey = GlobalKey<FormState>();
+class SignUp extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
+
+  SignUp({Key key, this.scaffoldKey}) : super(key: key);
+
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  final _formKey = GlobalKey<FormState>();
+
+  List<String> _gender = ["male", "female", "I prefer not to disclose"];
 
   static String email;
   static String idNumber;
@@ -20,15 +28,19 @@ class SignUp extends StatelessWidget {
   static String password;
   static String password2;
   static AuthProvider authProvider;
+  static UserModel _userModel;
 
   static ValidationHelper _validator = ValidationHelper.empty();
   static Dialogs _dialogs = Dialogs.empty();
 
   static dynamic result;
 
-  SignUp({Key key, this.scaffoldKey}) : super(key: key);
+  String selectedValue;
 
-  // Intro Text
+  bool _checked = false;
+  bool _visiblePass = true;
+  bool _visibleConfirmPass = true;
+
   Widget _introText() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,9 +52,26 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  /*
-  ******ID STUFF******
-  */
+  Widget _fNameTF(BuildContext context) {
+    return TextFormField(
+      onSaved: _onfNameSaved,
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      validator: _validator.fNameValidator,
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Full  Name',
+        prefixIcon: const Icon(Icons.perm_identity),
+      ),
+    );
+  }
+
+  _onfNameSaved(String value) {
+    email = value.trim();
+  }
+
   Widget _idTF(BuildContext context) {
     return TextFormField(
       onSaved: _onIdNumberSaved,
@@ -63,9 +92,6 @@ class SignUp extends StatelessWidget {
     idNumber = value.trim();
   }
 
-  /*
-  ******EMAIL STUFF******
-  */
   Widget _emailTF(BuildContext context) {
     return TextFormField(
       onSaved: _onEmailSaved,
@@ -87,9 +113,6 @@ class SignUp extends StatelessWidget {
     email = value.trim();
   }
 
-  /*
-  ******PHONE NUMBER STUFF******
-  */
   Widget _phoneNumberTF(BuildContext context) {
     return TextFormField(
       onSaved: _onPhoneNumberSaved,
@@ -111,13 +134,10 @@ class SignUp extends StatelessWidget {
     phoneNumber = value.trim();
   }
 
-  /*
-  ******PASSWORD STUFF******
-  */
   Widget _passwordTF(BuildContext context) {
     return TextFormField(
       onSaved: _onPasswordSaved,
-      obscureText: true,
+      obscureText: _visiblePass,
       autofocus: false,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
@@ -128,9 +148,13 @@ class SignUp extends StatelessWidget {
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Password',
         prefixIcon: Icon(Icons.vpn_key),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.remove_red_eye),
-          onPressed: () => {},
+        suffixIcon: GestureDetector(
+          child: const Icon(Icons.remove_red_eye),
+          onTap: () {
+            setState(() {
+              _visiblePass = !_visiblePass;
+            });
+          },
         ),
       ),
     );
@@ -140,13 +164,10 @@ class SignUp extends StatelessWidget {
     password = value.trim();
   }
 
-  /*
-  ******CONFIRM PASSWORD STUFF******
-  */
   Widget _confirmPasswordTF(BuildContext context) {
     return TextFormField(
       onSaved: _onConfirmPasswordSaved,
-      obscureText: true,
+      obscureText: _visibleConfirmPass,
       autofocus: false,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
@@ -157,9 +178,13 @@ class SignUp extends StatelessWidget {
         focusedBorder: Constants.blackInputBorder,
         labelText: 'Confirm Pasword',
         prefixIcon: Icon(Icons.vpn_key),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.remove_red_eye),
-          onPressed: () {},
+        suffixIcon: GestureDetector(
+          child: const Icon(Icons.remove_red_eye),
+          onTap: () {
+            setState(() {
+              _visibleConfirmPass = !_visibleConfirmPass;
+            });
+          },
         ),
       ),
     );
@@ -177,7 +202,6 @@ class SignUp extends StatelessWidget {
     return true;
   }
 
-  //Button Stuff
   Widget _registerButton(BuildContext context) {
     return Positioned(
       bottom: 20,
@@ -217,10 +241,10 @@ class SignUp extends StatelessWidget {
         if (!value) {
           Timer(Duration(milliseconds: 500), () {
             _dialogs.dialogInfo(
-              scaffoldKey.currentContext,
+              widget.scaffoldKey.currentContext,
               'Error',
               result,
-              () => popDialog(scaffoldKey.currentContext),
+              () => popDialog(widget.scaffoldKey.currentContext),
             );
           });
         }
@@ -250,9 +274,11 @@ class SignUp extends StatelessWidget {
                 key: _formKey,
                 child: ListView(
                   children: <Widget>[
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 40),
                     _introText(),
                     const SizedBox(height: 50),
+                    _fNameTF(context),
+                    const SizedBox(height: 20),
                     _phoneNumberTF(context),
                     const SizedBox(height: 20),
                     _idTF(context),
@@ -262,6 +288,51 @@ class SignUp extends StatelessWidget {
                     _passwordTF(context),
                     const SizedBox(height: 20),
                     _confirmPasswordTF(context),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text(
+                          'Gender:',
+                          style: Constants.blackBoldNormal,
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        DropdownButton(
+                          value: selectedValue,
+                          underline: Container(
+                            height: 1.5,
+                            color: Colors.greenAccent,
+                          ),
+                          items: _gender
+                              .map(
+                                (e) => DropdownMenuItem<String>(
+                                  value: e,
+                                  child: Text(
+                                    e,
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedValue = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    CheckboxListTile(
+                      value: _checked,
+                      contentPadding: EdgeInsets.only(left: 0),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text(
+                          "I have read and agree to the terms and conditions"),
+                      onChanged: (bool value) {
+                        setState(() => _checked = value);
+                      },
+                    )
                   ],
                 ),
               ),
