@@ -1,17 +1,12 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
-import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:provider/provider.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ForgotPassword extends StatelessWidget {
   static ValidationHelper _validator = ValidationHelper.empty();
-  static Dialogs _dialogs = Dialogs.empty();
   static String _email;
-  static dynamic result;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -50,17 +45,6 @@ class ForgotPassword extends StatelessWidget {
         onPressed: () {},
       ),
     );
-  }
-
-  Future<bool> serverCall(String email, BuildContext context) async {
-    result = await Provider.of<AuthProvider>(
-      context,
-      listen: false,
-    ).resetPassword(email);
-    if (result.runtimeType == String) {
-      return false;
-    }
-    return true;
   }
 
   void returnHome(BuildContext context) {
