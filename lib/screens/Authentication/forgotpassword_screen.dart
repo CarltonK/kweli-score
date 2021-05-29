@@ -47,7 +47,7 @@ class ForgotPassword extends StatelessWidget {
           Icons.arrow_forward_ios,
           color: Colors.white,
         ),
-        onPressed: () => _resetBtnPressed(context),
+        onPressed: () {},
       ),
     );
   }
@@ -72,33 +72,33 @@ class ForgotPassword extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
-  void _resetBtnPressed(BuildContext context) {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
+  // void _resetBtnPressed(BuildContext context) {
+  //   final FormState form = _formKey.currentState;
+  //   if (form.validate()) {
+  //     form.save();
 
-      serverCall(_email, context).then((value) {
-        BuildContext currentCtx = _scaffoldKey.currentContext;
-        if (value) {
-          Timer(Duration(seconds: 1), () {
-            _dialogs.dialogInfo(
-              currentCtx,
-              'Success',
-              'We have sent you an email',
-              () => returnHome(context),
-            );
-          });
-        } else {
-          _dialogs.dialogInfo(
-            currentCtx,
-            'Error',
-            result.toString(),
-            () => popDialog(context),
-          );
-        }
-      });
-    }
-  }
+  //     serverCall(_email, context).then((value) {
+  //       BuildContext currentCtx = _scaffoldKey.currentContext;
+  //       if (value) {
+  //         Timer(Duration(seconds: 1), () {
+  //           _dialogs.dialogInfo(
+  //             currentCtx,
+  //             'Success',
+  //             'We have sent you an email',
+  //             () => returnHome(context),
+  //           );
+  //         });
+  //       } else {
+  //         _dialogs.dialogInfo(
+  //           currentCtx,
+  //           'Error',
+  //           result.toString(),
+  //           () => popDialog(context),
+  //         );
+  //       }
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

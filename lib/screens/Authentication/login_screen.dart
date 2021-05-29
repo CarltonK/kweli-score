@@ -76,10 +76,10 @@ class _LoginState extends State<Login> {
       textInputAction: TextInputAction.next,
       validator: _validator.passwordValidator,
       focusNode: _focusPassword,
-      onFieldSubmitted: (String value) {
-        FocusScope.of(context).unfocus();
-        _loginBtnPressed(context);
-      },
+      // onFieldSubmitted: (String value) {
+      //   FocusScope.of(context).unfocus();
+      //   _loginBtnPressed(context);
+      // },
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
@@ -126,7 +126,10 @@ class _LoginState extends State<Login> {
             Icons.arrow_forward_ios,
             color: Colors.white,
           ),
-          onPressed: () => _loginBtnPressed(context),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          },
         ),
       ),
     );
@@ -136,31 +139,31 @@ class _LoginState extends State<Login> {
     Navigator.of(context).pop();
   }
 
-  void _loginBtnPressed(BuildContext context) {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
+  // void _loginBtnPressed(BuildContext context) {
+  //   final FormState form = _formKey.currentState;
+  //   if (form.validate()) {
+  //     form.save();
 
-      _userModel = UserModel(
-        emailAddress: email,
-        password: password,
-      );
+  //     _userModel = UserModel(
+  //       emailAddress: email,
+  //       password: password,
+  //     );
 
-      serverCall(_userModel, context).then((value) {
-        if (!value) {
-          print(result);
-          Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(
-              widget.scaffoldKey.currentContext,
-              'Error',
-              result,
-              () => popDialog(widget.scaffoldKey.currentContext),
-            );
-          });
-        }
-      });
-    }
-  }
+  //     serverCall(_userModel, context).then((value) {
+  //       if (!value) {
+  //         print(result);
+  //         Timer(Duration(milliseconds: 500), () {
+  //           _dialogs.dialogInfo(
+  //             widget.scaffoldKey.currentContext,
+  //             'Error',
+  //             result,
+  //             () => popDialog(widget.scaffoldKey.currentContext),
+  //           );
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   Widget _forgotPasswordButton(BuildContext context) {
     return Positioned(

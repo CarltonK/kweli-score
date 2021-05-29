@@ -6,6 +6,8 @@ import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 
+import '../screens.dart';
+
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class SignUp extends StatefulWidget {
@@ -194,13 +196,13 @@ class _SignUpState extends State<SignUp> {
     password2 = value.trim();
   }
 
-  Future<bool> serverCall(UserModel user, BuildContext context) async {
-    result = await authProvider.createUser(_userModel);
-    if (result.runtimeType == String) {
-      return false;
-    }
-    return true;
-  }
+  // Future<bool> serverCall(UserModel user, BuildContext context) async {
+  //   result = await authProvider.createUser(_userModel);
+  //   if (result.runtimeType == String) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   Widget _registerButton(BuildContext context) {
     return Positioned(
@@ -215,7 +217,10 @@ class _SignUpState extends State<SignUp> {
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-          onPressed: () => _registerBtnPressed(context),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Login()));
+          },
         ),
       ),
     );
@@ -225,32 +230,32 @@ class _SignUpState extends State<SignUp> {
     Navigator.of(context).pop();
   }
 
-  void _registerBtnPressed(BuildContext context) async {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
+  // void _registerBtnPressed(BuildContext context) async {
+  //   final FormState form = _formKey.currentState;
+  //   if (form.validate()) {
+  //     form.save();
 
-      _userModel = UserModel(
-        emailAddress: email,
-        password: password,
-        nationalIdNumber: idNumber,
-        phoneNumber: phoneNumber,
-      );
+  //     _userModel = UserModel(
+  //       emailAddress: email,
+  //       password: password,
+  //       nationalIdNumber: idNumber,
+  //       phoneNumber: phoneNumber,
+  //     );
 
-      await serverCall(_userModel, context).then((value) {
-        if (!value) {
-          Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(
-              widget.scaffoldKey.currentContext,
-              'Error',
-              result,
-              () => popDialog(widget.scaffoldKey.currentContext),
-            );
-          });
-        }
-      });
-    }
-  }
+  //     await serverCall(_userModel, context).then((value) {
+  //       if (!value) {
+  //         Timer(Duration(milliseconds: 500), () {
+  //           _dialogs.dialogInfo(
+  //             widget.scaffoldKey.currentContext,
+  //             'Error',
+  //             result,
+  //             () => popDialog(widget.scaffoldKey.currentContext),
+  //           );
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
