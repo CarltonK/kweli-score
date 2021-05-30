@@ -1,17 +1,12 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
-import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:provider/provider.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ForgotPassword extends StatelessWidget {
   static ValidationHelper _validator = ValidationHelper.empty();
-  static Dialogs _dialogs = Dialogs.empty();
   static String _email;
-  static dynamic result;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -47,20 +42,9 @@ class ForgotPassword extends StatelessWidget {
           Icons.arrow_forward_ios,
           color: Colors.white,
         ),
-        onPressed: () => _resetBtnPressed(context),
+        onPressed: () {},
       ),
     );
-  }
-
-  Future<bool> serverCall(String email, BuildContext context) async {
-    result = await Provider.of<AuthProvider>(
-      context,
-      listen: false,
-    ).resetPassword(email);
-    if (result.runtimeType == String) {
-      return false;
-    }
-    return true;
   }
 
   void returnHome(BuildContext context) {
@@ -72,33 +56,33 @@ class ForgotPassword extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
-  void _resetBtnPressed(BuildContext context) {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
+  // void _resetBtnPressed(BuildContext context) {
+  //   final FormState form = _formKey.currentState;
+  //   if (form.validate()) {
+  //     form.save();
 
-      serverCall(_email, context).then((value) {
-        BuildContext currentCtx = _scaffoldKey.currentContext;
-        if (value) {
-          Timer(Duration(seconds: 1), () {
-            _dialogs.dialogInfo(
-              currentCtx,
-              'Success',
-              'We have sent you an email',
-              () => returnHome(context),
-            );
-          });
-        } else {
-          _dialogs.dialogInfo(
-            currentCtx,
-            'Error',
-            result.toString(),
-            () => popDialog(context),
-          );
-        }
-      });
-    }
-  }
+  //     serverCall(_email, context).then((value) {
+  //       BuildContext currentCtx = _scaffoldKey.currentContext;
+  //       if (value) {
+  //         Timer(Duration(seconds: 1), () {
+  //           _dialogs.dialogInfo(
+  //             currentCtx,
+  //             'Success',
+  //             'We have sent you an email',
+  //             () => returnHome(context),
+  //           );
+  //         });
+  //       } else {
+  //         _dialogs.dialogInfo(
+  //           currentCtx,
+  //           'Error',
+  //           result.toString(),
+  //           () => popDialog(context),
+  //         );
+  //       }
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
