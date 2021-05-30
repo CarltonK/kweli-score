@@ -1,10 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:provider/provider.dart';
+
+import '../screens.dart';
 
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -27,13 +27,8 @@ class _SignUpState extends State<SignUp> {
   static String phoneNumber;
   static String password;
   static String password2;
-  static AuthProvider authProvider;
-  static UserModel _userModel;
 
   static ValidationHelper _validator = ValidationHelper.empty();
-  static Dialogs _dialogs = Dialogs.empty();
-
-  static dynamic result;
 
   String selectedValue;
 
@@ -194,14 +189,6 @@ class _SignUpState extends State<SignUp> {
     password2 = value.trim();
   }
 
-  Future<bool> serverCall(UserModel user, BuildContext context) async {
-    result = await authProvider.createUser(_userModel);
-    if (result.runtimeType == String) {
-      return false;
-    }
-    return true;
-  }
-
   Widget _registerButton(BuildContext context) {
     return Positioned(
       bottom: 20,
@@ -215,7 +202,10 @@ class _SignUpState extends State<SignUp> {
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-          onPressed: () => _registerBtnPressed(context),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Login()));
+          },
         ),
       ),
     );
@@ -225,121 +215,115 @@ class _SignUpState extends State<SignUp> {
     Navigator.of(context).pop();
   }
 
-  void _registerBtnPressed(BuildContext context) async {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
+  // void _registerBtnPressed(BuildContext context) async {
+  //   final FormState form = _formKey.currentState;
+  //   if (form.validate()) {
+  //     form.save();
 
-      _userModel = UserModel(
-        emailAddress: email,
-        password: password,
-        nationalIdNumber: idNumber,
-        phoneNumber: phoneNumber,
-      );
+  //     _userModel = UserModel(
+  //       emailAddress: email,
+  //       password: password,
+  //       nationalIdNumber: idNumber,
+  //       phoneNumber: phoneNumber,
+  //     );
 
-      await serverCall(_userModel, context).then((value) {
-        if (!value) {
-          Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(
-              widget.scaffoldKey.currentContext,
-              'Error',
-              result,
-              () => popDialog(widget.scaffoldKey.currentContext),
-            );
-          });
-        }
-      });
-    }
-  }
+  //     await serverCall(_userModel, context).then((value) {
+  //       if (!value) {
+  //         Timer(Duration(milliseconds: 500), () {
+  //           _dialogs.dialogInfo(
+  //             widget.scaffoldKey.currentContext,
+  //             'Error',
+  //             result,
+  //             () => popDialog(widget.scaffoldKey.currentContext),
+  //           );
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-    return Consumer<AuthProvider>(
-      builder: (context, AuthProvider value, child) {
-        authProvider = value;
-        return child;
-      },
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              height: double.infinity,
-              width: size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: <Widget>[
-                    const SizedBox(height: 40),
-                    _introText(),
-                    const SizedBox(height: 50),
-                    _fNameTF(context),
-                    const SizedBox(height: 20),
-                    _phoneNumberTF(context),
-                    const SizedBox(height: 20),
-                    _idTF(context),
-                    const SizedBox(height: 20),
-                    _emailTF(context),
-                    const SizedBox(height: 20),
-                    _passwordTF(context),
-                    const SizedBox(height: 20),
-                    _confirmPasswordTF(context),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text(
-                          'Gender:',
-                          style: Constants.blackBoldNormal,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            height: double.infinity,
+            width: size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: <Widget>[
+                  const SizedBox(height: 40),
+                  _introText(),
+                  const SizedBox(height: 50),
+                  _fNameTF(context),
+                  const SizedBox(height: 20),
+                  _phoneNumberTF(context),
+                  const SizedBox(height: 20),
+                  _idTF(context),
+                  const SizedBox(height: 20),
+                  _emailTF(context),
+                  const SizedBox(height: 20),
+                  _passwordTF(context),
+                  const SizedBox(height: 20),
+                  _confirmPasswordTF(context),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Text(
+                        'Gender:',
+                        style: Constants.blackBoldNormal,
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      DropdownButton(
+                        value: selectedValue,
+                        underline: Container(
+                          height: 1.5,
+                          color: Colors.greenAccent,
                         ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        DropdownButton(
-                          value: selectedValue,
-                          underline: Container(
-                            height: 1.5,
-                            color: Colors.greenAccent,
-                          ),
-                          items: _gender
-                              .map(
-                                (e) => DropdownMenuItem<String>(
-                                  value: e,
-                                  child: Text(
-                                    e,
-                                  ),
+                        items: _gender
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(
+                                  e,
                                 ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    CheckboxListTile(
-                      value: _checked,
-                      contentPadding: EdgeInsets.only(left: 0),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: Text(
-                          "I have read and agree to the terms and conditions"),
-                      onChanged: (bool value) {
-                        setState(() => _checked = value);
-                      },
-                    )
-                  ],
-                ),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValue = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  CheckboxListTile(
+                    value: _checked,
+                    contentPadding: EdgeInsets.only(left: 0),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: Text(
+                        "I have read and agree to the terms and conditions"),
+                    onChanged: (bool value) {
+                      setState(() => _checked = value);
+                    },
+                  )
+                ],
               ),
             ),
-            _registerButton(context)
-          ],
-        ),
+          ),
+          _registerButton(context)
+        ],
       ),
     );
   }

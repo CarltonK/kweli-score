@@ -1,11 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
-import 'package:kweliscore/models/models.dart';
-import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:provider/provider.dart';
 
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -20,8 +16,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
-  static UserModel _userModel;
-
   static String email;
   static String idNumber;
   static String phoneNumber;
@@ -30,11 +24,7 @@ class _LoginState extends State<Login> {
 
   bool _visiblePass = true;
 
-  static dynamic result;
-  static dynamic authProvider;
-
   static ValidationHelper _validator = ValidationHelper.empty();
-  static Dialogs _dialogs = Dialogs.empty();
 
   final _focusPassword = FocusNode();
 
@@ -76,10 +66,10 @@ class _LoginState extends State<Login> {
       textInputAction: TextInputAction.next,
       validator: _validator.passwordValidator,
       focusNode: _focusPassword,
-      onFieldSubmitted: (String value) {
-        FocusScope.of(context).unfocus();
-        _loginBtnPressed(context);
-      },
+      // onFieldSubmitted: (String value) {
+      //   FocusScope.of(context).unfocus();
+      //   _loginBtnPressed(context);
+      // },
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
@@ -102,14 +92,6 @@ class _LoginState extends State<Login> {
     password = value.trim();
   }
 
-  Future<bool> serverCall(UserModel user, BuildContext context) async {
-    result = await authProvider.signInEmailPass(_userModel);
-    if (result.runtimeType == String) {
-      return false;
-    }
-    return true;
-  }
-
   Widget _loginButton(BuildContext context) {
     return Positioned(
       bottom: 20,
@@ -126,7 +108,10 @@ class _LoginState extends State<Login> {
             Icons.arrow_forward_ios,
             color: Colors.white,
           ),
-          onPressed: () => _loginBtnPressed(context),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          },
         ),
       ),
     );
@@ -136,31 +121,31 @@ class _LoginState extends State<Login> {
     Navigator.of(context).pop();
   }
 
-  void _loginBtnPressed(BuildContext context) {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
+  // void _loginBtnPressed(BuildContext context) {
+  //   final FormState form = _formKey.currentState;
+  //   if (form.validate()) {
+  //     form.save();
 
-      _userModel = UserModel(
-        emailAddress: email,
-        password: password,
-      );
+  //     _userModel = UserModel(
+  //       emailAddress: email,
+  //       password: password,
+  //     );
 
-      serverCall(_userModel, context).then((value) {
-        if (!value) {
-          print(result);
-          Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(
-              widget.scaffoldKey.currentContext,
-              'Error',
-              result,
-              () => popDialog(widget.scaffoldKey.currentContext),
-            );
-          });
-        }
-      });
-    }
-  }
+  //     serverCall(_userModel, context).then((value) {
+  //       if (!value) {
+  //         print(result);
+  //         Timer(Duration(milliseconds: 500), () {
+  //           _dialogs.dialogInfo(
+  //             widget.scaffoldKey.currentContext,
+  //             'Error',
+  //             result,
+  //             () => popDialog(widget.scaffoldKey.currentContext),
+  //           );
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   Widget _forgotPasswordButton(BuildContext context) {
     return Positioned(
@@ -184,38 +169,32 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-    return Consumer<AuthProvider>(
-      builder: (context, AuthProvider value, child) {
-        authProvider = value;
-        return child;
-      },
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              height: size.height,
-              width: size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: <Widget>[
-                    const SizedBox(height: 60),
-                    _introText(),
-                    const SizedBox(height: 50),
-                    _emailTF(context),
-                    const SizedBox(height: 20),
-                    _passwordTF(context),
-                  ],
-                ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            height: size.height,
+            width: size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: <Widget>[
+                  const SizedBox(height: 60),
+                  _introText(),
+                  const SizedBox(height: 50),
+                  _emailTF(context),
+                  const SizedBox(height: 20),
+                  _passwordTF(context),
+                ],
               ),
             ),
-            _forgotPasswordButton(context),
-            _loginButton(context)
-          ],
-        ),
+          ),
+          _forgotPasswordButton(context),
+          _loginButton(context)
+        ],
       ),
     );
   }
