@@ -27,8 +27,8 @@ class ApiProvider with ChangeNotifier {
 
   /// METHOD = POST
   ///
-  /// PARAMS = UserModel
-  Future loginRequest(UserModel user) async {
+  /// PARAMS = id_number (String), password (String)
+  Future loginRequest(String identity, String pin) async {
     _status = Status.Authenticating;
     notifyListeners();
 
@@ -36,7 +36,7 @@ class ApiProvider with ChangeNotifier {
     String url = BASE_URL + '/score_sawa/';
 
     // Payload
-    var body = jsonEncode(user);
+    var body = jsonEncode({'id_number': identity, 'password': pin});
 
     // Request
     var loginRequest = await http.post(
@@ -50,10 +50,12 @@ class ApiProvider with ChangeNotifier {
     if (loginRequest.statusCode == 200) {
       _status = Status.Authenticated;
       notifyListeners();
+
       return loginResponseFromJson(loginResponse);
     } else {
       _status = Status.Unauthenticated;
       notifyListeners();
+
       return serverResponseFromJson(loginResponse);
     }
   }

@@ -36,19 +36,18 @@ class UserModel {
   String? pinConfirm;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        password: json["password"] ?? '',
-        name: json["name"] ?? '',
-        phone: json["phone"] ?? '',
-        password1: json["password1"] ?? '',
-        password2: json["password2"] ?? '',
-        email: json["email"] ?? '',
-        email2: json["email2"] ?? '',
-        dob: DateTime.parse(json["dob"]),
-        gender: json["gender"] ?? 'Not Specified',
-        idNumber: json["id_number"] ?? '',
-        otp: json["otp"] ?? '',
-        pin: json["pin"] ?? '',
-        pinConfirm: json["pin_confirm"] ?? '',
+        password: json["password"],
+        name: json["name"],
+        phone: json["phone"],
+        password1: json["password1"],
+        password2: json["password2"],
+        email: json["email"],
+        email2: json["email2"],
+        gender: json["gender"],
+        idNumber: json["id_number"],
+        otp: json["otp"],
+        pin: json["pin"],
+        pinConfirm: json["pin_confirm"],
       );
 
   Map<String, dynamic> toJson() => {

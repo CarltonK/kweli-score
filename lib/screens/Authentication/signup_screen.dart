@@ -72,7 +72,7 @@ class _SignUpState extends State<SignUp> {
       onSaved: _onIdNumberSaved,
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
-      validator: _validator.idValidator,
+      validator: _validator.identityValidator,
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
@@ -136,7 +136,7 @@ class _SignUpState extends State<SignUp> {
       autofocus: false,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
+      validator: _validator.pinValidator,
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
@@ -166,7 +166,7 @@ class _SignUpState extends State<SignUp> {
       autofocus: false,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
+      validator: _validator.pinValidator,
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,

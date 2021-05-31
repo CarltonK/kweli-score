@@ -1,10 +1,10 @@
 class ValidationHelper {
   ValidationHelper.empty();
 
-  String? passwordValidator(String? value) {
+  String? pinValidator(String? value) {
     //Check if password exists
     if (value!.isEmpty) {
-      return 'Please provide your password';
+      return 'Please provide your PIN';
     }
     return null;
   }
@@ -17,7 +17,7 @@ class ValidationHelper {
     return null;
   }
 
-  String? idValidator(String? value) {
+  String? identityValidator(String? value) {
     //Check if ID exists
     if (value!.isEmpty) {
       return 'Please provide a valid Identification Number';
