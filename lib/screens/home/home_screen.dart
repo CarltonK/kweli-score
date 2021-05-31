@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
-// import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,6 +44,7 @@ class _HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,14 +53,16 @@ class _HomeState extends State<HomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
-            onPressed: () {},
+            onPressed: () {
+              context.read<ApiProvider>().status = Status.Unauthenticated;
+            },
           )
         ],
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+        height: size.height,
+        width: size.width,
+        padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -70,9 +74,7 @@ class _HomeState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Container(
                 height: 200,
                 width: 340,
