@@ -1,105 +1,106 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/helpers/helpers.dart';
-import 'package:kweliscore/models/models.dart';
-// import 'package:kweliscore/provider/providers.dart';
-import 'package:kweliscore/utilities/utilities.dart';
-import 'package:kweliscore/widgets/widgets.dart';
+import 'package:kweliscore/utilities/constants.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<HomePage> {
-  // ApiProvider? _authProvider;
-  NotificationHelper? _notificationHelper;
-  NotificationModel? _notificationInfo;
-  Dialogs? _dialogs;
-
-  void popDialog() {
-    Navigator.of(context).pop();
-  }
-
-  Future<dynamic> _onMessage(Map<String, dynamic> message) async {
-    // print('onMessage received: $message');
-
-    _notificationInfo = NotificationModel.fromJson(message);
-
-    await _dialogs!.dialogInfo(
-      context,
-      _notificationInfo!.title,
-      _notificationInfo!.body,
-      () => popDialog(),
-    );
-  }
-
-  @override
-  void initState() {
-    _notificationHelper = NotificationHelper.empty();
-    _notificationHelper!.notificationHandler(_onMessage);
-    _dialogs = Dialogs.empty();
-    super.initState();
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
+        leading: Container(
+          margin: EdgeInsets.only(left: 5),
+          height: 5,
+          width: 5,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12), color: Colors.blueGrey),
+        ),
         title: Text(
-          'KWELI SCORE',
+          'Kweli Score',
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () {},
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+        ],
+      ),
+      body: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(left: 30, top: 80, right: 30),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.blueAccent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  children: [Text('AVG'), Text('62')],
+                ),
+                Container(
+                  height: 140,
+                  width: 140,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      // color: Colors.red,
+                      border: Border.all(
+                        color: Colors.greenAccent,
+                        width: 7,
+                      )),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Text('KweliScore'), Text('84')],
+                  ),
+                ),
+                Column(
+                  children: [Text('BEST'), Text('88')],
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 290,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              height: 500,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16))),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Credit History',
+                        style: Constants.boldHeadlineStyle,
+                      ),
+                      Icon(Icons.more_vert)
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'A snapshot of your credit lifetime giving you an overview of what lenders see',
+                    style: Constants.blackBoldNormal,
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    child: Image.asset('assets/images/data1.png'),
+                  )
+                ],
+              ),
+            ),
           )
         ],
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.only(top: 50, left: 20, right: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 350,
-                width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 200,
-                width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-          icon: IconButton(icon: Icon(Icons.autorenew), onPressed: () {}),
-          label: 'Refresh',
-        ),
-        BottomNavigationBarItem(
-          icon: IconButton(icon: Icon(Icons.business), onPressed: () {}),
-          label: 'Details',
-        ),
-        BottomNavigationBarItem(
-          icon: IconButton(icon: Icon(Icons.message), onPressed: () {}),
-          label: 'Contact Us',
-        )
-      ]),
-      floatingActionButton: CustomFab(),
     );
   }
 }

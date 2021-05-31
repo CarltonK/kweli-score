@@ -13,6 +13,8 @@ dependencies:
 
   # Apple
   cupertino_icons: ^1.0.1
+
+  flutter_svg:
   # Fonts
   google_fonts: ^2.1.0
   # State management
