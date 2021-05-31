@@ -15,7 +15,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(
-      create: (context) => AuthProvider.instance(),
+      create: (context) => ApiProvider(),
     ),
   ];
 
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
             FirebaseCrashlytics instance = FirebaseCrashlytics.instance;
             FlutterError.onError = instance.recordFlutterError;
 
-            return Consumer<AuthProvider>(
+            return Consumer<ApiProvider>(
               builder: (context, value, child) {
                 if (value.status == Status.Authenticated) {
                   return HomePage();

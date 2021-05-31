@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
-  AuthProvider _authProvider;
+  ApiProvider _authProvider;
   NotificationHelper _notificationHelper;
   NotificationModel _notificationInfo;
   Dialogs _dialogs;
@@ -44,69 +44,63 @@ class _HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(
-      builder: (context, value, child) {
-        _authProvider = value;
-        return child;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'KWELI SCORE',
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.exit_to_app),
-              onPressed: () => _authProvider.signOut(),
-            )
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'KWELI SCORE',
         ),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(top: 50, left: 20, right: 20),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  height: 350,
-                  width: 340,
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 200,
-                  width: 340,
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(items: [
-          BottomNavigationBarItem(
-            icon: IconButton(icon: Icon(Icons.autorenew), onPressed: () {}),
-            label: 'Refresh',
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(icon: Icon(Icons.business), onPressed: () {}),
-            label: 'Details',
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(icon: Icon(Icons.message), onPressed: () {}),
-            label: 'Contact Us',
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {},
           )
-        ]),
-        floatingActionButton: CustomFab(),
+        ],
       ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 350,
+                width: 340,
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: 200,
+                width: 340,
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(
+          icon: IconButton(icon: Icon(Icons.autorenew), onPressed: () {}),
+          label: 'Refresh',
+        ),
+        BottomNavigationBarItem(
+          icon: IconButton(icon: Icon(Icons.business), onPressed: () {}),
+          label: 'Details',
+        ),
+        BottomNavigationBarItem(
+          icon: IconButton(icon: Icon(Icons.message), onPressed: () {}),
+          label: 'Contact Us',
+        )
+      ]),
+      floatingActionButton: CustomFab(),
     );
   }
 }
