@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
+import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-
-// final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
-  Login({Key key, this.scaffoldKey}) : super(key: key);
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+  Login({Key? key, this.scaffoldKey}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -16,11 +18,10 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
-  static String email;
-  static String idNumber;
-  static String phoneNumber;
-  static String password;
-  static String password2;
+  static String? idNumber;
+  static String? password;
+
+  Dialogs _dialogs = Dialogs.empty();
 
   bool _visiblePass = true;
 
@@ -35,12 +36,12 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget _emailTF(BuildContext context) {
+  Widget _identificationNumberTF(BuildContext context) {
     return TextFormField(
-      onSaved: _onEmailSaved,
-      keyboardType: TextInputType.emailAddress,
+      onSaved: _onIdentificationSaved,
+      keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
-      validator: _validator.emailValidator,
+      validator: _validator.identityValidator,
       onFieldSubmitted: (String value) {
         FocusScope.of(context).requestFocus(_focusPassword);
       },
@@ -48,33 +49,33 @@ class _LoginState extends State<Login> {
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Email address',
-        prefixIcon: const Icon(Icons.email),
+        labelText: 'Identification Number',
+        prefixIcon: const Icon(Icons.perm_identity),
       ),
     );
   }
 
-  _onEmailSaved(String value) {
-    email = value.trim();
+  _onIdentificationSaved(String? value) {
+    idNumber = value!.trim();
   }
 
-  Widget _passwordTF(BuildContext context) {
+  Widget _pinTF(BuildContext context) {
     return TextFormField(
       obscureText: _visiblePass,
       onSaved: _onPasswordSaved,
       keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
+      textInputAction: TextInputAction.done,
+      validator: _validator.pinValidator,
       focusNode: _focusPassword,
-      // onFieldSubmitted: (String value) {
-      //   FocusScope.of(context).unfocus();
-      //   _loginBtnPressed(context);
-      // },
+      onFieldSubmitted: (String value) {
+        FocusScope.of(context).unfocus();
+        _loginBtnPressed(context);
+      },
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Password',
+        labelText: 'PIN',
         prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: GestureDetector(
           child: const Icon(Icons.remove_red_eye),
@@ -88,8 +89,8 @@ class _LoginState extends State<Login> {
     );
   }
 
-  _onPasswordSaved(String value) {
-    password = value.trim();
+  _onPasswordSaved(String? value) {
+    password = value!.trim();
   }
 
   Widget _loginButton(BuildContext context) {
@@ -109,8 +110,7 @@ class _LoginState extends State<Login> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+            _loginBtnPressed(context);
           },
         ),
       ),
@@ -121,31 +121,26 @@ class _LoginState extends State<Login> {
     Navigator.of(context).pop();
   }
 
-  // void _loginBtnPressed(BuildContext context) {
-  //   final FormState form = _formKey.currentState;
-  //   if (form.validate()) {
-  //     form.save();
+  Future loginHandler(BuildContext context, String identity, String pin) async {
+    return await context.read<ApiProvider>().loginRequest(identity, pin);
+  }
 
-  //     _userModel = UserModel(
-  //       emailAddress: email,
-  //       password: password,
-  //     );
+  void _loginBtnPressed(BuildContext context) {
+    final FormState form = _formKey.currentState!;
+    if (form.validate()) {
+      form.save();
 
-  //     serverCall(_userModel, context).then((value) {
-  //       if (!value) {
-  //         print(result);
-  //         Timer(Duration(milliseconds: 500), () {
-  //           _dialogs.dialogInfo(
-  //             widget.scaffoldKey.currentContext,
-  //             'Error',
-  //             result,
-  //             () => popDialog(widget.scaffoldKey.currentContext),
-  //           );
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
+      loginHandler(context, idNumber!, password!).then((value) {
+        if (value.runtimeType == LoginResponse) {
+          successToast('Welcome ${value.user.name}');
+        } else {
+          errorToast(value.detail);
+        }
+      }).catchError((error) {
+        errorToast(error.toString());
+      });
+    }
+  }
 
   Widget _forgotPasswordButton(BuildContext context) {
     return Positioned(
@@ -154,11 +149,13 @@ class _LoginState extends State<Login> {
         onPressed: () {
           Navigator.of(context).push(
             SlideRightTransition(
-                page: ForgotPassword(), routeName: 'password-reset'),
+              page: ForgotPassword(),
+              routeName: 'pin-reset',
+            ),
           );
         },
         child: Text(
-          'Forgot Password ?',
+          'Forgot PIN ?',
           style: Constants.blackBoldNormal,
         ),
       ),
@@ -185,9 +182,9 @@ class _LoginState extends State<Login> {
                   const SizedBox(height: 60),
                   _introText(),
                   const SizedBox(height: 50),
-                  _emailTF(context),
+                  _identificationNumberTF(context),
                   const SizedBox(height: 20),
-                  _passwordTF(context),
+                  _pinTF(context),
                 ],
               ),
             ),

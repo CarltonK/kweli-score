@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class FileUpload extends StatefulWidget {
   final File file;
   final String uid;
-  FileUpload({@required this.file, @required this.uid});
+  FileUpload({required this.file, required this.uid});
 
   @override
   _FileUploadState createState() => _FileUploadState();

@@ -6,12 +6,12 @@ import 'package:kweliscore/widgets/widgets.dart';
 class Dialogs {
   Dialogs.empty();
 
- Future dialogInfo(
+  Future dialogInfo(
     BuildContext context, [
-    String status,
-    String detail,
-    Function onPressed,
-    String buttonText,
+    String? status,
+    String? detail,
+    Function? onPressed,
+    String? buttonText,
   ]) {
     return showCupertinoModalPopup(
       context: context,
@@ -22,12 +22,12 @@ class Dialogs {
         elevation: 0,
         backgroundColor: Colors.transparent,
         child: InfoDialog(
-          detail: detail,
-          status: status,
-          buttonText: buttonText,
-          buttonPressed: onPressed,
+          detail: detail!,
+          status: status!,
+          buttonText: buttonText!,
+          buttonPressed: onPressed!,
         ),
       ),
     );
-  } 
+  }
 }

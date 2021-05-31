@@ -6,9 +6,9 @@ class GlobalActionButton extends StatelessWidget {
   final String action;
 
   GlobalActionButton({
-    Key key,
-    @required this.action,
-    @required this.onPressed,
+    Key? key,
+    required this.action,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
