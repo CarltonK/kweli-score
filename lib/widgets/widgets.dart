@@ -3,6 +3,7 @@ export 'social_sign_in_button.dart';
 export 'info_dialog.dart';
 export 'file_upload.dart';
 export 'notification_badge.dart';
+export 'scrollableSheet.dart';
 
 // Global
 export 'global/global_loader.dart';
