@@ -6,75 +6,210 @@ class Package extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.blueAccent,
+            )),
+        title: Text(
+          'Plans',
+          style: TextStyle(
+              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Container(
+        padding: EdgeInsets.all(12),
         height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.only(top: 60, left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              'Please select your payment plan,',
-              style: Constants.boldSubheadlineStyle,
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            GestureDetector(
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FreePackage()),
-                )
-              },
-              child: Container(
-                  height: 170,
-                  width: 340,
-                  padding: EdgeInsets.all(40),
-                  decoration: BoxDecoration(
-                      color: Colors.black12,
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('Free'), Text('Ksh 0')],
-                  )),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              child: Container(
-                  height: 170,
-                  width: 340,
-                  padding: EdgeInsets.all(40),
-                  decoration: BoxDecoration(
-                      color: Colors.black12,
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('Monthly'), Text('Ksh 28')],
-                  )),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              child: Container(
-                  height: 170,
-                  width: 340,
-                  padding: EdgeInsets.all(40),
-                  decoration: BoxDecoration(
-                      color: Colors.black12,
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('Yearly'), Text('Ksh 250')],
-                  )),
-            ),
-          ],
+        color: Colors.white,
+        child: Container(
+          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+          margin: EdgeInsets.all(15),
+          height: 500,
+          width: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.blueAccent,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'CHUI',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                '- For an intermediate report',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Ksh 30/year',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              MaterialButton(
+                  elevation: 5,
+                  height: 55,
+                  minWidth: MediaQuery.of(context).size.width,
+                  color: Colors.greenAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    'Upgrade to Chui',
+                  ),
+                  onPressed: () {}),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Unlimited transactons',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Unlimited transactons',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Package description',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Package description',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Package description',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Package description',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Package description',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
