@@ -17,12 +17,6 @@ void main() {
     ChangeNotifierProvider(
       create: (context) => AuthProvider.instance(),
     ),
-    Provider(
-      create: (context) => DatabaseProvider(),
-    ),
-    Provider(
-      create: (context) => StorageProvider(),
-    ),
   ];
 
   runZonedGuarded(() {
