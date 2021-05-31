@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.only(left: 30, top: 80, right: 30),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            Colors.blueAccent,
+            color: Colors.blueAccent,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
