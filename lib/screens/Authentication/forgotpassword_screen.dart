@@ -6,12 +6,12 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ForgotPassword extends StatelessWidget {
   static ValidationHelper _validator = ValidationHelper.empty();
-  static String _email;
+  static String? _email;
 
   final _formKey = GlobalKey<FormState>();
 
-  _onEmailSaved(String value) {
-    _email = value.trim();
+  _onEmailSaved(String? value) {
+    _email = value!.trim();
   }
 
   Widget _resetPasswordTF() {
@@ -36,7 +36,7 @@ class ForgotPassword extends StatelessWidget {
       width: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.blueAccent[200].withOpacity(0.7)),
+          color: Colors.blueAccent[200]!.withOpacity(0.7)),
       child: IconButton(
         icon: Icon(
           Icons.arrow_forward_ios,

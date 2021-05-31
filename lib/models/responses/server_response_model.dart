@@ -10,7 +10,7 @@ class ServerResponse {
     this.detail,
   });
 
-  String detail;
+  String? detail;
 
   factory ServerResponse.fromJson(Map<String, dynamic> json) => ServerResponse(
         detail: json["detail"] ?? 'Internal Server Error',

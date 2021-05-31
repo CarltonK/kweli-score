@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SlideLeftTransition extends PageRouteBuilder {
   final Widget page;
   final String routeName;
-  SlideLeftTransition({this.page, @required this.routeName})
+  SlideLeftTransition({required this.page, required this.routeName})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -31,7 +31,7 @@ class SlideLeftTransition extends PageRouteBuilder {
 class SlideRightTransition extends PageRouteBuilder {
   final Widget page;
   final String routeName;
-  SlideRightTransition({this.page, @required this.routeName})
+  SlideRightTransition({required this.page, required this.routeName})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -59,7 +59,7 @@ class SlideRightTransition extends PageRouteBuilder {
 class ScaleRoute extends PageRouteBuilder {
   final Widget page;
   final String routeName;
-  ScaleRoute({this.page, @required this.routeName})
+  ScaleRoute({required this.page, required this.routeName})
       : super(
           pageBuilder: (
             BuildContext context,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
-import 'package:kweliscore/models/models.dart';
-import 'package:kweliscore/provider/providers.dart';
+// import 'package:kweliscore/models/models.dart';
+// import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 import '../screens.dart';
@@ -9,9 +9,9 @@ import '../screens.dart';
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class SignUp extends StatefulWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
 
-  SignUp({Key key, this.scaffoldKey}) : super(key: key);
+  SignUp({Key? key, this.scaffoldKey}) : super(key: key);
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -22,15 +22,15 @@ class _SignUpState extends State<SignUp> {
 
   List<String> _gender = ["male", "female", "I prefer not to disclose"];
 
-  static String email;
-  static String idNumber;
-  static String phoneNumber;
-  static String password;
-  static String password2;
+  static String? email;
+  static String? idNumber;
+  static String? phoneNumber;
+  static String? password;
+  static String? password2;
 
   static ValidationHelper _validator = ValidationHelper.empty();
 
-  String selectedValue;
+  String? selectedValue;
 
   bool _checked = false;
   bool _visiblePass = true;
@@ -63,8 +63,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onfNameSaved(String value) {
-    email = value.trim();
+  _onfNameSaved(String? value) {
+    email = value!.trim();
   }
 
   Widget _idTF(BuildContext context) {
@@ -83,8 +83,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onIdNumberSaved(String value) {
-    idNumber = value.trim();
+  _onIdNumberSaved(String? value) {
+    idNumber = value!.trim();
   }
 
   Widget _emailTF(BuildContext context) {
@@ -104,8 +104,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onEmailSaved(String value) {
-    email = value.trim();
+  _onEmailSaved(String? value) {
+    email = value!.trim();
   }
 
   Widget _phoneNumberTF(BuildContext context) {
@@ -125,8 +125,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onPhoneNumberSaved(String value) {
-    phoneNumber = value.trim();
+  _onPhoneNumberSaved(String? value) {
+    phoneNumber = value!.trim();
   }
 
   Widget _passwordTF(BuildContext context) {
@@ -155,8 +155,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onPasswordSaved(String value) {
-    password = value.trim();
+  _onPasswordSaved(String? value) {
+    password = value!.trim();
   }
 
   Widget _confirmPasswordTF(BuildContext context) {
@@ -185,8 +185,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onConfirmPasswordSaved(String value) {
-    password2 = value.trim();
+  _onConfirmPasswordSaved(String? value) {
+    password2 = value!.trim();
   }
 
   Widget _registerButton(BuildContext context) {
@@ -299,7 +299,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                             )
                             .toList(),
-                        onChanged: (value) {
+                        onChanged: (String? value) {
                           setState(() {
                             selectedValue = value;
                           });
@@ -314,8 +314,8 @@ class _SignUpState extends State<SignUp> {
                     controlAffinity: ListTileControlAffinity.leading,
                     title: Text(
                         "I have read and agree to the terms and conditions"),
-                    onChanged: (bool value) {
-                      setState(() => _checked = value);
+                    onChanged: (bool? value) {
+                      setState(() => _checked = value!);
                     },
                   )
                 ],

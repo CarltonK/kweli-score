@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.muliTextTheme(
+        textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
                 if (value.status == Status.Authenticating) {
                   return GlobalLoader();
                 }
-                return child;
+                return child!;
               },
               child: MainAuthentication(),
             );

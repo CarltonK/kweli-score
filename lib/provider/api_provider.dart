@@ -18,17 +18,16 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  String _token;
-  String get token => _token;
+  String? _token;
+  String get token => _token!;
   set token(String newToken) {
     _token = newToken;
     notifyListeners();
   }
 
-  /*
-   * POST
-   * Params = UserModel
-   */
+  /// METHOD = POST
+  ///
+  /// PARAMS = UserModel
   Future loginRequest(UserModel user) async {
     _status = Status.Authenticating;
     notifyListeners();
@@ -41,7 +40,7 @@ class ApiProvider with ChangeNotifier {
 
     // Request
     var loginRequest = await http.post(
-      url,
+      Uri.parse(url),
       body: body,
       headers: header,
     );
@@ -49,9 +48,122 @@ class ApiProvider with ChangeNotifier {
     dynamic loginResponse = loginRequest.body;
 
     if (loginRequest.statusCode == 200) {
+      _status = Status.Authenticated;
+      notifyListeners();
       return loginResponseFromJson(loginResponse);
     } else {
+      _status = Status.Unauthenticated;
+      notifyListeners();
       return serverResponseFromJson(loginResponse);
+    }
+  }
+
+  /// METHOD = POST
+  ///
+  /// PARAMS = UserModel
+  Future verifyDetailsBeforeRegistration(UserModel user) async {
+    // Url
+    String url = BASE_URL + '/pre_reg/';
+
+    // Payload
+    var body = jsonEncode(user);
+
+    // Request
+    var verifyRequest = await http.post(
+      Uri.parse(url),
+      body: body,
+      headers: header,
+    );
+    // Response
+    dynamic verifyResponse = verifyRequest.body;
+
+    return serverResponseFromJson(verifyResponse);
+  }
+
+  /// METHOD = POST
+  ///
+  /// PARAMS = UserModel
+  Future otpRegistration(UserModel user) async {
+    // Url
+    String url = BASE_URL + '/validate_otp_register/';
+
+    // Payload
+    var body = jsonEncode(user);
+
+    // Request
+    var verifyRequest = await http.post(
+      Uri.parse(url),
+      body: body,
+      headers: header,
+    );
+    // Response
+    dynamic verifyResponse = verifyRequest.body;
+
+    return serverResponseFromJson(verifyResponse);
+  }
+
+  /// METHOD = POST
+  ///
+  /// PARAMS = UserModel
+  Future startPinReset(UserModel user) async {
+    // Url
+    String url = BASE_URL + '/start_to_reset_pin_view/';
+
+    // Payload
+    var body = jsonEncode(user);
+
+    // Request
+    var verifyRequest = await http.post(
+      Uri.parse(url),
+      body: body,
+      headers: header,
+    );
+    // Response
+    dynamic verifyResponse = verifyRequest.body;
+
+    return serverResponseFromJson(verifyResponse);
+  }
+
+  /// METHOD = POST
+  ///
+  /// PARAMS = UserModel
+  Future finallyPinReset(UserModel user) async {
+    // Url
+    String url = BASE_URL + '/start_to_reset_pin_view/';
+
+    // Payload
+    var body = jsonEncode(user);
+
+    // Request
+    var verifyRequest = await http.post(
+      Uri.parse(url),
+      body: body,
+      headers: header,
+    );
+    // Response
+    dynamic verifyResponse = verifyRequest.body;
+
+    return serverResponseFromJson(verifyResponse);
+  }
+
+  /// METHOD = GET
+  ///
+  /// PARAMS = Token
+  Future getDashboard(String token) async {
+    // Url
+    String url = BASE_URL + '/start_to_reset_pin_view/';
+
+    // Request
+    var dashboardRequest = await http.post(
+      Uri.parse(url),
+      headers: {'Authorization': 'Token $token', ...header},
+    );
+    // Response
+    dynamic dashboardResponse = dashboardRequest.body;
+
+    if (dashboardRequest.statusCode == 200) {
+    } else {
+      return serverResponseFromJson(dashboardResponse);
     }
   }
 }

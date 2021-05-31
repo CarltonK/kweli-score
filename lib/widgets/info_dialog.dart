@@ -8,11 +8,11 @@ class InfoDialog extends StatelessWidget {
   final Function buttonPressed;
 
   const InfoDialog({
-    Key key,
+    Key? key,
     this.status = 'Warning',
-    @required this.detail,
+    required this.detail,
     this.buttonText = 'Cancel',
-    @required this.buttonPressed,
+    required this.buttonPressed,
   }) : super(key: key);
 
   @override
@@ -36,7 +36,7 @@ class InfoDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                status ?? 'Warning',
+                status,
                 style: Constants.boldHeadlineStyle.copyWith(
                   color: status == 'Warning'
                       ? Colors.orange
@@ -48,7 +48,7 @@ class InfoDialog extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                detail ?? '',
+                detail,
                 style: Constants.blackBoldNormal,
                 textAlign: TextAlign.center,
               ),
@@ -58,7 +58,7 @@ class InfoDialog extends StatelessWidget {
                 child: TextButton(
                   onPressed: () => buttonPressed,
                   child: Text(
-                    buttonText ?? 'Cancel',
+                    buttonText,
                     style: TextStyle(fontSize: 18),
                   ),
                 ),

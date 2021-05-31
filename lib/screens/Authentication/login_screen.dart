@@ -6,8 +6,8 @@ import 'package:kweliscore/utilities/utilities.dart';
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class Login extends StatefulWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
-  Login({Key key, this.scaffoldKey}) : super(key: key);
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+  Login({Key? key, this.scaffoldKey}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -16,11 +16,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
-  static String email;
-  static String idNumber;
-  static String phoneNumber;
-  static String password;
-  static String password2;
+  static String? email;
+  static String? idNumber;
+  static String? phoneNumber;
+  static String? password;
+  static String? password2;
 
   bool _visiblePass = true;
 
@@ -54,8 +54,8 @@ class _LoginState extends State<Login> {
     );
   }
 
-  _onEmailSaved(String value) {
-    email = value.trim();
+  _onEmailSaved(String? value) {
+    email = value!.trim();
   }
 
   Widget _passwordTF(BuildContext context) {
@@ -88,8 +88,8 @@ class _LoginState extends State<Login> {
     );
   }
 
-  _onPasswordSaved(String value) {
-    password = value.trim();
+  _onPasswordSaved(String? value) {
+    password = value!.trim();
   }
 
   Widget _loginButton(BuildContext context) {

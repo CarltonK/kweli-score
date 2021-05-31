@@ -4,7 +4,7 @@ import 'package:kweliscore/widgets/widgets.dart';
 class GlobalErrorContained extends StatelessWidget {
   final String errorMessage;
 
-  GlobalErrorContained({Key key, @required this.errorMessage})
+  GlobalErrorContained({Key? key, required this.errorMessage})
       : super(key: key);
 
   @override

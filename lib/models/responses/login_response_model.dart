@@ -14,9 +14,9 @@ class LoginResponse {
     this.user,
   });
 
-  DateTime expiry;
-  String token;
-  UserModel user;
+  DateTime? expiry;
+  String? token;
+  UserModel? user;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
         expiry: DateTime.parse(json["expiry"]),
@@ -25,8 +25,8 @@ class LoginResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "expiry": expiry.toIso8601String(),
+        "expiry": expiry!.toIso8601String(),
         "token": token,
-        "user": user.toJson(),
+        "user": user!.toJson(),
       };
 }
