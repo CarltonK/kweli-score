@@ -5,7 +5,6 @@ import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;
@@ -20,8 +19,6 @@ class _LoginState extends State<Login> {
 
   static String? idNumber;
   static String? password;
-
-  Dialogs _dialogs = Dialogs.empty();
 
   bool _visiblePass = true;
 
