@@ -15,13 +15,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(
-      create: (context) => AuthProvider.instance(),
-    ),
-    Provider(
-      create: (context) => DatabaseProvider(),
-    ),
-    Provider(
-      create: (context) => StorageProvider(),
+      create: (context) => ApiProvider(),
     ),
   ];
 
@@ -53,8 +47,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        platform: TargetPlatform.iOS,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.muliTextTheme(
+        textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
@@ -72,7 +67,7 @@ class MyApp extends StatelessWidget {
             FirebaseCrashlytics instance = FirebaseCrashlytics.instance;
             FlutterError.onError = instance.recordFlutterError;
 
-            return Consumer<AuthProvider>(
+            return Consumer<ApiProvider>(
               builder: (context, value, child) {
                 if (value.status == Status.Authenticated) {
                   return HomePage();
@@ -80,7 +75,7 @@ class MyApp extends StatelessWidget {
                 if (value.status == Status.Authenticating) {
                   return GlobalLoader();
                 }
-                return child;
+                return child!;
               },
               child: MainAuthentication(),
             );

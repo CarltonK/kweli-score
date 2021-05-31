@@ -19,9 +19,6 @@ jobs:
     # Clean Build
     - run: flutter clean
 
-    # Web
-    - run: flutter config --enable-web
-
     # Fresh packages
     - run: flutter pub get
 

@@ -2,20 +2,21 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:kweliscore/models/models.dart';
 
 class NotificationHelper {
-  FirebaseMessaging _messaging = FirebaseMessaging();
-  NotificationModel _notificationInfo;
+  FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  NotificationModel? _notificationInfo;
 
   NotificationHelper.empty();
 
   Future<void> _registerNotification() async {
     // On iOS, this helps to take the user permissions
-    await _messaging.requestNotificationPermissions(
-      IosNotificationSettings(
-        alert: true,
-        badge: true,
-        provisional: false,
-        sound: true,
-      ),
+    await _messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
     );
   }
 
@@ -36,13 +37,7 @@ class NotificationHelper {
   }
 
   void notificationHandler(
-      [Future<dynamic> Function(Map<String, dynamic>) _onMessage]) async {
+      [Future<dynamic> Function(Map<String, dynamic>)? _onMessage]) async {
     await _registerNotification();
-    _messaging.configure(
-      onMessage: _onMessage,
-      onLaunch: _onLaunch,
-      onResume: _onResume,
-      onBackgroundMessage: _backgroundHandler,
-    );
   }
 }
