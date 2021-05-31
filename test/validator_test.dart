@@ -12,15 +12,15 @@ void main() {
     expect(validator.emailValidator(emailNone), "Please provide an email");
   });
 
-  test("Password validator", () {
+  test("PIN validator", () {
     // Set a static password
-    final String passwordYes = "1234567";
-    final String passwordNone = "";
+    final String pinYes = "1234567";
+    final String pinNone = "";
 
-    expect(validator.passwordValidator(passwordYes), null);
+    expect(validator.pinValidator(pinYes), null);
     expect(
-      validator.passwordValidator(passwordNone),
-      "Please provide your password",
+      validator.pinValidator(pinNone),
+      "Please provide your PIN",
     );
   });
 
@@ -30,10 +30,10 @@ void main() {
     final String idYesTwo = "12345678";
     final String idNone = "";
 
-    expect(validator.idValidator(idYes), null);
-    expect(validator.idValidator(idYesTwo), null);
+    expect(validator.identityValidator(idYes), null);
+    expect(validator.identityValidator(idYesTwo), null);
     expect(
-      validator.idValidator(idNone),
+      validator.identityValidator(idNone),
       "Please provide a valid Identification Number",
     );
   });
