@@ -4,14 +4,12 @@ import 'package:kweliscore/helpers/helpers.dart';
 // import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
-import '../screens.dart';
-
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class SignUp extends StatefulWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;
 
-  SignUp({Key? key, this.scaffoldKey}) : super(key: key);
+  SignUp({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -23,10 +21,13 @@ class _SignUpState extends State<SignUp> {
   List<String> _gender = ["male", "female", "I prefer not to disclose"];
 
   static String? email;
+  static String? emailConfirm;
   static String? idNumber;
+  static String? gender;
   static String? phoneNumber;
-  static String? password;
-  static String? password2;
+  static String? pin;
+  static String? pinConfirm;
+  static String? name;
 
   static ValidationHelper _validator = ValidationHelper.empty();
 
@@ -57,7 +58,7 @@ class _SignUpState extends State<SignUp> {
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Full  Name',
+        labelText: 'Full Name',
         prefixIcon: const Icon(Icons.perm_identity),
       ),
     );
@@ -77,7 +78,8 @@ class _SignUpState extends State<SignUp> {
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'ID Number',
+        labelText: 'Identification Number',
+        helperText: 'National ID / Passport',
         prefixIcon: const Icon(Icons.perm_identity),
       ),
     );
@@ -141,7 +143,7 @@ class _SignUpState extends State<SignUp> {
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Password',
+        labelText: 'PIN',
         prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: GestureDetector(
           child: const Icon(Icons.remove_red_eye),
@@ -156,7 +158,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   _onPasswordSaved(String? value) {
-    password = value!.trim();
+    pin = value!.trim();
   }
 
   Widget _confirmPasswordTF(BuildContext context) {
@@ -165,13 +167,13 @@ class _SignUpState extends State<SignUp> {
       obscureText: _visibleConfirmPass,
       autofocus: false,
       keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       validator: _validator.pinValidator,
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Confirm Pasword',
+        labelText: 'Confirm PIN',
         prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: GestureDetector(
           child: const Icon(Icons.remove_red_eye),
@@ -186,30 +188,32 @@ class _SignUpState extends State<SignUp> {
   }
 
   _onConfirmPasswordSaved(String? value) {
-    password2 = value!.trim();
+    pinConfirm = value!.trim();
   }
 
-  Widget _registerButton(BuildContext context) {
-    return Positioned(
-      bottom: 20,
-      right: 15,
-      child: Container(
-        height: 60,
-        width: 60,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Theme.of(context).primaryColor,
-        ),
-        child: IconButton(
-          icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Login()));
-          },
-        ),
-      ),
-    );
-  }
+  // Widget _registerButton(BuildContext context) {
+  //   return Positioned(
+  //     bottom: 20,
+  //     right: 15,
+  //     child: Container(
+  //       height: 60,
+  //       width: 60,
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(12),
+  //         color: Theme.of(context).primaryColor,
+  //       ),
+  //       child: IconButton(
+  //         icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+  //         onPressed: () {
+  //           Navigator.push(
+  //             context,
+  //             SlideLeftTransition(page: Login(), routeName: 'login'),
+  //           );
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void popDialog(BuildContext context) {
     Navigator.of(context).pop();
@@ -317,12 +321,12 @@ class _SignUpState extends State<SignUp> {
                     onChanged: (bool? value) {
                       setState(() => _checked = value!);
                     },
-                  )
+                  ),
                 ],
               ),
             ),
           ),
-          _registerButton(context)
+          // _registerButton(context)
         ],
       ),
     );
