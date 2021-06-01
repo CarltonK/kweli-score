@@ -5,13 +5,13 @@ class InfoDialog extends StatelessWidget {
   final String status;
   final String detail;
   final String buttonText;
-  final Function buttonPressed;
+  final VoidCallback buttonPressed;
 
   const InfoDialog({
     Key? key,
     this.status = 'Warning',
-    required this.detail,
     this.buttonText = 'Cancel',
+    required this.detail,
     required this.buttonPressed,
   }) : super(key: key);
 
@@ -46,20 +46,22 @@ class InfoDialog extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Text(
                 detail,
-                style: Constants.blackBoldNormal,
+                style: Constants.blackBoldNormal.copyWith(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 22),
+              const SizedBox(height: 8),
               Align(
                 alignment: Alignment.bottomRight,
                 child: TextButton(
-                  onPressed: () => buttonPressed,
+                  onPressed: buttonPressed,
                   child: Text(
                     buttonText,
-                    style: TextStyle(fontSize: 18),
+                    style: Constants.kPositiveButtonStyle.copyWith(
+                      fontSize: 30,
+                    ),
                   ),
                 ),
               ),
