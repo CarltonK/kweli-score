@@ -49,9 +49,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         platform: TargetPlatform.iOS,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.latoTextTheme(
-          Theme.of(context).textTheme,
-        ),
+        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
       ),
       navigatorObservers: <NavigatorObserver>[observer],
       home: FutureBuilder<FirebaseApp>(

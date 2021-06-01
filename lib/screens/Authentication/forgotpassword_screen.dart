@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:provider/provider.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ForgotPassword extends StatelessWidget {
   static ValidationHelper _validator = ValidationHelper.empty();
-  static String? _email;
+  static String? _identificationNumber;
 
   final _formKey = GlobalKey<FormState>();
 
-  _onEmailSaved(String? value) {
-    _email = value!.trim();
+  _onIdentificationNumberSaved(String? value) {
+    _identificationNumber = value!.trim();
   }
 
-  Widget _resetPasswordTF() {
+  Widget _identificationNumberTF(BuildContext context) {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      validator: _validator.emailValidator,
-      onSaved: _onEmailSaved,
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.done,
+      validator: _validator.identityValidator,
+      onSaved: _onIdentificationNumberSaved,
+      onFieldSubmitted: (value) => _resetBtnPressed(context),
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Email',
-        prefixIcon: const Icon(Icons.email),
+        labelText: 'Identification Number',
+        prefixIcon: const Icon(Icons.perm_identity),
       ),
     );
   }
@@ -35,54 +38,45 @@ class ForgotPassword extends StatelessWidget {
       height: 60,
       width: 60,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.blueAccent[200]!.withOpacity(0.7)),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.blueAccent[200]!.withOpacity(0.7),
+      ),
       child: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_forward_ios,
           color: Colors.white,
         ),
-        onPressed: () {},
+        onPressed: () {
+          _resetBtnPressed(context);
+        },
       ),
     );
   }
 
-  void returnHome(BuildContext context) {
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
+  resetHandler(BuildContext context, String idNumber) async {
+    return await context.read<ApiProvider>().startPinReset(idNumber);
   }
 
-  void popDialog(BuildContext context) {
-    Navigator.of(context).pop();
+  void _resetBtnPressed(BuildContext context) {
+    final FormState form = _formKey.currentState!;
+    if (form.validate()) {
+      form.save();
+
+      resetHandler(context, _identificationNumber!).then((value) {
+        Future.delayed(Duration(milliseconds: 100), () {
+          dialogInfo(_scaffoldKey.currentContext!, '${value.detail}');
+        });
+      }).catchError((error) {
+        Future.delayed(Duration(milliseconds: 200), () {
+          dialogInfo(
+            _scaffoldKey.currentContext!,
+            '${error.toString()}',
+            'Error',
+          );
+        });
+      });
+    }
   }
-
-  // void _resetBtnPressed(BuildContext context) {
-  //   final FormState form = _formKey.currentState;
-  //   if (form.validate()) {
-  //     form.save();
-
-  //     serverCall(_email, context).then((value) {
-  //       BuildContext currentCtx = _scaffoldKey.currentContext;
-  //       if (value) {
-  //         Timer(Duration(seconds: 1), () {
-  //           _dialogs.dialogInfo(
-  //             currentCtx,
-  //             'Success',
-  //             'We have sent you an email',
-  //             () => returnHome(context),
-  //           );
-  //         });
-  //       } else {
-  //         _dialogs.dialogInfo(
-  //           currentCtx,
-  //           'Error',
-  //           result.toString(),
-  //           () => popDialog(context),
-  //         );
-  //       }
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -117,22 +111,14 @@ class ForgotPassword extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.grey[200]),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Text(
-                "Enter the email address associated with your account",
+                "Enter the Identification Number associated with your account",
                 style: Constants.boldSubheadlineStyle,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              _resetPasswordTF(),
+              _identificationNumberTF(context),
             ],
           ),
         ),

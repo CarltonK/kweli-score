@@ -106,13 +106,13 @@ class ApiProvider with ChangeNotifier {
 
   /// METHOD = POST
   ///
-  /// PARAMS = UserModel
-  Future startPinReset(UserModel user) async {
+  /// PARAMS = id_number
+  Future startPinReset(String idNumber) async {
     // Url
     String url = BASE_URL + '/start_to_reset_pin_view/';
 
     // Payload
-    var body = jsonEncode(user);
+    var body = jsonEncode({'id_number': idNumber});
 
     // Request
     var verifyRequest = await http.post(

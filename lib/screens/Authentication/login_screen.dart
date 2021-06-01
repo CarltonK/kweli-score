@@ -5,11 +5,10 @@ import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
-  final GlobalKey<ScaffoldState>? scaffoldKey;
-  Login({Key? key, this.scaffoldKey}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  Login({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -20,8 +19,6 @@ class _LoginState extends State<Login> {
 
   static String? idNumber;
   static String? password;
-
-  Dialogs _dialogs = Dialogs.empty();
 
   bool _visiblePass = true;
 
@@ -134,10 +131,23 @@ class _LoginState extends State<Login> {
         if (value.runtimeType == LoginResponse) {
           successToast('Welcome ${value.user.name}');
         } else {
-          errorToast(value.detail);
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(
+              widget.scaffoldKey.currentContext!,
+              '${value.detail}',
+            );
+          });
+          // errorToast(value.detail);
         }
       }).catchError((error) {
-        errorToast(error.toString());
+        Future.delayed(Duration(milliseconds: 100), () {
+          dialogInfo(
+            widget.scaffoldKey.currentContext!,
+            '${error.toString()}',
+            'Error',
+          );
+        });
+        // errorToast(error.toString());
       });
     }
   }
