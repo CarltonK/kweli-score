@@ -64,7 +64,7 @@ class ForgotPassword extends StatelessWidget {
 
       resetHandler(context, _identificationNumber!).then((value) {
         Future.delayed(Duration(milliseconds: 100), () {
-          dialogInfo(_scaffoldKey.currentContext!, '${value.detail}');
+          dialogInfo(_scaffoldKey.currentContext!, '${value.detail}', '');
         });
       }).catchError((error) {
         Future.delayed(Duration(milliseconds: 200), () {
