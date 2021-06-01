@@ -28,6 +28,35 @@ class Constants {
     fontSize: 20,
   );
 
+  static const TextStyle kHeadlineStyle = TextStyle(
+    fontSize: 30,
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const TextStyle kHeadlineWhiteStyle = TextStyle(
+    fontSize: 30,
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const TextStyle kHeadlineBlackStyle = TextStyle(
+    fontSize: 20,
+    color: Colors.black,
+  );
+
+  static const TextStyle kNegativeButtonStyle = TextStyle(
+    color: Colors.red,
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+  );
+
+  static const TextStyle kPositiveButtonStyle = TextStyle(
+    color: Colors.green,
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+  );
+
   /*
   BORDERS
   */
