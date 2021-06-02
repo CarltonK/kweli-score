@@ -64,7 +64,7 @@ class Package extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Ksh 250/year',
+                      'Ksh 499/year',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -85,7 +85,12 @@ class Package extends StatelessWidget {
                         child: Text(
                           'Upgrade to Simba',
                         ),
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => IntroOne()));
+                        }),
                     SizedBox(
                       height: 20,
                     ),
@@ -99,7 +104,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Unlimited transactons',
+                          'All features in Chui package',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -117,7 +122,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Unlimited transactons',
+                          'Unlimited reports for a year',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -135,7 +140,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Package description',
+                          'Deep insight based on Data Science',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -153,7 +158,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Package description',
+                          'Your rank based on age group',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -171,7 +176,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Package description',
+                          'Your K score',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -189,7 +194,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Package description',
+                          'Morgage/Pension insights',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -265,7 +270,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Unlimited transactons',
+                          'All features in swara package',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -283,7 +288,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Unlimited transactons',
+                          'Unlimited reports for one month',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -301,7 +306,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Package description',
+                          'Higher level insights',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -319,7 +324,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Package description',
+                          'More visual representation of data',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -337,7 +342,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Package description',
+                          'Individual analysis per extraction',
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -355,7 +360,7 @@ class Package extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Package description',
+                          'Download PDF',
                           style: TextStyle(color: Colors.white),
                         )
                       ],

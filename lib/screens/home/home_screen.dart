@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:kweliscore/screens/packages/package.dart';
-import 'package:kweliscore/utilities/constants.dart';
+import 'package:kweliscore/screens/screens.dart';
+import 'package:kweliscore/utilities/utilities.dart';
+import 'package:kweliscore/widgets/scrollable_sheet.dart';
+import 'package:kweliscore/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -40,7 +41,16 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
-                  children: [Text('AVG'), Text('62')],
+                  children: [
+                    Text(
+                      'AVG',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Text('62',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ))
+                  ],
                 ),
                 Container(
                   height: 140,
@@ -54,93 +64,39 @@ class HomePage extends StatelessWidget {
                       )),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text('KweliScore'), Text('84')],
+                    children: [
+                      Text(
+                        'KweliScore',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      Text(
+                        '84',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Column(
-                  children: [Text('BEST'), Text('88')],
+                  children: [
+                    Text(
+                      'BEST',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Text(
+                      '88',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),
           ),
-
           //Draggable Scrollable Sheet
-          DraggableScrollableSheet(
-              initialChildSize: 0.5,
-              minChildSize: 0.13,
-              maxChildSize: 0.9,
-              builder:
-                  (BuildContext context, ScrollController scrollController) {
-                return Container(
-                  // controller: scrollController,
-                  padding: EdgeInsets.all(20),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16),
-                          topRight: Radius.circular(16))),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 7,
-                          width: 100,
-                          color: Colors.grey,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Credit History',
-                              style: Constants.boldHeadlineStyle,
-                            ),
-                            Icon(Icons.more_vert)
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'A snapshot of your credit lifetime giving you an overview of what lenders see',
-                          style: Constants.blackBoldNormal,
-                        ),
-                        SizedBox(height: 10),
-                        Container(
-                          child: Image.asset('assets/images/data1.png'),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'A summary of the users transactions giving the user an overview of their spending',
-                          style: Constants.blackBoldNormal,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        MaterialButton(
-                            elevation: 5,
-                            height: 55,
-                            minWidth: MediaQuery.of(context).size.width,
-                            color: Colors.greenAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              'Upgrade my Report',
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Package()));
-                            })
-                      ],
-                    ),
-                  ),
-                );
-              })
+          ScrollableSheet(),
         ],
       ),
     );
