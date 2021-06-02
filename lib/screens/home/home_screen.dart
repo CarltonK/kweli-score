@@ -3,10 +3,12 @@ import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/scrollable_sheet.dart';
 import 'package:kweliscore/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
@@ -23,10 +25,11 @@ class HomePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                Navigator.pop(context);
-              })
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              context.read<ApiProvider>().status = Status.Unauthenticated;
+            },
+          )
         ],
       ),
       body: Stack(
