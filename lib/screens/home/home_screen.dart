@@ -1,40 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/helpers/helpers.dart';
-import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/screens/screens.dart';
+import 'package:kweliscore/utilities/utilities.dart';
+import 'package:kweliscore/widgets/scrollable_sheet.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<HomePage> {
-  // ApiProvider? _authProvider;
-  NotificationHelper? _notificationHelper;
-
-  void popDialog() {
-    Navigator.of(context).pop();
-  }
-
-  Future<dynamic> _onMessage(Map<String, dynamic> message) async {
-    // print('onMessage received: $message');
-  }
-
-  @override
-  void initState() {
-    _notificationHelper = NotificationHelper.empty();
-    _notificationHelper!.notificationHandler(_onMessage);
-    super.initState();
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
+        leading: Container(
+          margin: EdgeInsets.only(left: 5),
+          height: 5,
+          width: 5,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12), color: Colors.blueGrey),
+        ),
         title: Text(
-          'KWELI SCORE',
+          'Kweli Score',
         ),
         actions: [
           IconButton(
@@ -45,49 +32,76 @@ class _HomeState extends State<HomePage> {
           )
         ],
       ),
-      body: Container(
-        height: size.height,
-        width: size.width,
-        padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 350,
-                width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(16),
+      body: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(left: 30, top: 80, right: 30),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.blueAccent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      'AVG',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Text('62',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ))
+                  ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                height: 200,
-                width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(16),
+                Container(
+                  height: 140,
+                  width: 140,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      // color: Colors.red,
+                      border: Border.all(
+                        color: Colors.greenAccent,
+                        width: 7,
+                      )),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'KweliScore',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      Text(
+                        '84',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Column(
+                  children: [
+                    Text(
+                      'BEST',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Text(
+                      '88',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
+          //Draggable Scrollable Sheet
+          ScrollableSheet(),
+        ],
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-          icon: IconButton(icon: Icon(Icons.autorenew), onPressed: () {}),
-          label: 'Refresh',
-        ),
-        BottomNavigationBarItem(
-          icon: IconButton(icon: Icon(Icons.business), onPressed: () {}),
-          label: 'Details',
-        ),
-        BottomNavigationBarItem(
-          icon: IconButton(icon: Icon(Icons.message), onPressed: () {}),
-          label: 'Contact Us',
-        )
-      ]),
-      floatingActionButton: CustomFab(),
     );
   }
 }
