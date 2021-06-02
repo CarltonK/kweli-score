@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/screens/screens.dart';
-import 'package:kweliscore/utilities/utilities.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/widgets/scrollable_sheet.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +17,9 @@ class HomePage extends StatelessWidget {
           height: 5,
           width: 5,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12), color: Colors.blueGrey),
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.blueGrey,
+          ),
         ),
         title: Text(
           'Kweli Score',
@@ -36,8 +37,8 @@ class HomePage extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(left: 30, top: 80, right: 30),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height: size.height,
+            width: size.width,
             color: Colors.blueAccent,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,22 +50,20 @@ class HomePage extends StatelessWidget {
                       'AVG',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    Text('62',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ))
+                    Text('62', style: TextStyle(color: Colors.white)),
                   ],
                 ),
                 Container(
                   height: 140,
                   width: 140,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      // color: Colors.red,
-                      border: Border.all(
-                        color: Colors.greenAccent,
-                        width: 7,
-                      )),
+                    shape: BoxShape.circle,
+                    // color: Colors.red,
+                    border: Border.all(
+                      color: Colors.greenAccent,
+                      width: 7,
+                    ),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -72,12 +71,7 @@ class HomePage extends StatelessWidget {
                         'KweliScore',
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      Text(
-                        '84',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      )
+                      Text('84', style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),
@@ -87,12 +81,7 @@ class HomePage extends StatelessWidget {
                       'BEST',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    Text(
-                      '88',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    )
+                    Text('88', style: TextStyle(color: Colors.white))
                   ],
                 ),
               ],

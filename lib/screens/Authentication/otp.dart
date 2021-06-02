@@ -12,7 +12,7 @@ class OTP extends StatelessWidget {
   Widget _otpTF() {
     return TextFormField(
       keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       onSaved: _onOtpSaved,
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
@@ -32,10 +32,7 @@ class OTP extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black54,
-          ),
+          icon: const Icon(Icons.arrow_back, color: Colors.black54),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -56,11 +53,11 @@ class OTP extends StatelessWidget {
               height: 150,
               width: 150,
               decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.grey[200]),
+                shape: BoxShape.circle,
+                color: Colors.grey[200],
+              ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Text(
               "Enter the One Time Password sent to your phone",
               style: Constants.boldSubheadlineStyle,
@@ -71,18 +68,26 @@ class OTP extends StatelessWidget {
             Expanded(child: Container()),
             Align(
               alignment: Alignment.bottomRight,
-              child: TextButton(
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                    Navigator.push(
+                      context,
+                      SlideLeftTransition(page: HomePage(), routeName: 'home'),
+                    );
                   },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Almost There  "),
-                      Icon(Icons.arrow_forward)
-                    ],
-                  )),
+                ),
+              ),
             )
           ],
         ),

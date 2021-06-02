@@ -3,6 +3,7 @@ import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class ScrollableSheet extends StatelessWidget {
+  static const Radius _commonRadius = Radius.circular(16);
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -11,13 +12,15 @@ class ScrollableSheet extends StatelessWidget {
         maxChildSize: 0.9,
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16))),
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: _commonRadius,
+                topRight: _commonRadius,
+              ),
+            ),
             child: SingleChildScrollView(
               controller: scrollController,
               child: Column(
@@ -73,8 +76,12 @@ class ScrollableSheet extends StatelessWidget {
                         'Upgrade my Report',
                       ),
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Package()));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Package(),
+                          ),
+                        );
                       })
                 ],
               ),
