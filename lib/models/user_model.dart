@@ -28,7 +28,7 @@ class UserModel {
   String? password2;
   String? email;
   String? email2;
-  DateTime? dob;
+  String? dob;
   String? gender;
   String? idNumber;
   String? otp;
@@ -36,18 +36,18 @@ class UserModel {
   String? pinConfirm;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        password: json["password"],
-        name: json["name"],
+        password: json["password"] ?? '',
+        name: json["name"] ?? '',
         phone: json["phone"],
-        password1: json["password1"],
-        password2: json["password2"],
-        email: json["email"],
-        email2: json["email2"],
-        gender: json["gender"],
-        idNumber: json["id_number"],
-        otp: json["otp"],
-        pin: json["pin"],
-        pinConfirm: json["pin_confirm"],
+        password1: json["password1"] ?? '',
+        password2: json["password2"] ?? '',
+        email: json["email"] ?? '',
+        email2: json["email2"] ?? '',
+        gender: json["gender"] ?? '',
+        idNumber: json["id_number"] ?? '',
+        otp: json["otp"] ?? '',
+        pin: json["pin"] ?? '',
+        pinConfirm: json["pin_confirm"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -58,12 +58,23 @@ class UserModel {
         "password2": password2,
         "email": email,
         "email2": email2,
-        "dob":
-            "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+        "dob": dob,
         "gender": gender,
         "id_number": idNumber,
         "otp": otp,
         "pin": pin,
         "pin_confirm": pinConfirm,
+      };
+
+  Map<String, dynamic> toRegistrationJson() => {
+        "name": name,
+        "phone": phone,
+        "password1": password1,
+        "password2": password2,
+        "email": email,
+        "email2": email2,
+        "dob": dob,
+        "gender": gender,
+        "id_number": idNumber,
       };
 }
