@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/screens/screens.dart';
-import 'package:kweliscore/utilities/utilities.dart';
 
 class Package extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.blueAccent,
+            )),
+        title: Text(
+          'Plans',
+          style: TextStyle(
+              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Container(
+        padding: EdgeInsets.all(12),
         height: MediaQuery.of(context).size.height,
         color: Colors.white,
         child: SingleChildScrollView(

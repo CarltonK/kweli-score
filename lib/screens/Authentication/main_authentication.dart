@@ -11,15 +11,18 @@ class MainAuthentication extends StatefulWidget {
 }
 
 class _State extends State<MainAuthentication> with TickerProviderStateMixin {
-  TabController controller;
-  PageController _pageController;
+  TabController? controller;
+  PageController? _pageController;
   int _selectedPage = 0;
 
   final List<Widget> tabs = [
     Text("Sign In", style: Constants.blackBoldNormal),
     Text("Sign Up", style: Constants.blackBoldNormal)
   ];
-  final List<Widget> _pages = [Login(scaffoldKey: _scaffoldKey), SignUp(scaffoldKey: _scaffoldKey)];
+  final List<Widget> _pages = [
+    Login(scaffoldKey: _scaffoldKey),
+    SignUp(scaffoldKey: _scaffoldKey)
+  ];
 
   Widget _appBar() {
     return Row(
@@ -44,7 +47,7 @@ class _State extends State<MainAuthentication> with TickerProviderStateMixin {
   appBarTabTap(int value) {
     setState(() {
       _selectedPage = value;
-      _pageController.animateToPage(
+      _pageController!.animateToPage(
         _selectedPage,
         duration: Duration(milliseconds: 100),
         curve: Curves.ease,
@@ -71,8 +74,8 @@ class _State extends State<MainAuthentication> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    controller.dispose();
-    _pageController.dispose();
+    controller!.dispose();
+    _pageController!.dispose();
     super.dispose();
   }
 
@@ -91,11 +94,12 @@ class Home extends StatelessWidget {
   final Size size;
   final Widget bar;
   final Widget body;
-  Home({@required this.size, @required this.bar, @required this.body});
+  Home({required this.size, required this.bar, required this.body});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       //resizeToAvoidBottomInset: false,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,

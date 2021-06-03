@@ -1,33 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/widgets/scrollable_sheet.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(
-      builder: (context, value, child) {
-     //   _authProvider = value;
-        return child;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'KWELI SCORE',
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
+        leading: Container(
+          margin: EdgeInsets.only(left: 5),
+          height: 5,
+          width: 5,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.blueGrey,
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.exit_to_app),
-              onPressed: () {},
-            )
-          ],
         ),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(top: 50, left: 20, right: 20),
-          child: SingleChildScrollView(
-            child: Column(
+        title: Text(
+          'Kweli Score',
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              context.read<ApiProvider>().status = Status.Unauthenticated;
+            },
+          )
+        ],
+      ),
+      body: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(left: 30, top: 80, right: 30),
+            height: size.height,
+            width: size.width,
+            color: Colors.blueAccent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   children: [
@@ -35,22 +50,20 @@ import 'package:provider/provider.dart';
                       'AVG',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    Text('62',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ))
+                    Text('62', style: TextStyle(color: Colors.white)),
                   ],
                 ),
                 Container(
-                  height: 350,
-                  width: 340,
+                  height: 140,
+                  width: 140,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      // color: Colors.red,
-                      border: Border.all(
-                        color: Colors.greenAccent,
-                        width: 7,
-                      )),
+                    shape: BoxShape.circle,
+                    // color: Colors.red,
+                    border: Border.all(
+                      color: Colors.greenAccent,
+                      width: 7,
+                    ),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -58,12 +71,7 @@ import 'package:provider/provider.dart';
                         'KweliScore',
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      Text(
-                        '84',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      )
+                      Text('84', style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),
@@ -73,30 +81,16 @@ import 'package:provider/provider.dart';
                       'BEST',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    Text(
-                      '88',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    )
+                    Text('88', style: TextStyle(color: Colors.white))
                   ],
                 ),
               ],
             ),
           ),
-
           //Draggable Scrollable Sheet
-          // DraggableScrollableSheet(
-          //     initialChildSize: 0.5,
-          //     minChildSize: 0.13,
-          //     maxChildSize: 0.9,
-          //     builder:
-          //         (BuildContext context, ScrollController scrollController) {
-          //       return ScrollableSheet(scrollController: scrollController);
-          //     })
+          ScrollableSheet(),
         ],
       ),
-    ));
-    
+    );
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
@@ -7,11 +6,9 @@ import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 
-// final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
 class Login extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  Login({Key key, this.scaffoldKey}) : super(key: key);
+  Login({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -20,21 +17,12 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
-  static UserModel _userModel;
-
-  static String email;
-  static String idNumber;
-  static String phoneNumber;
-  static String password;
-  static String password2;
+  static String? idNumber;
+  static String? password;
 
   bool _visiblePass = true;
 
-  static dynamic result;
-  static dynamic authProvider;
-
   static ValidationHelper _validator = ValidationHelper.empty();
-  static Dialogs _dialogs = Dialogs.empty();
 
   final _focusPassword = FocusNode();
 
@@ -45,12 +33,12 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget _emailTF(BuildContext context) {
+  Widget _identificationNumberTF(BuildContext context) {
     return TextFormField(
-      onSaved: _onEmailSaved,
-      keyboardType: TextInputType.emailAddress,
+      onSaved: _onIdentificationSaved,
+      keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
-      validator: _validator.emailValidator,
+      validator: _validator.identityValidator,
       onFieldSubmitted: (String value) {
         FocusScope.of(context).requestFocus(_focusPassword);
       },
@@ -58,23 +46,23 @@ class _LoginState extends State<Login> {
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Email address',
-        prefixIcon: const Icon(Icons.email),
+        labelText: 'Identification Number',
+        prefixIcon: const Icon(Icons.perm_identity),
       ),
     );
   }
 
-  _onEmailSaved(String value) {
-    email = value.trim();
+  _onIdentificationSaved(String? value) {
+    idNumber = value!.trim();
   }
 
-  Widget _passwordTF(BuildContext context) {
+  Widget _pinTF(BuildContext context) {
     return TextFormField(
       obscureText: _visiblePass,
       onSaved: _onPasswordSaved,
       keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
+      textInputAction: TextInputAction.done,
+      validator: _validator.pinValidator,
       focusNode: _focusPassword,
       onFieldSubmitted: (String value) {
         FocusScope.of(context).unfocus();
@@ -84,7 +72,7 @@ class _LoginState extends State<Login> {
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Password',
+        labelText: 'PIN',
         prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: GestureDetector(
           child: const Icon(Icons.remove_red_eye),
@@ -98,16 +86,8 @@ class _LoginState extends State<Login> {
     );
   }
 
-  _onPasswordSaved(String value) {
-    password = value.trim();
-  }
-
-  Future<bool> serverCall(UserModel user, BuildContext context) async {
-    result = await authProvider.signInEmailPass(_userModel);
-    if (result.runtimeType == String) {
-      return false;
-    }
-    return true;
+  _onPasswordSaved(String? value) {
+    password = value!.trim();
   }
 
   Widget _loginButton(BuildContext context) {
@@ -126,7 +106,9 @@ class _LoginState extends State<Login> {
             Icons.arrow_forward_ios,
             color: Colors.white,
           ),
-          onPressed: () => _loginBtnPressed(context),
+          onPressed: () {
+            _loginBtnPressed(context);
+          },
         ),
       ),
     );
@@ -136,28 +118,36 @@ class _LoginState extends State<Login> {
     Navigator.of(context).pop();
   }
 
+  Future loginHandler(BuildContext context, String identity, String pin) async {
+    return await context.read<ApiProvider>().loginRequest(identity, pin);
+  }
+
   void _loginBtnPressed(BuildContext context) {
-    final FormState form = _formKey.currentState;
+    final FormState form = _formKey.currentState!;
     if (form.validate()) {
       form.save();
 
-      _userModel = UserModel(
-        emailAddress: email,
-        password: password,
-      );
-
-      serverCall(_userModel, context).then((value) {
-        if (!value) {
-          print(result);
-          Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(
-              widget.scaffoldKey.currentContext,
-              'Error',
-              result,
-              () => popDialog(widget.scaffoldKey.currentContext),
+      loginHandler(context, idNumber!, password!).then((value) {
+        if (value.runtimeType == LoginResponse) {
+          successToast('Welcome ${value.user.name}');
+        } else {
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(
+              widget.scaffoldKey.currentContext!,
+              '${value.detail}',
             );
           });
+          // errorToast(value.detail);
         }
+      }).catchError((error) {
+        Future.delayed(Duration(milliseconds: 100), () {
+          dialogInfo(
+            widget.scaffoldKey.currentContext!,
+            '${error.toString()}',
+            'Error',
+          );
+        });
+        // errorToast(error.toString());
       });
     }
   }
@@ -169,11 +159,13 @@ class _LoginState extends State<Login> {
         onPressed: () {
           Navigator.of(context).push(
             SlideRightTransition(
-                page: ForgotPassword(), routeName: 'password-reset'),
+              page: ForgotPassword(),
+              routeName: 'pin-reset',
+            ),
           );
         },
         child: Text(
-          'Forgot Password ?',
+          'Forgot PIN ?',
           style: Constants.blackBoldNormal,
         ),
       ),
@@ -184,38 +176,32 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-    return Consumer<AuthProvider>(
-      builder: (context, AuthProvider value, child) {
-        authProvider = value;
-        return child;
-      },
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              height: size.height,
-              width: size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: <Widget>[
-                    const SizedBox(height: 60),
-                    _introText(),
-                    const SizedBox(height: 50),
-                    _emailTF(context),
-                    const SizedBox(height: 20),
-                    _passwordTF(context),
-                  ],
-                ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            height: size.height,
+            width: size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: <Widget>[
+                  const SizedBox(height: 60),
+                  _introText(),
+                  const SizedBox(height: 50),
+                  _identificationNumberTF(context),
+                  const SizedBox(height: 20),
+                  _pinTF(context),
+                ],
               ),
             ),
-            _forgotPasswordButton(context),
-            _loginButton(context)
-          ],
-        ),
+          ),
+          _forgotPasswordButton(context),
+          _loginButton(context)
+        ],
       ),
     );
   }

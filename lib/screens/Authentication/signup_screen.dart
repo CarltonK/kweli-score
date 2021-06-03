@@ -1,17 +1,15 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
-import 'package:kweliscore/models/models.dart';
-import 'package:kweliscore/provider/providers.dart';
+// import 'package:kweliscore/models/models.dart';
+// import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:provider/provider.dart';
 
 // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class SignUp extends StatefulWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
 
-  SignUp({Key key, this.scaffoldKey}) : super(key: key);
+  SignUp({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -22,20 +20,18 @@ class _SignUpState extends State<SignUp> {
 
   List<String> _gender = ["male", "female", "I prefer not to disclose"];
 
-  static String email;
-  static String idNumber;
-  static String phoneNumber;
-  static String password;
-  static String password2;
-  static AuthProvider authProvider;
-  static UserModel _userModel;
+  static String? email;
+  static String? emailConfirm;
+  static String? idNumber;
+  static String? gender;
+  static String? phoneNumber;
+  static String? pin;
+  static String? pinConfirm;
+  static String? name;
 
   static ValidationHelper _validator = ValidationHelper.empty();
-  static Dialogs _dialogs = Dialogs.empty();
 
-  static dynamic result;
-
-  String selectedValue;
+  String? selectedValue;
 
   bool _checked = false;
   bool _visiblePass = true;
@@ -62,14 +58,14 @@ class _SignUpState extends State<SignUp> {
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Full  Name',
+        labelText: 'Full Name',
         prefixIcon: const Icon(Icons.perm_identity),
       ),
     );
   }
 
-  _onfNameSaved(String value) {
-    email = value.trim();
+  _onfNameSaved(String? value) {
+    email = value!.trim();
   }
 
   Widget _idTF(BuildContext context) {
@@ -77,19 +73,20 @@ class _SignUpState extends State<SignUp> {
       onSaved: _onIdNumberSaved,
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
-      validator: _validator.idValidator,
+      validator: _validator.identityValidator,
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'ID Number',
+        labelText: 'Identification Number',
+        helperText: 'National ID / Passport',
         prefixIcon: const Icon(Icons.perm_identity),
       ),
     );
   }
 
-  _onIdNumberSaved(String value) {
-    idNumber = value.trim();
+  _onIdNumberSaved(String? value) {
+    idNumber = value!.trim();
   }
 
   Widget _emailTF(BuildContext context) {
@@ -109,8 +106,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onEmailSaved(String value) {
-    email = value.trim();
+  _onEmailSaved(String? value) {
+    email = value!.trim();
   }
 
   Widget _phoneNumberTF(BuildContext context) {
@@ -130,8 +127,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onPhoneNumberSaved(String value) {
-    phoneNumber = value.trim();
+  _onPhoneNumberSaved(String? value) {
+    phoneNumber = value!.trim();
   }
 
   Widget _passwordTF(BuildContext context) {
@@ -141,12 +138,12 @@ class _SignUpState extends State<SignUp> {
       autofocus: false,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
+      validator: _validator.pinValidator,
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Password',
+        labelText: 'PIN',
         prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: GestureDetector(
           child: const Icon(Icons.remove_red_eye),
@@ -160,8 +157,8 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onPasswordSaved(String value) {
-    password = value.trim();
+  _onPasswordSaved(String? value) {
+    pin = value!.trim();
   }
 
   Widget _confirmPasswordTF(BuildContext context) {
@@ -170,13 +167,13 @@ class _SignUpState extends State<SignUp> {
       obscureText: _visibleConfirmPass,
       autofocus: false,
       keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.next,
-      validator: _validator.passwordValidator,
+      textInputAction: TextInputAction.done,
+      validator: _validator.pinValidator,
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
         focusedBorder: Constants.blackInputBorder,
-        labelText: 'Confirm Pasword',
+        labelText: 'Confirm PIN',
         prefixIcon: Icon(Icons.vpn_key),
         suffixIcon: GestureDetector(
           child: const Icon(Icons.remove_red_eye),
@@ -190,156 +187,147 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _onConfirmPasswordSaved(String value) {
-    password2 = value.trim();
+  _onConfirmPasswordSaved(String? value) {
+    pinConfirm = value!.trim();
   }
 
-  Future<bool> serverCall(UserModel user, BuildContext context) async {
-    result = await authProvider.createUser(_userModel);
-    if (result.runtimeType == String) {
-      return false;
-    }
-    return true;
-  }
-
-  Widget _registerButton(BuildContext context) {
-    return Positioned(
-      bottom: 20,
-      right: 15,
-      child: Container(
-        height: 60,
-        width: 60,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Theme.of(context).primaryColor,
-        ),
-        child: IconButton(
-          icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-          onPressed: () => _registerBtnPressed(context),
-        ),
-      ),
-    );
-  }
+  // Widget _registerButton(BuildContext context) {
+  //   return Positioned(
+  //     bottom: 20,
+  //     right: 15,
+  //     child: Container(
+  //       height: 60,
+  //       width: 60,
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(12),
+  //         color: Theme.of(context).primaryColor,
+  //       ),
+  //       child: IconButton(
+  //         icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+  //         onPressed: () {
+  //           Navigator.push(
+  //             context,
+  //             SlideLeftTransition(page: Login(), routeName: 'login'),
+  //           );
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void popDialog(BuildContext context) {
     Navigator.of(context).pop();
   }
 
-  void _registerBtnPressed(BuildContext context) async {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
+  // void _registerBtnPressed(BuildContext context) async {
+  //   final FormState form = _formKey.currentState;
+  //   if (form.validate()) {
+  //     form.save();
 
-      _userModel = UserModel(
-        emailAddress: email,
-        password: password,
-        nationalIdNumber: idNumber,
-        phoneNumber: phoneNumber,
-      );
+  //     _userModel = UserModel(
+  //       emailAddress: email,
+  //       password: password,
+  //       nationalIdNumber: idNumber,
+  //       phoneNumber: phoneNumber,
+  //     );
 
-      await serverCall(_userModel, context).then((value) {
-        if (!value) {
-          Timer(Duration(milliseconds: 500), () {
-            _dialogs.dialogInfo(
-              widget.scaffoldKey.currentContext,
-              'Error',
-              result,
-              () => popDialog(widget.scaffoldKey.currentContext),
-            );
-          });
-        }
-      });
-    }
-  }
+  //     await serverCall(_userModel, context).then((value) {
+  //       if (!value) {
+  //         Timer(Duration(milliseconds: 500), () {
+  //           _dialogs.dialogInfo(
+  //             widget.scaffoldKey.currentContext,
+  //             'Error',
+  //             result,
+  //             () => popDialog(widget.scaffoldKey.currentContext),
+  //           );
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     // Dimensions
     Size size = MediaQuery.of(context).size;
-    return Consumer<AuthProvider>(
-      builder: (context, AuthProvider value, child) {
-        authProvider = value;
-        return child;
-      },
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              height: double.infinity,
-              width: size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: <Widget>[
-                    const SizedBox(height: 40),
-                    _introText(),
-                    const SizedBox(height: 50),
-                    _fNameTF(context),
-                    const SizedBox(height: 20),
-                    _phoneNumberTF(context),
-                    const SizedBox(height: 20),
-                    _idTF(context),
-                    const SizedBox(height: 20),
-                    _emailTF(context),
-                    const SizedBox(height: 20),
-                    _passwordTF(context),
-                    const SizedBox(height: 20),
-                    _confirmPasswordTF(context),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text(
-                          'Gender:',
-                          style: Constants.blackBoldNormal,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            height: double.infinity,
+            width: size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: <Widget>[
+                  const SizedBox(height: 40),
+                  _introText(),
+                  const SizedBox(height: 50),
+                  _fNameTF(context),
+                  const SizedBox(height: 20),
+                  _phoneNumberTF(context),
+                  const SizedBox(height: 20),
+                  _idTF(context),
+                  const SizedBox(height: 20),
+                  _emailTF(context),
+                  const SizedBox(height: 20),
+                  _passwordTF(context),
+                  const SizedBox(height: 20),
+                  _confirmPasswordTF(context),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Text(
+                        'Gender:',
+                        style: Constants.blackBoldNormal,
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      DropdownButton(
+                        value: selectedValue,
+                        underline: Container(
+                          height: 1.5,
+                          color: Colors.greenAccent,
                         ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        DropdownButton(
-                          value: selectedValue,
-                          underline: Container(
-                            height: 1.5,
-                            color: Colors.greenAccent,
-                          ),
-                          items: _gender
-                              .map(
-                                (e) => DropdownMenuItem<String>(
-                                  value: e,
-                                  child: Text(
-                                    e,
-                                  ),
+                        items: _gender
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(
+                                  e,
                                 ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    CheckboxListTile(
-                      value: _checked,
-                      contentPadding: EdgeInsets.only(left: 0),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: Text(
-                          "I have read and agree to the terms and conditions"),
-                      onChanged: (bool value) {
-                        setState(() => _checked = value);
-                      },
-                    )
-                  ],
-                ),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (String? value) {
+                          setState(() {
+                            selectedValue = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  CheckboxListTile(
+                    value: _checked,
+                    contentPadding: EdgeInsets.only(left: 0),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: Text(
+                        "I have read and agree to the terms and conditions"),
+                    onChanged: (bool? value) {
+                      setState(() => _checked = value!);
+                    },
+                  ),
+                ],
               ),
             ),
-            _registerButton(context)
-          ],
-        ),
+          ),
+          // _registerButton(context)
+        ],
       ),
     );
   }
