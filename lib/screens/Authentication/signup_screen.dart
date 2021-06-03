@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
-// import 'package:kweliscore/models/models.dart';
-// import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-
-// final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;
@@ -18,22 +18,36 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
-  List<String> _gender = ["male", "female", "I prefer not to disclose"];
+  List<String> _gender = ["Male", "Female", "I prefer not to disclose"];
 
-  static String? email;
-  static String? emailConfirm;
-  static String? idNumber;
-  static String? gender;
-  static String? phoneNumber;
-  static String? pin;
-  static String? pinConfirm;
-  static String? name;
+  static String? _email;
+  static String? _emailConfirm;
+  static String? _idNumber;
+  static String? _phoneNumber;
+  static String? _password;
+  static String? _passwordConfirm;
+  static String? _name;
+  String? _genderValue;
+  static int _eighteenYearsInDays = 6570;
+  static DateTime? _dob = DateTime.now().subtract(
+    Duration(
+      days: _eighteenYearsInDays,
+    ),
+  );
+
+  static UserModel? _userModel;
+
+  static TextEditingController? _passwordOne = TextEditingController();
+  static TextEditingController? _passwordTwo = TextEditingController();
+
+  static TextEditingController? _emailOne = TextEditingController();
+  static TextEditingController? _emailTwo = TextEditingController();
 
   static ValidationHelper _validator = ValidationHelper.empty();
 
-  String? selectedValue;
+  DatePrettier? _datePrettier;
 
-  bool _checked = false;
+  bool _checkedTandC = false;
   bool _visiblePass = true;
   bool _visibleConfirmPass = true;
 
@@ -48,7 +62,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _fNameTF(BuildContext context) {
+  Widget _fNameTF() {
     return TextFormField(
       onSaved: _onfNameSaved,
       keyboardType: TextInputType.text,
@@ -65,10 +79,10 @@ class _SignUpState extends State<SignUp> {
   }
 
   _onfNameSaved(String? value) {
-    email = value!.trim();
+    _name = value!.trim();
   }
 
-  Widget _idTF(BuildContext context) {
+  Widget _idTF() {
     return TextFormField(
       onSaved: _onIdNumberSaved,
       keyboardType: TextInputType.number,
@@ -86,12 +100,13 @@ class _SignUpState extends State<SignUp> {
   }
 
   _onIdNumberSaved(String? value) {
-    idNumber = value!.trim();
+    _idNumber = value!.trim();
   }
 
-  Widget _emailTF(BuildContext context) {
+  Widget _emailTF() {
     return TextFormField(
       onSaved: _onEmailSaved,
+      controller: _emailOne,
       autofocus: false,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
@@ -107,10 +122,37 @@ class _SignUpState extends State<SignUp> {
   }
 
   _onEmailSaved(String? value) {
-    email = value!.trim();
+    _email = value!.trim();
   }
 
-  Widget _phoneNumberTF(BuildContext context) {
+  Widget _confirmEmailTF() {
+    return TextFormField(
+      onSaved: _onConfirmEmailSaved,
+      controller: _emailTwo,
+      autofocus: false,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      validator: (value) {
+        if (_emailTwo!.text != _emailOne!.text) {
+          return 'Emails don\'t match';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        border: Constants.blackInputBorder,
+        enabledBorder: Constants.blackInputBorder,
+        focusedBorder: Constants.blackInputBorder,
+        labelText: 'Confirm Email',
+        prefixIcon: const Icon(Icons.email),
+      ),
+    );
+  }
+
+  _onConfirmEmailSaved(String? value) {
+    _emailConfirm = value!.trim();
+  }
+
+  Widget _phoneNumberTF() {
     return TextFormField(
       onSaved: _onPhoneNumberSaved,
       autofocus: false,
@@ -128,13 +170,14 @@ class _SignUpState extends State<SignUp> {
   }
 
   _onPhoneNumberSaved(String? value) {
-    phoneNumber = value!.trim();
+    _phoneNumber = value!.trim();
   }
 
-  Widget _passwordTF(BuildContext context) {
+  Widget _passwordTF() {
     return TextFormField(
       onSaved: _onPasswordSaved,
       obscureText: _visiblePass,
+      controller: _passwordOne,
       autofocus: false,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
@@ -158,17 +201,23 @@ class _SignUpState extends State<SignUp> {
   }
 
   _onPasswordSaved(String? value) {
-    pin = value!.trim();
+    _password = value!.trim();
   }
 
-  Widget _confirmPasswordTF(BuildContext context) {
+  Widget _confirmPasswordTF() {
     return TextFormField(
       onSaved: _onConfirmPasswordSaved,
       obscureText: _visibleConfirmPass,
       autofocus: false,
+      controller: _passwordTwo,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.done,
-      validator: _validator.pinValidator,
+      validator: (value) {
+        if (_passwordTwo!.text != _passwordOne!.text) {
+          return 'PIN doesn\'t match';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         border: Constants.blackInputBorder,
         enabledBorder: Constants.blackInputBorder,
@@ -188,63 +237,175 @@ class _SignUpState extends State<SignUp> {
   }
 
   _onConfirmPasswordSaved(String? value) {
-    pinConfirm = value!.trim();
+    _passwordConfirm = value!.trim();
   }
 
-  // Widget _registerButton(BuildContext context) {
-  //   return Positioned(
-  //     bottom: 20,
-  //     right: 15,
-  //     child: Container(
-  //       height: 60,
-  //       width: 60,
-  //       decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(12),
-  //         color: Theme.of(context).primaryColor,
-  //       ),
-  //       child: IconButton(
-  //         icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             SlideLeftTransition(page: Login(), routeName: 'login'),
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
+  _genderSelector() {
+    return Row(
+      children: [
+        Text(
+          'Gender:',
+          style: Constants.blackBoldNormal,
+        ),
+        const SizedBox(width: 30),
+        DropdownButton(
+          value: _genderValue,
+          underline: Container(
+            height: 1.5,
+            decoration: Constants.kBoxDecoration,
+          ),
+          icon: Icon(Icons.arrow_downward),
+          hint: Text('Select'),
+          items: _gender
+              .map(
+                (e) => DropdownMenuItem<String>(
+                  value: e,
+                  child: Text(e),
+                ),
+              )
+              .toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _genderValue = value;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _registerButton() {
+    return _checkedTandC
+        ? Positioned(
+            bottom: 20,
+            right: 15,
+            child: Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Theme.of(context).primaryColor,
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+                onPressed: () => _registerBtnPressed(context),
+              ),
+            ),
+          )
+        : Container();
+  }
+
+  _termsConditionsWidget() {
+    return CheckboxListTile(
+      value: _checkedTandC,
+      contentPadding: const EdgeInsets.only(left: 0),
+      controlAffinity: ListTileControlAffinity.leading,
+      title: Text(
+        "I have read and I agree to the terms and conditions",
+      ),
+      onChanged: (bool? value) {
+        setState(() => _checkedTandC = value!);
+      },
+    );
+  }
+
+  // ******Date Selector Stuff*******
+  Widget _dateSelector() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Date of Birth',
+            style: Constants.blackBoldNormal,
+          ),
+          Container(
+            height: 200,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              maximumDate: DateTime.now().subtract(
+                Duration(
+                  days: _eighteenYearsInDays,
+                ),
+              ),
+              initialDateTime: DateTime.now().subtract(
+                Duration(
+                  days: _eighteenYearsInDays + 1,
+                ),
+              ),
+              onDateTimeChanged: (DateTime newDateTime) {
+                setState(() {
+                  _dob = newDateTime;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   void popDialog(BuildContext context) {
     Navigator.of(context).pop();
   }
 
-  // void _registerBtnPressed(BuildContext context) async {
-  //   final FormState form = _formKey.currentState;
-  //   if (form.validate()) {
-  //     form.save();
+  _registrationHandler(UserModel model) async {
+    return await context
+        .read<ApiProvider>()
+        .verifyDetailsBeforeRegistration(model);
+  }
 
-  //     _userModel = UserModel(
-  //       emailAddress: email,
-  //       password: password,
-  //       nationalIdNumber: idNumber,
-  //       phoneNumber: phoneNumber,
-  //     );
+  _registerBtnPressed(BuildContext context) async {
+    final FormState form = _formKey.currentState!;
+    if (_genderValue == null) {
+      Future.delayed(Duration(milliseconds: 100), () {
+        dialogInfo(
+          widget.scaffoldKey!.currentContext!,
+          'Please select your gender',
+          'Warning',
+        );
+      });
+    } else {
+      if (form.validate()) {
+        form.save();
 
-  //     await serverCall(_userModel, context).then((value) {
-  //       if (!value) {
-  //         Timer(Duration(milliseconds: 500), () {
-  //           _dialogs.dialogInfo(
-  //             widget.scaffoldKey.currentContext,
-  //             'Error',
-  //             result,
-  //             () => popDialog(widget.scaffoldKey.currentContext),
-  //           );
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
+        _datePrettier = DatePrettier(_dob!);
+
+        // Define the user
+        _userModel = UserModel(
+          name: _name,
+          email: _email,
+          email2: _emailConfirm,
+          dob: _datePrettier!.convertToymd(),
+          gender: _genderValue,
+          idNumber: _idNumber,
+          password1: _password,
+          password2: _passwordConfirm,
+          phone: _phoneNumber,
+        );
+
+        // Connect the backend
+        _registrationHandler(_userModel!).then((value) {
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(
+              widget.scaffoldKey!.currentContext!,
+              '${value.detail}',
+              'Warning',
+            );
+          });
+        }).catchError((error) {
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(
+              widget.scaffoldKey!.currentContext!,
+              '${error.toString()}',
+              'Error',
+            );
+          });
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -266,67 +427,30 @@ class _SignUpState extends State<SignUp> {
                   const SizedBox(height: 40),
                   _introText(),
                   const SizedBox(height: 50),
-                  _fNameTF(context),
+                  _fNameTF(),
                   const SizedBox(height: 20),
-                  _phoneNumberTF(context),
+                  _phoneNumberTF(),
                   const SizedBox(height: 20),
-                  _idTF(context),
+                  _idTF(),
                   const SizedBox(height: 20),
-                  _emailTF(context),
+                  _emailTF(),
                   const SizedBox(height: 20),
-                  _passwordTF(context),
+                  _confirmEmailTF(),
                   const SizedBox(height: 20),
-                  _confirmPasswordTF(context),
+                  _passwordTF(),
                   const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Text(
-                        'Gender:',
-                        style: Constants.blackBoldNormal,
-                      ),
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      DropdownButton(
-                        value: selectedValue,
-                        underline: Container(
-                          height: 1.5,
-                          color: Colors.greenAccent,
-                        ),
-                        items: _gender
-                            .map(
-                              (e) => DropdownMenuItem<String>(
-                                value: e,
-                                child: Text(
-                                  e,
-                                ),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                  _confirmPasswordTF(),
                   const SizedBox(height: 20),
-                  CheckboxListTile(
-                    value: _checked,
-                    contentPadding: EdgeInsets.only(left: 0),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: Text(
-                        "I have read and agree to the terms and conditions"),
-                    onChanged: (bool? value) {
-                      setState(() => _checked = value!);
-                    },
-                  ),
+                  _genderSelector(),
+                  const SizedBox(height: 20),
+                  _dateSelector(),
+                  const SizedBox(height: 20),
+                  _termsConditionsWidget(),
                 ],
               ),
             ),
           ),
-          // _registerButton(context)
+          _registerButton()
         ],
       ),
     );

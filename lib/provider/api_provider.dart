@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: constant_identifier_names
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
@@ -68,7 +69,7 @@ class ApiProvider with ChangeNotifier {
     String url = BASE_URL + '/pre_reg/';
 
     // Payload
-    var body = jsonEncode(user);
+    var body = jsonEncode(user.toRegistrationJson());
 
     // Request
     var verifyRequest = await http.post(
@@ -78,6 +79,12 @@ class ApiProvider with ChangeNotifier {
     );
     // Response
     dynamic verifyResponse = verifyRequest.body;
+
+    if (verifyRequest.statusCode == 200) {
+      // Save data locally
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('user', body);
+    }
 
     return serverResponseFromJson(verifyResponse);
   }
