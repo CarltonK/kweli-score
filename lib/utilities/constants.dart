@@ -67,4 +67,16 @@ class Constants {
   // Sizing
   static const double padding = 20;
   static const double avatarRadius = 45;
+
+  // Decorations
+  static const BoxDecoration kBoxDecoration = BoxDecoration(
+    color: Colors.greenAccent,
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black12,
+        blurRadius: 6.0,
+        offset: Offset(0, 2),
+      ),
+    ],
+  );
 }

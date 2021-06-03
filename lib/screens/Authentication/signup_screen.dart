@@ -18,7 +18,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
-  List<String> _gender = ["male", "female", "I prefer not to disclose"];
+  List<String> _gender = ["Male", "Female", "I prefer not to disclose"];
 
   static String? email;
   static String? emailConfirm;
@@ -191,60 +191,35 @@ class _SignUpState extends State<SignUp> {
     pinConfirm = value!.trim();
   }
 
-  // Widget _registerButton(BuildContext context) {
-  //   return Positioned(
-  //     bottom: 20,
-  //     right: 15,
-  //     child: Container(
-  //       height: 60,
-  //       width: 60,
-  //       decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(12),
-  //         color: Theme.of(context).primaryColor,
-  //       ),
-  //       child: IconButton(
-  //         icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             SlideLeftTransition(page: Login(), routeName: 'login'),
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _registerButton(BuildContext context) {
+    return Positioned(
+      bottom: 20,
+      right: 15,
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).primaryColor,
+        ),
+        child: IconButton(
+          icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+          onPressed: () => _registerBtnPressed,
+        ),
+      ),
+    );
+  }
 
   void popDialog(BuildContext context) {
     Navigator.of(context).pop();
   }
 
-  // void _registerBtnPressed(BuildContext context) async {
-  //   final FormState form = _formKey.currentState;
-  //   if (form.validate()) {
-  //     form.save();
-
-  //     _userModel = UserModel(
-  //       emailAddress: email,
-  //       password: password,
-  //       nationalIdNumber: idNumber,
-  //       phoneNumber: phoneNumber,
-  //     );
-
-  //     await serverCall(_userModel, context).then((value) {
-  //       if (!value) {
-  //         Timer(Duration(milliseconds: 500), () {
-  //           _dialogs.dialogInfo(
-  //             widget.scaffoldKey.currentContext,
-  //             'Error',
-  //             result,
-  //             () => popDialog(widget.scaffoldKey.currentContext),
-  //           );
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
+  void _registerBtnPressed(BuildContext context) async {
+    final FormState form = _formKey.currentState!;
+    if (form.validate()) {
+      form.save();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -284,22 +259,20 @@ class _SignUpState extends State<SignUp> {
                         'Gender:',
                         style: Constants.blackBoldNormal,
                       ),
-                      const SizedBox(
-                        width: 30,
-                      ),
+                      const SizedBox(width: 30),
                       DropdownButton(
                         value: selectedValue,
                         underline: Container(
                           height: 1.5,
-                          color: Colors.greenAccent,
+                          decoration: Constants.kBoxDecoration,
                         ),
+                        icon: Icon(Icons.arrow_downward),
+                        hint: Text('Select'),
                         items: _gender
                             .map(
                               (e) => DropdownMenuItem<String>(
                                 value: e,
-                                child: Text(
-                                  e,
-                                ),
+                                child: Text(e),
                               ),
                             )
                             .toList(),
@@ -314,10 +287,11 @@ class _SignUpState extends State<SignUp> {
                   const SizedBox(height: 20),
                   CheckboxListTile(
                     value: _checked,
-                    contentPadding: EdgeInsets.only(left: 0),
+                    contentPadding: const EdgeInsets.only(left: 0),
                     controlAffinity: ListTileControlAffinity.leading,
                     title: Text(
-                        "I have read and agree to the terms and conditions"),
+                      "I have read and agree to the terms and conditions",
+                    ),
                     onChanged: (bool? value) {
                       setState(() => _checked = value!);
                     },
@@ -326,7 +300,7 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
           ),
-          // _registerButton(context)
+          _registerButton(context)
         ],
       ),
     );
