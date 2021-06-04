@@ -39,7 +39,7 @@ class ForgotPassword extends StatelessWidget {
       width: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.blueAccent[200]!.withOpacity(0.7),
+        color: Theme.of(context).primaryColor,
       ),
       child: IconButton(
         icon: const Icon(
