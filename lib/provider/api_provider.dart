@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:kweliscore/models/models.dart';
@@ -52,7 +53,10 @@ class ApiProvider with ChangeNotifier {
       _status = Status.Authenticated;
       notifyListeners();
 
-      return loginResponseFromJson(loginResponse);
+      LoginResponse resp = loginResponseFromJson(loginResponse);
+      await FirebaseCrashlytics.instance.setUserIdentifier(resp.user!.name!);
+
+      return resp;
     } else {
       _status = Status.Unauthenticated;
       notifyListeners();
