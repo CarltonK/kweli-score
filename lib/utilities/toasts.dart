@@ -16,7 +16,7 @@ Future errorToast(String message) async {
 Future successToast(String message) async {
   await Fluttertoast.showToast(
     msg: message,
-    toastLength: Toast.LENGTH_SHORT,
+    toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.CENTER,
     timeInSecForIosWeb: 1,
     backgroundColor: Colors.green,
