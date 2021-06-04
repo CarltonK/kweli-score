@@ -47,6 +47,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic: ^1.11.0
+  flutter_launcher_icons: ^0.9.0
   # integration_test:
   #   sdk: flutter
 
@@ -55,4 +56,11 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/launcher/
+
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/launcher/ksmart-logo.png"
+  image_path_android: "assets/launcher/ksmart-logo.png"
 
