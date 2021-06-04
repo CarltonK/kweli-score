@@ -40,4 +40,12 @@ class ValidationHelper {
     }
     return null;
   }
+
+  String? otpValidator(String? value) {
+    //Check if password exists
+    if (value!.isEmpty) {
+      return 'Please provide your OTP';
+    }
+    return null;
+  }
 }

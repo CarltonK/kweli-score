@@ -42,6 +42,7 @@ class UserModel {
         password1: json["password1"] ?? '',
         password2: json["password2"] ?? '',
         email: json["email"] ?? '',
+        dob: json["dob"] ?? '',
         email2: json["email2"] ?? '',
         gender: json["gender"] ?? '',
         idNumber: json["id_number"] ?? '',
@@ -76,5 +77,18 @@ class UserModel {
         "dob": dob,
         "gender": gender,
         "id_number": idNumber,
+      };
+
+  Map<String, dynamic> toFinalRegistrationJson() => {
+        "name": name,
+        "phone": phone,
+        "password1": password1,
+        "password2": password2,
+        "email": email,
+        "email2": email2,
+        "dob": dob,
+        "gender": gender,
+        "id_number": idNumber,
+        "otp": otp,
       };
 }
