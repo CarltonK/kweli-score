@@ -82,7 +82,7 @@ class ApiProvider with ChangeNotifier {
       headers: header,
     );
     // Response
-    dynamic verifyResponse = verifyRequest.body;
+    // dynamic verifyResponse = verifyRequest.body;
 
     if (verifyRequest.statusCode == 200) {
       // Save data locally
@@ -90,7 +90,7 @@ class ApiProvider with ChangeNotifier {
       await prefs.setString('user', body);
     }
 
-    return serverResponseFromJson(verifyResponse);
+    return verifyRequest;
   }
 
   /// METHOD = POST
@@ -101,7 +101,7 @@ class ApiProvider with ChangeNotifier {
     String url = BASE_URL + '/validate_otp_register/';
 
     // Payload
-    var body = jsonEncode(user);
+    var body = jsonEncode(user.toFinalRegistrationJson());
 
     // Request
     var verifyRequest = await http.post(
@@ -110,9 +110,12 @@ class ApiProvider with ChangeNotifier {
       headers: header,
     );
     // Response
-    dynamic verifyResponse = verifyRequest.body;
+    if (verifyRequest.statusCode == 201) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+    }
 
-    return serverResponseFromJson(verifyResponse);
+    return verifyRequest;
   }
 
   /// METHOD = POST
