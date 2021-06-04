@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/screens/home/home_screen.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class OTP extends StatelessWidget {
   static String? _otp;
+  final VoidCallback onPressed;
+
+  OTP({Key? key, required this.onPressed}) : super(key: key);
 
   _onOtpSaved(String? value) {
     _otp = value!.trim();
@@ -80,12 +82,7 @@ class OTP extends StatelessWidget {
                     Icons.arrow_forward_ios,
                     color: Colors.white,
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      SlideLeftTransition(page: HomePage(), routeName: 'home'),
-                    );
-                  },
+                  onPressed: onPressed,
                 ),
               ),
             )
