@@ -86,7 +86,7 @@ class _SignUpState extends State<SignUp> {
   Widget _idTF() {
     return TextFormField(
       onSaved: _onIdNumberSaved,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       validator: _validator.identityValidator,
       decoration: InputDecoration(
