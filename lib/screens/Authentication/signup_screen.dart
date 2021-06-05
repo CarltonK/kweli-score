@@ -17,7 +17,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final _formKey = GlobalKey<FormState>();
+  final _signUpformKey = GlobalKey<FormState>();
 
   List<String> _gender = ["Male", "Female", "I prefer not to disclose"];
 
@@ -358,7 +358,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   _registerBtnPressed(BuildContext context) async {
-    final FormState form = _formKey.currentState!;
+    final FormState form = _signUpformKey.currentState!;
     if (_genderValue == null) {
       Future.delayed(Duration(milliseconds: 100), () {
         dialogInfo(
@@ -389,6 +389,7 @@ class _SignUpState extends State<SignUp> {
         // Connect the backend
         _registrationHandler(_userModel!).then((value) {
           if (value.statusCode == 200) {
+            _signUpformKey.currentState!.reset();
             Navigator.of(context).push(
               SlideLeftTransition(page: OTP(), routeName: 'verify_otp'),
             );
@@ -429,8 +430,9 @@ class _SignUpState extends State<SignUp> {
             width: size.width,
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Form(
-              key: _formKey,
+              key: _signUpformKey,
               child: ListView(
+                addAutomaticKeepAlives: true,
                 children: <Widget>[
                   const SizedBox(height: 40),
                   _introText(),

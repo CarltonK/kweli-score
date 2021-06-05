@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
-import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +11,7 @@ final GlobalKey<ScaffoldState> _scaffoldOtpKey = GlobalKey<ScaffoldState>();
 
 class OTP extends StatelessWidget {
   static String? _otp;
-  final _formKey = GlobalKey<FormState>();
+  final _otpFormKey = GlobalKey<FormState>();
   static UserModel? _userModel;
   static ValidationHelper _validator = ValidationHelper.empty();
 
@@ -65,7 +64,7 @@ class OTP extends StatelessWidget {
   }
 
   _verifyBtnPressed(BuildContext context) async {
-    final FormState form = _formKey.currentState!;
+    final FormState form = _otpFormKey.currentState!;
     if (form.validate()) {
       form.save();
 
@@ -80,12 +79,7 @@ class OTP extends StatelessWidget {
           ServerResponse resp = serverResponseFromJson(value.body);
           if (value.statusCode == 201) {
             successToast('${resp.detail}');
-            Navigator.of(context).pushReplacement(
-              SlideLeftTransition(
-                page: MainAuthentication(),
-                routeName: 'main_authentication',
-              ),
-            );
+            Navigator.of(context).pop();
           } else {
             Future.delayed(Duration(milliseconds: 200), () {
               dialogInfo(
@@ -132,7 +126,7 @@ class OTP extends StatelessWidget {
           bottom: 0,
         ),
         child: Form(
-          key: _formKey,
+          key: _otpFormKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
