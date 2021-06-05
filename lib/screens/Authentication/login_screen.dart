@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
+  final _loginFormKey = GlobalKey<FormState>();
 
   static String? idNumber;
   static String? password;
@@ -123,7 +123,7 @@ class _LoginState extends State<Login> {
   }
 
   void _loginBtnPressed(BuildContext context) {
-    final FormState form = _formKey.currentState!;
+    final FormState form = _loginFormKey.currentState!;
     if (form.validate()) {
       form.save();
 
@@ -186,7 +186,7 @@ class _LoginState extends State<Login> {
             width: size.width,
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Form(
-              key: _formKey,
+              key: _loginFormKey,
               child: ListView(
                 children: <Widget>[
                   const SizedBox(height: 60),
