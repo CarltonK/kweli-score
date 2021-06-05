@@ -61,7 +61,6 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            print('ola');
             // Pass all uncaught errors to Crashlytics.
             FirebaseCrashlytics instance = FirebaseCrashlytics.instance;
             FlutterError.onError = instance.recordFlutterError;
