@@ -42,7 +42,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Slack Test');
     return MaterialApp(
       title: 'K-Smart',
       debugShowCheckedModeBanner: false,
