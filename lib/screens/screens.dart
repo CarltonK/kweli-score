@@ -11,3 +11,8 @@ export 'packages/package.dart';
 
 // Home
 export 'home/home_screen.dart';
+
+//onBoarding
+export 'Onboarding/on_boarding1.dart';
+export 'Onboarding/on_boarding2.dart';
+export 'Onboarding/on_boarding3.dart';
