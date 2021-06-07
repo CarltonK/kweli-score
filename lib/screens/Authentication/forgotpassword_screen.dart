@@ -4,7 +4,7 @@ import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldState> _scaffoldPassKey = GlobalKey<ScaffoldState>();
 
 class ForgotPassword extends StatelessWidget {
   static ValidationHelper _validator = ValidationHelper.empty();
@@ -39,7 +39,7 @@ class ForgotPassword extends StatelessWidget {
       width: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.blueAccent[200]!.withOpacity(0.7),
+        color: Theme.of(context).primaryColor,
       ),
       child: IconButton(
         icon: const Icon(
@@ -64,12 +64,12 @@ class ForgotPassword extends StatelessWidget {
 
       resetHandler(context, _identificationNumber!).then((value) {
         Future.delayed(Duration(milliseconds: 100), () {
-          dialogInfo(_scaffoldKey.currentContext!, '${value.detail}', '');
+          dialogInfo(_scaffoldPassKey.currentContext!, '${value.detail}', '');
         });
       }).catchError((error) {
         Future.delayed(Duration(milliseconds: 200), () {
           dialogInfo(
-            _scaffoldKey.currentContext!,
+            _scaffoldPassKey.currentContext!,
             '${error.toString()}',
             'Error',
           );
@@ -83,15 +83,12 @@ class ForgotPassword extends StatelessWidget {
     // Dimensions
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      key: _scaffoldKey,
+      key: _scaffoldPassKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black54,
-          ),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black54),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -111,7 +108,6 @@ class ForgotPassword extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 20),
               Text(
                 "Enter the Identification Number associated with your account",
                 style: Constants.boldSubheadlineStyle,

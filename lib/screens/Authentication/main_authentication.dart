@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldState> _scaffoldAuthKey = GlobalKey<ScaffoldState>();
 
 class MainAuthentication extends StatefulWidget {
   @override
@@ -20,8 +20,8 @@ class _State extends State<MainAuthentication> with TickerProviderStateMixin {
     Text("Sign Up", style: Constants.blackBoldNormal)
   ];
   final List<Widget> _pages = [
-    Login(scaffoldKey: _scaffoldKey),
-    SignUp(scaffoldKey: _scaffoldKey)
+    Login(scaffoldKey: _scaffoldAuthKey),
+    SignUp(scaffoldKey: _scaffoldAuthKey)
   ];
 
   Widget _appBar() {
@@ -99,7 +99,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      key: _scaffoldAuthKey,
       //resizeToAvoidBottomInset: false,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
