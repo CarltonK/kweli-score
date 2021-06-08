@@ -13,3 +13,6 @@ export 'global/global_error_contained.dart';
 export 'global/global_success_dialog.dart';
 export 'global/global_info_dialog.dart';
 export 'global/global_logout.dart';
+export 'global/global_multi_info_action_button.dart';
+export 'global/global_form_error.dart';
+export 'global/global_icon.dart';
