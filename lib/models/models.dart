@@ -5,3 +5,6 @@ export 'notification_model.dart';
 export 'responses/server_response_model.dart';
 export 'responses/login_response_model.dart';
 export 'responses/dashboard_response.dart';
+
+//Onboarding
+export 'intro_model.dart';
