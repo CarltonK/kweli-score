@@ -43,45 +43,46 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'K-Smart',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          platform: TargetPlatform.iOS,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
-        ),
-        navigatorObservers: <NavigatorObserver>[observer],
-        home: OnBoard1()
-        // FutureBuilder<FirebaseApp>(
-        //   future: _initialization,
-        //   builder: (context, snapshot) {
-        //     if (snapshot.hasError) {
-        //       return GlobalErrorContained(
-        //         errorMessage: '${snapshot.error.toString()}',
-        //       );
-        //     }
-        //     if (snapshot.connectionState == ConnectionState.done) {
-        //       // Pass all uncaught errors to Crashlytics.
-        //       FirebaseCrashlytics instance = FirebaseCrashlytics.instance;
-        //       FlutterError.onError = instance.recordFlutterError;
+      title: 'K-Smart',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        platform: TargetPlatform.iOS,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+      ),
+      navigatorObservers: <NavigatorObserver>[observer],
+      home: ChangeNotifierProvider(
+          create: (context) => IndexNotifier(), child: OnBoarding()),
+      //   FutureBuilder<FirebaseApp>(
+      //   future: _initialization,
+      //   builder: (context, snapshot) {
+      //     if (snapshot.hasError) {
+      //       return GlobalErrorContained(
+      //         errorMessage: '${snapshot.error.toString()}',
+      //       );
+      //     }
+      //     if (snapshot.connectionState == ConnectionState.done) {
+      //       // Pass all uncaught errors to Crashlytics.
+      //       FirebaseCrashlytics instance = FirebaseCrashlytics.instance;
+      //       FlutterError.onError = instance.recordFlutterError;
 
-        //       return Consumer<ApiProvider>(
-        //         builder: (context, value, child) {
-        //           if (value.status == Status.Authenticated) {
-        //             return HomePage();
-        //           }
-        //           if (value.status == Status.Authenticating) {
-        //             return GlobalLoader();
-        //           }
-        //           return child!;
-        //         },
-        //         child: MainAuthentication(),
-        //       );
-        //     }
-        //     return GlobalLoader();
-        //   },
-        // ),
-        );
+      //       return Consumer<ApiProvider>(
+      //         builder: (context, value, child) {
+      //           if (value.status == Status.Authenticated) {
+      //             return HomePage();
+      //           }
+      //           if (value.status == Status.Authenticating) {
+      //             return GlobalLoader();
+      //           }
+      //           return child!;
+      //         },
+      //         child: MainAuthentication(),
+      //       );
+      //     }
+      //     return GlobalLoader();
+      //   },
+      // ),
+    );
   }
 }

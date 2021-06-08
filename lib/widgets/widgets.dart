@@ -4,6 +4,7 @@ export 'info_dialog.dart';
 export 'file_upload.dart';
 export 'notification_badge.dart';
 export 'scrollable_sheet.dart';
+export 'pageIndicator.dart';
 
 // Global
 export 'global/global_loader.dart';
