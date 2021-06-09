@@ -3,7 +3,8 @@ import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 
 class SignUpForm extends StatefulWidget {
-  const SignUpForm({Key? key}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  SignUpForm({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   _SignUpFormState createState() => _SignUpFormState();

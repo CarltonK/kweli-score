@@ -3,7 +3,8 @@ import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class SignUpBody extends StatelessWidget {
-  const SignUpBody({Key? key}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  SignUpBody({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class SignUpBody extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: DeviceConfig.screenHeight! * 0.08),
-                  SignUpForm(),
+                  SignUpForm(scaffoldKey: scaffoldKey),
                   SizedBox(height: DeviceConfig.screenHeight! * 0.08),
                   SizedBox(height: getProportionateScreenHeight(20)),
                   Text(
