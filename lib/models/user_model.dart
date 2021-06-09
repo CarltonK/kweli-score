@@ -96,4 +96,8 @@ class UserModel {
         'id_number': idNumber,
         'password': password,
       };
+
+  Map<String, dynamic> toinitialPinResetJson() => {
+        'id_number': idNumber,
+      };
 }
