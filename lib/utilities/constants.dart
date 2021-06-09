@@ -86,6 +86,14 @@ class Constants {
     ],
   );
 
+  static InputDecoration otpInputDecoration = InputDecoration(
+    contentPadding:
+        EdgeInsets.symmetric(vertical: getProportionateScreenWidth(15)),
+    border: outlineInputBorder,
+    focusedBorder: outlineInputBorder,
+    enabledBorder: outlineInputBorder,
+  );
+
   static OutlineInputBorder outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(28),
     borderSide: BorderSide(color: Palette.kTextColor),
