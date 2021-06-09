@@ -21,6 +21,7 @@ class _OtpFormState extends State<OtpForm> {
   FocusNode? pin2FocusNode;
   FocusNode? pin3FocusNode;
   FocusNode? pin4FocusNode;
+  FocusNode? pin5FocusNode;
   UserModel? _userModel;
 
   String otpValue = '';
@@ -38,6 +39,7 @@ class _OtpFormState extends State<OtpForm> {
     pin2FocusNode = FocusNode();
     pin3FocusNode = FocusNode();
     pin4FocusNode = FocusNode();
+    pin5FocusNode = FocusNode();
   }
 
   @override
@@ -46,6 +48,7 @@ class _OtpFormState extends State<OtpForm> {
     pin2FocusNode!.dispose();
     pin3FocusNode!.dispose();
     pin4FocusNode!.dispose();
+    pin5FocusNode!.dispose();
   }
 
   void nextField(String value, FocusNode focusNode) {
@@ -163,8 +166,23 @@ class _OtpFormState extends State<OtpForm> {
                 textAlign: TextAlign.center,
                 decoration: Constants.otpInputDecoration,
                 onChanged: (value) {
+                  nextField(value, pin5FocusNode!);
+                  formCompleteOtp(value);
+                },
+              ),
+            ),
+            SizedBox(
+              width: getProportionateScreenWidth(60),
+              child: TextFormField(
+                focusNode: pin5FocusNode,
+                obscureText: true,
+                style: TextStyle(fontSize: 24),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                decoration: Constants.otpInputDecoration,
+                onChanged: (value) {
                   if (value.length == 1) {
-                    pin4FocusNode!.unfocus();
+                    pin5FocusNode!.unfocus();
                     formCompleteOtp(value);
                     otpVerifyButtonPressed();
                   }
