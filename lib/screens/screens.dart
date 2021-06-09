@@ -1,13 +1,15 @@
 // Authentication
-export 'Authentication/login_screen.dart';
-export 'Authentication/signup_screen.dart';
-export 'Authentication/forgotpassword_screen.dart';
-export 'Authentication/main_authentication.dart';
-export 'Authentication/intro_screens.dart';
-export 'Authentication/registration_otp.dart';
+export 'Authentication/instruction_screens.dart';
+export 'Authentication/sign_up/sign_up.dart';
+export 'Authentication/sign_in/sign_in.dart';
+export 'Authentication/otp/otp.dart';
+export 'Authentication/forgot_password/forgotPassword.dart';
 
 // Package
 export 'packages/package.dart';
 
 // Home
 export 'home/home_screen.dart';
+
+//On-Boarding
+export 'onboarding/onboarding.dart';

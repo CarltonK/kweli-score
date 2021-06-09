@@ -35,6 +35,7 @@ class InfoDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              const SizedBox(height: 8),
               Text(
                 status,
                 style: Constants.boldHeadlineStyle.copyWith(
@@ -55,15 +56,15 @@ class InfoDialog extends StatelessWidget {
               const SizedBox(height: 8),
               Align(
                 alignment: Alignment.bottomRight,
-                child: TextButton(
-                  onPressed: buttonPressed,
-                  child: Text(
-                    buttonText,
-                    style: Constants.kPositiveButtonStyle.copyWith(
-                      fontSize: 30,
-                    ),
-                  ),
-                ),
+                // child: TextButton(
+                //   onPressed: buttonPressed,
+                //   child: Text(
+                //     '',
+                //     style: Constants.kPositiveButtonStyle.copyWith(
+                //       fontSize: 30,
+                //     ),
+                //   ),
+                // ),
               ),
             ],
           ),
@@ -78,7 +79,14 @@ class InfoDialog extends StatelessWidget {
               borderRadius: BorderRadius.all(
                 const Radius.circular(Constants.avatarRadius),
               ),
-              child: const FlutterLogo(size: 150),
+              child: SizedBox(
+                height: 150,
+                width: 150,
+                child: Image.asset(
+                  'assets/launcher/ksmart-transparent-logo.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
           ),
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/constants.dart';
 
-class IntroOne extends StatelessWidget {
+class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +31,7 @@ class IntroOne extends StatelessWidget {
               child: TextButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => IntroTwo()));
+                        MaterialPageRoute(builder: (context) => Instruction()));
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -45,7 +45,7 @@ class IntroOne extends StatelessWidget {
   }
 }
 
-class IntroTwo extends StatelessWidget {
+class Instruction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
