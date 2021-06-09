@@ -136,11 +136,11 @@ class Constants {
   */
   static const String kIdNumberNullError =
       'Please enter your Identification Number';
-  static const String kInvalidEmailError = 'Please enter Valid Email';
+  static const String kInvalidEmailError = 'Please enter a valid Email';
   static const String kPassNullError = 'Please enter your password';
   static const String kShortPassError = 'Password is too short';
   static const String kMatchPassError = 'Passwords don\'t match';
   static const String kNamelNullError = 'Please enter your name';
-  static const String kPhoneNumberNullError = 'Please enter your phone number';
+  static const String kPhoneNumberNullError = 'Please enter your Phone Number';
   static const String kAddressNullError = "Please enter your address";
 }
