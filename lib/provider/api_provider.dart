@@ -120,7 +120,7 @@ class ApiProvider with ChangeNotifier {
 
   /// METHOD = POST
   ///
-  /// PARAMS = id_number
+  /// PARAMS = UserModel
   Future startPinReset(UserModel user) async {
     // Url
     String url = BASE_URL + '/start_to_reset_pin_view/';
@@ -134,10 +134,8 @@ class ApiProvider with ChangeNotifier {
       body: body,
       headers: header,
     );
-    // Response
-    dynamic verifyResponse = verifyRequest.body;
 
-    return serverResponseFromJson(verifyResponse);
+    return verifyRequest;
   }
 
   /// METHOD = POST
@@ -145,10 +143,10 @@ class ApiProvider with ChangeNotifier {
   /// PARAMS = UserModel
   Future finallyPinReset(UserModel user) async {
     // Url
-    String url = BASE_URL + '/start_to_reset_pin_view/';
+    String url = BASE_URL + '/forgot_pin_reset_view/';
 
     // Payload
-    var body = jsonEncode(user);
+    var body = jsonEncode(user.toFinalPinResetJson());
 
     // Request
     var verifyRequest = await http.post(
@@ -156,10 +154,8 @@ class ApiProvider with ChangeNotifier {
       body: body,
       headers: header,
     );
-    // Response
-    dynamic verifyResponse = verifyRequest.body;
 
-    return serverResponseFromJson(verifyResponse);
+    return verifyRequest;
   }
 
   /// METHOD = GET
