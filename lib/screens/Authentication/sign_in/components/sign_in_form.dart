@@ -88,10 +88,10 @@ class _SignInFormState extends State<SignInForm> {
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: Constants.kPassNullError);
-          return "";
+          return '';
         } else if (value.length < 4) {
           addError(error: Constants.kShortPassError);
-          return "";
+          return '';
         }
         return null;
       },
