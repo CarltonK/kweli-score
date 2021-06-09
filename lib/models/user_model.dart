@@ -91,4 +91,9 @@ class UserModel {
         "id_number": idNumber,
         "otp": otp,
       };
+
+  Map<String, dynamic> toLoginJson() => {
+        'id_number': idNumber,
+        'password': password,
+      };
 }
