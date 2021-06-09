@@ -53,28 +53,28 @@ class ForgotPassword extends StatelessWidget {
     );
   }
 
-  resetHandler(BuildContext context, String idNumber) async {
-    return await context.read<ApiProvider>().startPinReset(idNumber);
-  }
+  // resetHandler(BuildContext context, String idNumber) async {
+  //   return await context.read<ApiProvider>().startPinReset(idNumber);
+  // }
 
   void _resetBtnPressed(BuildContext context) {
     final FormState form = _formKey.currentState!;
     if (form.validate()) {
       form.save();
 
-      resetHandler(context, _identificationNumber!).then((value) {
-        Future.delayed(Duration(milliseconds: 100), () {
-          dialogInfo(_scaffoldPassKey.currentContext!, '${value.detail}', '');
-        });
-      }).catchError((error) {
-        Future.delayed(Duration(milliseconds: 200), () {
-          dialogInfo(
-            _scaffoldPassKey.currentContext!,
-            '${error.toString()}',
-            'Error',
-          );
-        });
-      });
+      // resetHandler(context, _identificationNumber!).then((value) {
+      //   Future.delayed(Duration(milliseconds: 100), () {
+      //     dialogInfo(_scaffoldPassKey.currentContext!, '${value.detail}', '');
+      //   });
+      // }).catchError((error) {
+      //   Future.delayed(Duration(milliseconds: 200), () {
+      //     dialogInfo(
+      //       _scaffoldPassKey.currentContext!,
+      //       '${error.toString()}',
+      //       'Error',
+      //     );
+      //   });
+      // });
     }
   }
 

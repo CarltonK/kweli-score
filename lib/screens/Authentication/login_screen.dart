@@ -118,37 +118,37 @@ class _LoginState extends State<Login> {
     Navigator.of(context).pop();
   }
 
-  Future loginHandler(BuildContext context, String identity, String pin) async {
-    return await context.read<ApiProvider>().loginRequest(identity, pin);
-  }
+  // Future loginHandler(BuildContext context, String identity, String pin) async {
+  //   return await context.read<ApiProvider>().loginRequest(identity, pin);
+  // }
 
   void _loginBtnPressed(BuildContext context) {
     final FormState form = _loginFormKey.currentState!;
     if (form.validate()) {
       form.save();
 
-      loginHandler(context, idNumber!, password!).then((value) {
-        if (value.runtimeType == LoginResponse) {
-          successToast('Welcome ${value.user.name}');
-        } else {
-          Future.delayed(Duration(milliseconds: 100), () {
-            dialogInfo(
-              widget.scaffoldKey.currentContext!,
-              '${value.detail}',
-            );
-          });
-          // errorToast(value.detail);
-        }
-      }).catchError((error) {
-        Future.delayed(Duration(milliseconds: 100), () {
-          dialogInfo(
-            widget.scaffoldKey.currentContext!,
-            '${error.toString()}',
-            'Error',
-          );
-        });
-        // errorToast(error.toString());
-      });
+      // loginHandler(context, idNumber!, password!).then((value) {
+      //   if (value.runtimeType == LoginResponse) {
+      //     successToast('Welcome ${value.user.name}');
+      //   } else {
+      //     Future.delayed(Duration(milliseconds: 100), () {
+      //       dialogInfo(
+      //         widget.scaffoldKey.currentContext!,
+      //         '${value.detail}',
+      //       );
+      //     });
+      //     // errorToast(value.detail);
+      //   }
+      // }).catchError((error) {
+      //   Future.delayed(Duration(milliseconds: 100), () {
+      //     dialogInfo(
+      //       widget.scaffoldKey.currentContext!,
+      //       '${error.toString()}',
+      //       'Error',
+      //     );
+      //   });
+      //   // errorToast(error.toString());
+      // });
     }
   }
 
