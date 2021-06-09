@@ -16,7 +16,7 @@ class GlobalActionButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: getProportionateScreenHeight(56),
-      child: FlatButton(
+      child: MaterialButton(
         shape: Constants.curvedRectBorder,
         color: Palette.ksmartPrimary,
         onPressed: onPressed,
@@ -29,6 +29,5 @@ class GlobalActionButton extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
