@@ -108,7 +108,7 @@ class _SignUpFormState extends State<SignUpForm> {
         labelText: 'Email',
         hintText: 'Enter your email',
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: GlobalIcon(svgIcon: "assets/icons/userIcon.svg"),
+        suffixIcon: GlobalIcon(svgIcon: "assets/icons/mail.svg"),
       ),
     );
   }
@@ -170,7 +170,7 @@ class _SignUpFormState extends State<SignUpForm> {
         labelText: 'Phone Number',
         hintText: 'Enter your phone number',
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: GlobalIcon(svgIcon: "assets/icons/userIcon.svg"),
+        suffixIcon: GlobalIcon(svgIcon: "assets/icons/phone.svg"),
       ),
     );
   }
