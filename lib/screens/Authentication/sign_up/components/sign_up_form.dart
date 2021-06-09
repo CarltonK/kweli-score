@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class SignUpForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -12,6 +16,8 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _signUpFormKey = GlobalKey<FormState>();
+
+  UserModel? user;
 
   String? identificationValue;
   String? phoneNumber;
@@ -259,12 +265,61 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  navigateToOtpPage() {
+    Navigator.of(context).push(
+      SlideLeftTransition(
+        page: OtpScreen(),
+        routeName: 'otp_screen',
+      ),
+    );
+  }
+
+  _registrationHandler(UserModel model) async {
+    return await context
+        .read<ApiProvider>()
+        .verifyDetailsBeforeRegistration(model);
+  }
+
   registrationButtonPressed() {
     final FormState _formState = _signUpFormKey.currentState!;
     if (_formState.validate()) {
       _formState.save();
 
       KeyboardUtil.hideKeyboard(context);
+
+      user = UserModel(
+        name: fullName,
+        email: emailAddress,
+        idNumber: identificationValue,
+        phone: phoneNumber,
+        password1: pinValue,
+        password2: confirmPinValue,
+      );
+
+      // Connect the backend
+      _registrationHandler(user!).then((value) {
+        if (value.statusCode == 200) {
+          _signUpFormKey.currentState!.reset();
+          navigateToOtpPage();
+        } else {
+          ServerResponse resp = serverResponseFromJson(value.body);
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(
+              widget.scaffoldKey.currentContext!,
+              '${resp.detail}',
+              'Warning',
+            );
+          });
+        }
+      }).catchError((error) {
+        Future.delayed(Duration(milliseconds: 100), () {
+          dialogInfo(
+            widget.scaffoldKey.currentContext!,
+            '${error.toString()}',
+            'Error',
+          );
+        });
+      });
     }
   }
 

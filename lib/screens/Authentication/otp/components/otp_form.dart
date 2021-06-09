@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -13,11 +18,10 @@ class OtpForm extends StatefulWidget {
 }
 
 class _OtpFormState extends State<OtpForm> {
-  final _otpFormKey = GlobalKey<FormState>();
-
   FocusNode? pin2FocusNode;
   FocusNode? pin3FocusNode;
   FocusNode? pin4FocusNode;
+  UserModel? _userModel;
 
   String otpValue = '';
 
@@ -50,91 +54,126 @@ class _OtpFormState extends State<OtpForm> {
     }
   }
 
-  otpVerifyButtonPressed() {
-    final FormState _formState = _otpFormKey.currentState!;
-    if (_formState.validate()) {
-      _formState.save();
+  verifyHandler(UserModel userModel) async {
+    return await context.read<ApiProvider>().otpRegistration(userModel);
+  }
 
-      KeyboardUtil.hideKeyboard(context);
+  navigateToLogin() {
+    // Remove this OtpScreen and SignUpScreen
+    // Show Login Screen
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
+  otpVerifyButtonPressed() async {
+    KeyboardUtil.hideKeyboard(context);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userModelAsString = await prefs.getString('user');
+
+    if (userModelAsString != null) {
+      _userModel = UserModel.fromJson(jsonDecode(userModelAsString));
+      _userModel!.otp = otpValue;
+
+      verifyHandler(_userModel!).then((value) {
+        ServerResponse resp = serverResponseFromJson(value.body);
+        if (value.statusCode == 201) {
+          successToast('${resp.detail}');
+          navigateToLogin();
+        } else {
+          Future.delayed(Duration(milliseconds: 200), () {
+            dialogInfo(
+              widget.scaffoldKey.currentContext!,
+              '${resp.detail}',
+              'Warning',
+            );
+          });
+        }
+      }).catchError((error) {
+        Future.delayed(Duration(milliseconds: 200), () {
+          dialogInfo(
+            widget.scaffoldKey.currentContext!,
+            '${error.toString()}',
+            'Error',
+          );
+        });
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _otpFormKey,
-      child: Column(
-        children: [
-          SizedBox(height: DeviceConfig.screenHeight! * 0.08),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: getProportionateScreenWidth(60),
-                child: TextFormField(
-                  autofocus: true,
-                  obscureText: true,
-                  style: TextStyle(fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration: Constants.otpInputDecoration,
-                  onChanged: (value) {
-                    nextField(value, pin2FocusNode!);
+    return Column(
+      children: [
+        SizedBox(height: DeviceConfig.screenHeight! * 0.08),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: getProportionateScreenWidth(60),
+              child: TextFormField(
+                autofocus: true,
+                obscureText: true,
+                style: TextStyle(fontSize: 24),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                decoration: Constants.otpInputDecoration,
+                onChanged: (value) {
+                  nextField(value, pin2FocusNode!);
+                  formCompleteOtp(value);
+                },
+              ),
+            ),
+            SizedBox(
+              width: getProportionateScreenWidth(60),
+              child: TextFormField(
+                focusNode: pin2FocusNode,
+                obscureText: true,
+                style: TextStyle(fontSize: 24),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                decoration: Constants.otpInputDecoration,
+                onChanged: (value) {
+                  nextField(value, pin3FocusNode!);
+                  formCompleteOtp(value);
+                },
+              ),
+            ),
+            SizedBox(
+              width: getProportionateScreenWidth(60),
+              child: TextFormField(
+                focusNode: pin3FocusNode,
+                obscureText: true,
+                style: TextStyle(fontSize: 24),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                decoration: Constants.otpInputDecoration,
+                onChanged: (value) {
+                  nextField(value, pin4FocusNode!);
+                  formCompleteOtp(value);
+                },
+              ),
+            ),
+            SizedBox(
+              width: getProportionateScreenWidth(60),
+              child: TextFormField(
+                focusNode: pin4FocusNode,
+                obscureText: true,
+                style: TextStyle(fontSize: 24),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                decoration: Constants.otpInputDecoration,
+                onChanged: (value) {
+                  if (value.length == 1) {
+                    pin4FocusNode!.unfocus();
                     formCompleteOtp(value);
-                  },
-                ),
+                    otpVerifyButtonPressed();
+                  }
+                },
               ),
-              SizedBox(
-                width: getProportionateScreenWidth(60),
-                child: TextFormField(
-                  focusNode: pin2FocusNode,
-                  obscureText: true,
-                  style: TextStyle(fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration: Constants.otpInputDecoration,
-                  onChanged: (value) {
-                    nextField(value, pin3FocusNode!);
-                    formCompleteOtp(value);
-                  },
-                ),
-              ),
-              SizedBox(
-                width: getProportionateScreenWidth(60),
-                child: TextFormField(
-                  focusNode: pin3FocusNode,
-                  obscureText: true,
-                  style: TextStyle(fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration: Constants.otpInputDecoration,
-                  onChanged: (value) {
-                    nextField(value, pin4FocusNode!);
-                    formCompleteOtp(value);
-                  },
-                ),
-              ),
-              SizedBox(
-                width: getProportionateScreenWidth(60),
-                child: TextFormField(
-                  focusNode: pin4FocusNode,
-                  obscureText: true,
-                  style: TextStyle(fontSize: 24),
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration: Constants.otpInputDecoration,
-                  onChanged: (value) {
-                    if (value.length == 1) {
-                      pin4FocusNode!.unfocus();
-                      formCompleteOtp(value);
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
