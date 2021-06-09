@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -16,6 +19,8 @@ class ForgotPasswordForm extends StatefulWidget {
 class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   final _forgotPasswordFormKey = GlobalKey<FormState>();
   final List<String> errors = [];
+
+  UserModel? user;
   String? identificationValue;
 
   void addError({String? error}) {
@@ -34,12 +39,36 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
     }
   }
 
+  resetHandler(UserModel user) async {
+    return await context.read<ApiProvider>().startPinReset(user);
+  }
+
   forgotPasswordPressed() {
     final FormState _formState = _forgotPasswordFormKey.currentState!;
     if (_formState.validate()) {
       _formState.save();
 
       KeyboardUtil.hideKeyboard(context);
+
+      user = UserModel(idNumber: identificationValue);
+
+      resetHandler(user!).then((value) {
+        Future.delayed(Duration(milliseconds: 100), () {
+          dialogInfo(
+            widget.scaffoldKey.currentContext!,
+            '${value.detail}',
+            'Warning',
+          );
+        });
+      }).catchError((error) {
+        Future.delayed(Duration(milliseconds: 200), () {
+          dialogInfo(
+            widget.scaffoldKey.currentContext!,
+            '${error.toString()}',
+            'Error',
+          );
+        });
+      });
     }
   }
 
