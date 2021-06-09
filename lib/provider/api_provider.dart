@@ -30,7 +30,7 @@ class ApiProvider with ChangeNotifier {
   /// METHOD = POST
   ///
   /// PARAMS = id_number (String), password (String)
-  Future loginRequest(String identity, String pin) async {
+  Future loginRequest(UserModel user) async {
     _status = Status.Authenticating;
     notifyListeners();
 
@@ -38,7 +38,7 @@ class ApiProvider with ChangeNotifier {
     String url = BASE_URL + '/score_sawa/';
 
     // Payload
-    var body = jsonEncode({'id_number': identity, 'password': pin});
+    var body = jsonEncode(user.toLoginJson());
 
     // Request
     var loginRequest = await http.post(
