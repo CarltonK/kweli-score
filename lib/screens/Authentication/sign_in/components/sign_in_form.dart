@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget {
-  const SignInForm({Key? key}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  SignInForm({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   _SignInFormState createState() => _SignInFormState();
@@ -13,6 +17,7 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final _signInFormKey = GlobalKey<FormState>();
 
+  UserModel? user;
   String? identificationValue;
   String? passwordValue;
   bool canRemember = false;
@@ -105,12 +110,39 @@ class _SignInFormState extends State<SignInForm> {
     );
   }
 
+  Future loginHandler(UserModel userModel) async {
+    return await context.read<ApiProvider>().loginRequest(userModel);
+  }
+
   loginButtonPressed() {
     final FormState _formState = _signInFormKey.currentState!;
     if (_formState.validate()) {
       _formState.save();
 
       KeyboardUtil.hideKeyboard(context);
+
+      user = UserModel(
+        idNumber: identificationValue,
+        password: passwordValue,
+      );
+
+      loginHandler(user!).then((value) {
+        if (value.runtimeType == LoginResponse) {
+          successToast('Welcome ${value.user.name}');
+        } else {
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(widget.scaffoldKey.currentContext!, '${value.detail}');
+          });
+        }
+      }).catchError((error) {
+        Future.delayed(Duration(milliseconds: 100), () {
+          dialogInfo(
+            widget.scaffoldKey.currentContext!,
+            '${error.toString()}',
+            'Error',
+          );
+        });
+      });
     }
   }
 

@@ -4,6 +4,9 @@ import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 
 class SignInBody extends StatelessWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  SignInBody({Key? key, required this.scaffoldKey}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,7 +32,7 @@ class SignInBody extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: DeviceConfig.screenHeight! * 0.08),
-                  SignInForm(),
+                  SignInForm(scaffoldKey: scaffoldKey),
                   SizedBox(height: DeviceConfig.screenHeight! * 0.08),
                   GlobalMultiInfoActionButton(
                     primaryText: 'Don\'t have an account ?',
