@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:provider/provider.dart';
@@ -45,16 +45,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'K-Smart',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        platform: TargetPlatform.iOS,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
-      ),
+      theme: Constants.appTheme,
       navigatorObservers: <NavigatorObserver>[observer],
       home: FutureBuilder<FirebaseApp>(
         future: _initialization,
         builder: (context, snapshot) {
+          DeviceConfig().init(context);
           if (snapshot.hasError) {
             return GlobalErrorContained(
               errorMessage: '${snapshot.error.toString()}',
@@ -75,7 +71,7 @@ class MyApp extends StatelessWidget {
                 }
                 return child!;
               },
-              child: MainAuthentication(),
+              child: SignInScreen(),
             );
           }
           return GlobalLoader();

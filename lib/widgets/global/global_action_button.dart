@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class GlobalActionButton extends StatelessWidget {
-  final Function onPressed;
+  final VoidCallback onPressed;
   final String action;
 
   GlobalActionButton({
@@ -13,14 +13,21 @@ class GlobalActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      minWidth: 310,
-      elevation: 5,
-      height: 55,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Colors.lightBlueAccent,
-      child: Text(action, style: Constants.whiteBoldSubheadlineStyle),
-      onPressed: () => onPressed,
+    return SizedBox(
+      width: double.infinity,
+      height: getProportionateScreenHeight(56),
+      child: MaterialButton(
+        shape: Constants.curvedRectBorder,
+        color: Palette.ksmartPrimary,
+        onPressed: onPressed,
+        child: Text(
+          action,
+          style: TextStyle(
+            fontSize: getProportionateScreenWidth(18),
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

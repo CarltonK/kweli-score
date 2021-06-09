@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
-
-import '../screens.dart';
 
 class OnBoarding extends StatefulWidget {
   @override

@@ -69,26 +69,29 @@ class UserModel {
 
   Map<String, dynamic> toRegistrationJson() => {
         "name": name,
+        "email": email,
+        "id_number": idNumber,
         "phone": phone,
         "password1": password1,
         "password2": password2,
-        "email": email,
-        "email2": email2,
-        "dob": dob,
-        "gender": gender,
-        "id_number": idNumber,
       };
 
   Map<String, dynamic> toFinalRegistrationJson() => {
         "name": name,
+        "email": email,
+        "id_number": idNumber,
         "phone": phone,
         "password1": password1,
         "password2": password2,
-        "email": email,
-        "email2": email2,
-        "dob": dob,
-        "gender": gender,
-        "id_number": idNumber,
         "otp": otp,
+      };
+
+  Map<String, dynamic> toLoginJson() => {
+        'id_number': idNumber,
+        'password': password,
+      };
+
+  Map<String, dynamic> toinitialPinResetJson() => {
+        'id_number': idNumber,
       };
 }
