@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -43,6 +47,20 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
     return await context.read<ApiProvider>().startPinReset(user);
   }
 
+  navigateToOtp() {
+    Navigator.of(context).push(
+      SlideLeftTransition(
+        page: PassResetOtpScreen(),
+        routeName: 'pass_reset_otp_screen',
+      ),
+    );
+  }
+
+  saveIdentificationValueToDevice(String userAsString) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user', userAsString);
+  }
+
   forgotPasswordPressed() {
     final FormState _formState = _forgotPasswordFormKey.currentState!;
     if (_formState.validate()) {
@@ -52,14 +70,24 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
       user = UserModel(idNumber: identificationValue);
 
-      resetHandler(user!).then((value) {
-        Future.delayed(Duration(milliseconds: 100), () {
-          dialogInfo(
-            widget.scaffoldKey.currentContext!,
-            '${value.detail}',
-            'Warning',
-          );
-        });
+      resetHandler(user!).then((value) async {
+        ServerResponse resp = serverResponseFromJson(value.body);
+        if (value.statusCode == 200) {
+          await successToast('${resp.detail}');
+
+          String userString = jsonEncode(user!.toinitialPinResetJson());
+          await saveIdentificationValueToDevice(userString);
+
+          navigateToOtp();
+        } else {
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(
+              widget.scaffoldKey.currentContext!,
+              '${resp.detail}',
+              'Warning',
+            );
+          });
+        }
       }).catchError((error) {
         Future.delayed(Duration(milliseconds: 200), () {
           dialogInfo(
