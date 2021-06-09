@@ -3,6 +3,12 @@ import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  ForgotPasswordForm({
+    Key? key,
+    required this.scaffoldKey,
+  }) : super(key: key);
+
   @override
   _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
 }
@@ -50,7 +56,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: Constants.kIdNumberNullError);
-          return "";
+          return '';
         }
         return null;
       },

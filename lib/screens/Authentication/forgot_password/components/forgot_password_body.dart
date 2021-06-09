@@ -3,6 +3,12 @@ import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class ForgotPasswordBody extends StatelessWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  ForgotPasswordBody({
+    Key? key,
+    required this.scaffoldKey,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,7 +33,7 @@ class ForgotPasswordBody extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: DeviceConfig.screenHeight! * 0.08),
-                  ForgotPasswordForm(),
+                  ForgotPasswordForm(scaffoldKey: scaffoldKey),
                 ],
               ),
             ),
