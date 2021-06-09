@@ -94,4 +94,16 @@ class UserModel {
   Map<String, dynamic> toinitialPinResetJson() => {
         'id_number': idNumber,
       };
+
+  Map<String, dynamic> tointermidiatePinResetJson() => {
+        'id_number': idNumber,
+        'otp': otp,
+      };
+
+  Map<String, dynamic> toFinalPinResetJson() => {
+        'id_number': idNumber,
+        'otp': otp,
+        'pin': pin,
+        'pin_confirm': pinConfirm,
+      };
 }
