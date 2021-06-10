@@ -4,7 +4,20 @@ import 'package:kweliscore/widgets/scrollable_sheet.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  ApiProvider? _apiProvider;
+
+  @override
+  void initState() {
+    _apiProvider = context.read<ApiProvider>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,7 +41,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.exit_to_app),
             onPressed: () {
-              context.read<ApiProvider>().status = Status.Unauthenticated;
+              _apiProvider!.status = Status.Unauthenticated;
             },
           )
         ],
