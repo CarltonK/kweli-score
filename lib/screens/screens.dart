@@ -11,7 +11,7 @@ export 'Authentication/pin_reset/pin_reset.dart';
 export 'packages/package.dart';
 
 // Home
-export 'home/home_screen.dart';
+export 'home/home.dart';
 
 //On-Boarding
 export 'onboarding/onboarding.dart';
