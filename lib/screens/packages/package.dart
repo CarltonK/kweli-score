@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/screens/screens.dart';
-import 'package:kweliscore/utilities/utilities.dart';
 
 class Package extends StatelessWidget {
   @override
