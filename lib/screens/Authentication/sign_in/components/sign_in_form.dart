@@ -22,6 +22,7 @@ class _SignInFormState extends State<SignInForm> {
   UserModel? user;
   String? identificationValue;
   String? passwordValue;
+  TextEditingController? _editingController;
   bool canRemember = false;
   final List<String> errors = [];
 
@@ -47,7 +48,7 @@ class _SignInFormState extends State<SignInForm> {
     return TextFormField(
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
-      controller: TextEditingController(text: identificationValue ?? ''),
+      controller: _editingController,
       onSaved: (newValue) => identificationValue = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -160,9 +161,8 @@ class _SignInFormState extends State<SignInForm> {
 
   Future retrieveSavedIdentificationValue() async {
     SharedPreferences stringPrefs = await SharedPreferences.getInstance();
-    setState(() {
-      identificationValue = stringPrefs.getString('identificationValue');
-    });
+    identificationValue = stringPrefs.getString('identificationValue');
+    _editingController!.text = identificationValue!;
   }
 
   Future checkFirstSeen() async {
@@ -183,17 +183,24 @@ class _SignInFormState extends State<SignInForm> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    checkFirstSeen();
-    retrieveSavedIdentificationValue();
-  }
-
   checkBoxChanged(value) async {
     setState(() {
       canRemember = value!;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _editingController = TextEditingController();
+    checkFirstSeen();
+    retrieveSavedIdentificationValue();
+  }
+
+  @override
+  void dispose() {
+    _editingController!.dispose();
+    super.dispose();
   }
 
   @override
