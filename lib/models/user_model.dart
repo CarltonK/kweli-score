@@ -42,6 +42,7 @@ class UserModel {
         password1: json["password1"] ?? '',
         password2: json["password2"] ?? '',
         email: json["email"] ?? '',
+        dob: json["dob"] ?? '',
         email2: json["email2"] ?? '',
         gender: json["gender"] ?? '',
         idNumber: json["id_number"] ?? '',
@@ -68,13 +69,41 @@ class UserModel {
 
   Map<String, dynamic> toRegistrationJson() => {
         "name": name,
+        "email": email,
+        "id_number": idNumber,
         "phone": phone,
         "password1": password1,
         "password2": password2,
+      };
+
+  Map<String, dynamic> toFinalRegistrationJson() => {
+        "name": name,
         "email": email,
-        "email2": email2,
-        "dob": dob,
-        "gender": gender,
         "id_number": idNumber,
+        "phone": phone,
+        "password1": password1,
+        "password2": password2,
+        "otp": otp,
+      };
+
+  Map<String, dynamic> toLoginJson() => {
+        'id_number': idNumber,
+        'password': password,
+      };
+
+  Map<String, dynamic> toinitialPinResetJson() => {
+        'id_number': idNumber,
+      };
+
+  Map<String, dynamic> tointermidiatePinResetJson() => {
+        'id_number': idNumber,
+        'otp': otp,
+      };
+
+  Map<String, dynamic> toFinalPinResetJson() => {
+        'id_number': idNumber,
+        'otp': otp,
+        'pin': pin,
+        'pin_confirm': pinConfirm,
       };
 }

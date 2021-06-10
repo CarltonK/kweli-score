@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/screens/screens.dart';
+// import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/constants.dart';
 
-class IntroOne extends StatelessWidget {
+class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(left: 15, right: 15, top: 150),
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 150),
         color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +31,7 @@ class IntroOne extends StatelessWidget {
               child: TextButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => IntroTwo()));
+                        MaterialPageRoute(builder: (context) => Instruction()));
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -45,7 +45,7 @@ class IntroOne extends StatelessWidget {
   }
 }
 
-class IntroTwo extends StatelessWidget {
+class Instruction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,21 +95,21 @@ class IntroTwo extends StatelessWidget {
             Text(
                 "4.  Enter the One Time Password sent to your phone in the next page"),
             Expanded(child: Container()),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => OTP()));
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Almost There  "),
-                      Icon(Icons.arrow_forward)
-                    ],
-                  )),
-            )
+            // Align(
+            //   alignment: Alignment.bottomRight,
+            //   child: TextButton(
+            //       onPressed: () {
+            //         Navigator.push(context,
+            //             MaterialPageRoute(builder: (context) => OTP()));
+            //       },
+            //       child: Row(
+            //         mainAxisSize: MainAxisSize.min,
+            //         children: [
+            //           Text("Almost There  "),
+            //           Icon(Icons.arrow_forward)
+            //         ],
+            //       )),
+            // )
           ],
         ),
       ),

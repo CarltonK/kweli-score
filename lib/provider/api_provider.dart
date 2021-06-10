@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:kweliscore/models/models.dart';
@@ -29,7 +30,7 @@ class ApiProvider with ChangeNotifier {
   /// METHOD = POST
   ///
   /// PARAMS = id_number (String), password (String)
-  Future loginRequest(String identity, String pin) async {
+  Future loginRequest(UserModel user) async {
     _status = Status.Authenticating;
     notifyListeners();
 
@@ -37,7 +38,7 @@ class ApiProvider with ChangeNotifier {
     String url = BASE_URL + '/score_sawa/';
 
     // Payload
-    var body = jsonEncode({'id_number': identity, 'password': pin});
+    var body = jsonEncode(user.toLoginJson());
 
     // Request
     var loginRequest = await http.post(
@@ -52,7 +53,10 @@ class ApiProvider with ChangeNotifier {
       _status = Status.Authenticated;
       notifyListeners();
 
-      return loginResponseFromJson(loginResponse);
+      LoginResponse resp = loginResponseFromJson(loginResponse);
+      await FirebaseCrashlytics.instance.setUserIdentifier(resp.user!.name!);
+
+      return resp;
     } else {
       _status = Status.Unauthenticated;
       notifyListeners();
@@ -78,7 +82,7 @@ class ApiProvider with ChangeNotifier {
       headers: header,
     );
     // Response
-    dynamic verifyResponse = verifyRequest.body;
+    // dynamic verifyResponse = verifyRequest.body;
 
     if (verifyRequest.statusCode == 200) {
       // Save data locally
@@ -86,7 +90,7 @@ class ApiProvider with ChangeNotifier {
       await prefs.setString('user', body);
     }
 
-    return serverResponseFromJson(verifyResponse);
+    return verifyRequest;
   }
 
   /// METHOD = POST
@@ -97,7 +101,7 @@ class ApiProvider with ChangeNotifier {
     String url = BASE_URL + '/validate_otp_register/';
 
     // Payload
-    var body = jsonEncode(user);
+    var body = jsonEncode(user.toFinalRegistrationJson());
 
     // Request
     var verifyRequest = await http.post(
@@ -106,20 +110,23 @@ class ApiProvider with ChangeNotifier {
       headers: header,
     );
     // Response
-    dynamic verifyResponse = verifyRequest.body;
+    if (verifyRequest.statusCode == 201) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+    }
 
-    return serverResponseFromJson(verifyResponse);
+    return verifyRequest;
   }
 
   /// METHOD = POST
   ///
-  /// PARAMS = id_number
-  Future startPinReset(String idNumber) async {
+  /// PARAMS = UserModel
+  Future startPinReset(UserModel user) async {
     // Url
     String url = BASE_URL + '/start_to_reset_pin_view/';
 
     // Payload
-    var body = jsonEncode({'id_number': idNumber});
+    var body = jsonEncode(user.toinitialPinResetJson());
 
     // Request
     var verifyRequest = await http.post(
@@ -127,10 +134,8 @@ class ApiProvider with ChangeNotifier {
       body: body,
       headers: header,
     );
-    // Response
-    dynamic verifyResponse = verifyRequest.body;
 
-    return serverResponseFromJson(verifyResponse);
+    return verifyRequest;
   }
 
   /// METHOD = POST
@@ -138,10 +143,10 @@ class ApiProvider with ChangeNotifier {
   /// PARAMS = UserModel
   Future finallyPinReset(UserModel user) async {
     // Url
-    String url = BASE_URL + '/start_to_reset_pin_view/';
+    String url = BASE_URL + '/forgot_pin_reset_view/';
 
     // Payload
-    var body = jsonEncode(user);
+    var body = jsonEncode(user.toFinalPinResetJson());
 
     // Request
     var verifyRequest = await http.post(
@@ -149,10 +154,8 @@ class ApiProvider with ChangeNotifier {
       body: body,
       headers: header,
     );
-    // Response
-    dynamic verifyResponse = verifyRequest.body;
 
-    return serverResponseFromJson(verifyResponse);
+    return verifyRequest;
   }
 
   /// METHOD = GET

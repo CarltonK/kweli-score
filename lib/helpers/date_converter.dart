@@ -10,7 +10,7 @@ class DatePrettier {
   // Convert to "year month date"
   String convertToymd() {
     //Date Parsing and Formatting
-    var formatter = DateFormat('y-MM-d');
+    var formatter = DateFormat('y-MM-dd');
     return formatter.format(this.dateTime!);
   }
 }
