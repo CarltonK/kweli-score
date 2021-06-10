@@ -47,6 +47,7 @@ class _SignInFormState extends State<SignInForm> {
     return TextFormField(
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
+      controller: TextEditingController(text: identificationValue ?? ''),
       onSaved: (newValue) => identificationValue = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -57,7 +58,7 @@ class _SignInFormState extends State<SignInForm> {
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: Constants.kIdNumberNullError);
-          return "";
+          return '';
         }
         return null;
       },
@@ -128,10 +129,13 @@ class _SignInFormState extends State<SignInForm> {
         password: passwordValue,
       );
 
-      loginHandler(user!).then((value) {
+      loginHandler(user!).then((value) async {
         if (value.runtimeType == LoginResponse) {
           _apiProvider!.token = value.token;
-          successToast('Welcome ${value.user.name}');
+          if (canRemember) {
+            await setIdentificationValue(identificationValue!);
+          }
+          await successToast('Welcome ${value.user.name}');
         } else {
           Future.delayed(Duration(milliseconds: 100), () {
             dialogInfo(widget.scaffoldKey.currentContext!, '${value.detail}');
@@ -147,6 +151,18 @@ class _SignInFormState extends State<SignInForm> {
         });
       });
     }
+  }
+
+  Future setIdentificationValue(String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('identificationValue', '$value');
+  }
+
+  Future retrieveSavedIdentificationValue() async {
+    SharedPreferences stringPrefs = await SharedPreferences.getInstance();
+    setState(() {
+      identificationValue = stringPrefs.getString('identificationValue');
+    });
   }
 
   Future checkFirstSeen() async {
@@ -171,6 +187,13 @@ class _SignInFormState extends State<SignInForm> {
   void initState() {
     super.initState();
     checkFirstSeen();
+    retrieveSavedIdentificationValue();
+  }
+
+  checkBoxChanged(value) async {
+    setState(() {
+      canRemember = value!;
+    });
   }
 
   @override
@@ -193,11 +216,7 @@ class _SignInFormState extends State<SignInForm> {
                 Checkbox(
                   value: canRemember,
                   activeColor: Palette.ksmartPrimary,
-                  onChanged: (value) {
-                    setState(() {
-                      canRemember = value!;
-                    });
-                  },
+                  onChanged: checkBoxChanged,
                 ),
                 Text('Remember me'),
                 Spacer(),
