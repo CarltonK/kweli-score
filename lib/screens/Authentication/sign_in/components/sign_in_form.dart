@@ -5,6 +5,7 @@ import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -17,9 +18,11 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final _signInFormKey = GlobalKey<FormState>();
 
+  ApiProvider? _apiProvider;
   UserModel? user;
   String? identificationValue;
   String? passwordValue;
+  TextEditingController? _editingController;
   bool canRemember = false;
   final List<String> errors = [];
 
@@ -45,6 +48,7 @@ class _SignInFormState extends State<SignInForm> {
     return TextFormField(
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
+      controller: _editingController,
       onSaved: (newValue) => identificationValue = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -55,7 +59,7 @@ class _SignInFormState extends State<SignInForm> {
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: Constants.kIdNumberNullError);
-          return "";
+          return '';
         }
         return null;
       },
@@ -126,9 +130,13 @@ class _SignInFormState extends State<SignInForm> {
         password: passwordValue,
       );
 
-      loginHandler(user!).then((value) {
+      loginHandler(user!).then((value) async {
         if (value.runtimeType == LoginResponse) {
-          successToast('Welcome ${value.user.name}');
+          _apiProvider!.token = value.token;
+          if (canRemember) {
+            await setIdentificationValue(identificationValue!);
+          }
+          await successToast('Welcome ${value.user.name}');
         } else {
           Future.delayed(Duration(milliseconds: 100), () {
             dialogInfo(widget.scaffoldKey.currentContext!, '${value.detail}');
@@ -146,51 +154,102 @@ class _SignInFormState extends State<SignInForm> {
     }
   }
 
+  Future setIdentificationValue(String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('identificationValue', '$value');
+  }
+
+  Future retrieveSavedIdentificationValue() async {
+    SharedPreferences stringPrefs = await SharedPreferences.getInstance();
+    identificationValue = stringPrefs.getString('identificationValue');
+    _editingController!.text = identificationValue!;
+  }
+
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+    if (!_seen) {
+      // Proceed to OnBoarding Screen
+      await Navigator.push(
+        context,
+        SlideLeftTransition(
+          page: OnBoarding(),
+          routeName: 'onboarding_screen',
+        ),
+      );
+      await prefs.setBool('seen', true);
+    } else {
+      await prefs.setBool('seen', true);
+    }
+  }
+
+  checkBoxChanged(value) async {
+    setState(() {
+      canRemember = value!;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _editingController = TextEditingController();
+    checkFirstSeen();
+    retrieveSavedIdentificationValue();
+  }
+
+  @override
+  void dispose() {
+    _editingController!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _signInFormKey,
-      child: Column(
-        children: [
-          buildIdentificationField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildPasswordFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Row(
-            children: [
-              Checkbox(
-                value: canRemember,
-                activeColor: Palette.ksmartPrimary,
-                onChanged: (value) {
-                  setState(() {
-                    canRemember = value!;
-                  });
-                },
-              ),
-              Text('Remember me'),
-              Spacer(),
-              GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                  SlideLeftTransition(
-                    page: ForgotPasswordScreen(),
-                    routeName: 'forgot_password_screen',
+    return Consumer<ApiProvider>(
+      builder: (context, value, child) {
+        _apiProvider = value;
+        return child!;
+      },
+      child: Form(
+        key: _signInFormKey,
+        child: Column(
+          children: [
+            buildIdentificationField(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            buildPasswordFormField(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            Row(
+              children: [
+                Checkbox(
+                  value: canRemember,
+                  activeColor: Palette.ksmartPrimary,
+                  onChanged: checkBoxChanged,
+                ),
+                Text('Remember me'),
+                Spacer(),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    SlideLeftTransition(
+                      page: ForgotPasswordScreen(),
+                      routeName: 'forgot_password_screen',
+                    ),
+                  ),
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(decoration: TextDecoration.underline),
                   ),
                 ),
-                child: Text(
-                  'Forgot Password',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-              ),
-            ],
-          ),
-          FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(20)),
-          GlobalActionButton(
-            action: 'Continue',
-            onPressed: loginButtonPressed,
-          ),
-          SizedBox(height: DeviceConfig.screenHeight! * 0.01),
-        ],
+              ],
+            ),
+            FormError(errors: errors),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            GlobalActionButton(
+              action: 'Continue',
+              onPressed: loginButtonPressed,
+            ),
+            SizedBox(height: DeviceConfig.screenHeight! * 0.01),
+          ],
+        ),
       ),
     );
   }
