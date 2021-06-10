@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
@@ -37,7 +37,9 @@ class IntroTwo extends StatelessWidget {
                   height: 350,
                   width: 350,
                   decoration: BoxDecoration(
-                      color: Colors.white, shape: BoxShape.circle),
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
               Consumer<OffsetNotifier>(
@@ -60,9 +62,7 @@ class IntroTwo extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         Consumer<OffsetNotifier>(
           builder: (context, value, child) {
             double multiplier;
@@ -82,20 +82,17 @@ class IntroTwo extends StatelessWidget {
             children: [
               Text(
                 intros[1].title!,
-                style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40,
-                    letterSpacing: 2),
+                style: Constants.boldHeadlineStyle,
               ),
-              SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   intros[1].subtitile!,
-                  style: GoogleFonts.quicksand(
-                      fontSize: 18, fontWeight: FontWeight.w500),
+                  style: Constants.blackBoldNormal.copyWith(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               )

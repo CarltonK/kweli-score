@@ -5,6 +5,7 @@ import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -144,6 +145,30 @@ class _SignInFormState extends State<SignInForm> {
         });
       });
     }
+  }
+
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+    if (!_seen) {
+      // Proceed to OnBoarding Screen
+      await Navigator.push(
+        context,
+        SlideLeftTransition(
+          page: OnBoarding(),
+          routeName: 'onboarding_screen',
+        ),
+      );
+      await prefs.setBool('seen', true);
+    } else {
+      await prefs.setBool('seen', true);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkFirstSeen();
   }
 
   @override
