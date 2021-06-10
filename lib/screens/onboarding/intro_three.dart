@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
@@ -29,7 +29,9 @@ class IntroThree extends StatelessWidget {
                   height: 350,
                   width: 350,
                   decoration: BoxDecoration(
-                      color: Colors.white, shape: BoxShape.circle),
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
               Consumer<OffsetNotifier>(
@@ -37,8 +39,10 @@ class IntroThree extends StatelessWidget {
                   return Transform(
                     alignment: FractionalOffset.center,
                     transform: Matrix4.translationValues(
-                        0, 100 * (1 - (4 * value.page! - 7)), 0)
-                      ..rotateZ((-math.pi / 2) * 2 * value.page!),
+                      0,
+                      100 * (1 - (4 * value.page! - 7)),
+                      0,
+                    )..rotateZ((-math.pi / 2) * 2 * value.page!),
                     child: child,
                   );
                 },
@@ -47,9 +51,7 @@ class IntroThree extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         Consumer<OffsetNotifier>(
           builder: (context, value, child) {
             return Transform.translate(
@@ -59,13 +61,10 @@ class IntroThree extends StatelessWidget {
           },
           child: Text(
             intros[2].title!,
-            style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.bold, fontSize: 40, letterSpacing: 2),
+            style: Constants.boldHeadlineStyle,
           ),
         ),
-        SizedBox(
-          height: 8,
-        ),
+        const SizedBox(height: 8),
         Consumer<OffsetNotifier>(
           builder: (context, value, child) {
             return Opacity(
@@ -74,11 +73,13 @@ class IntroThree extends StatelessWidget {
             );
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               intros[2].subtitile!,
-              style: GoogleFonts.quicksand(
-                  fontSize: 18, fontWeight: FontWeight.w500),
+              style: Constants.blackBoldNormal.copyWith(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+              ),
               textAlign: TextAlign.center,
             ),
           ),

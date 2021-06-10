@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -24,15 +24,16 @@ class _OnBoardingState extends State<OnBoarding> {
 
   Widget _introHeader() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.only(top: 10, right: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TextButton(
-            onPressed: () {},
-            child: Text('Skip',
-                style: GoogleFonts.quicksand(
-                    fontSize: 22, fontWeight: FontWeight.w800)),
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              'Skip',
+              style: Constants.kHeadlineStyle,
+            ),
           ),
         ],
       ),
@@ -50,21 +51,19 @@ class _OnBoardingState extends State<OnBoarding> {
           child: Column(
             children: [
               _introHeader(),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: DeviceConfig.screenHeight! * 0.08),
               Expanded(
-                  child: PageView(
-                controller: _pageController,
-                onPageChanged: (int index) {
-                  Provider.of<IndexNotifier>(context, listen: false).index =
-                      index;
-                  setState(() {
-                    _globalIndex = index;
-                  });
-                },
-                children: [IntroOne(), IntroTwo(), IntroThree()],
-              )),
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (int index) {
+                    context.read<IndexNotifier>().index = index;
+                    setState(() {
+                      _globalIndex = index;
+                    });
+                  },
+                  children: [IntroOne(), IntroTwo(), IntroThree()],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -74,19 +73,18 @@ class _OnBoardingState extends State<OnBoarding> {
                   ),
                   _globalIndex == 2
                       ? Padding(
-                          padding: EdgeInsets.only(right: 25),
+                          padding: const EdgeInsets.only(right: 25),
                           child: GestureDetector(
                             child: Icon(
                               Icons.arrow_forward_ios,
                             ),
-                            onTap: () {},
-                          ))
+                            onTap: () => Navigator.of(context).pop(),
+                          ),
+                        )
                       : Container()
                 ],
               ),
-              SizedBox(
-                height: 8,
-              )
+              SizedBox(height: DeviceConfig.screenHeight! * 0.08),
             ],
           ),
         ),

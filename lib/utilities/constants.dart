@@ -151,4 +151,15 @@ class Constants {
   static const String kNamelNullError = 'Please enter your name';
   static const String kPhoneNumberNullError = 'Please enter your Phone Number';
   static const String kAddressNullError = "Please enter your address";
+
+  /*
+  Duration
+  */
+  static const Duration veryFluidDuration = Duration(milliseconds: 200);
+  static const Duration fluidDuration = Duration(milliseconds: 500);
+
+  /*
+  Curves
+  */
+  static Curve verySmoothCurve = Curves.easeInOut;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
@@ -23,15 +23,18 @@ class IntroOne extends StatelessWidget {
                   return Transform.scale(
                     scale: math.max(0, 1 - value.page!),
                     child: Opacity(
-                        opacity: math.max(0, math.max(0, 1 - value.page!)),
-                        child: child),
+                      opacity: math.max(0, math.max(0, 1 - value.page!)),
+                      child: child,
+                    ),
                   );
                 },
                 child: Container(
                   height: 350,
                   width: 350,
                   decoration: BoxDecoration(
-                      color: Colors.white, shape: BoxShape.circle),
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
               Consumer<OffsetNotifier>(
@@ -48,9 +51,7 @@ class IntroOne extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         Consumer<OffsetNotifier>(
           builder: (context, value, child) {
             return Opacity(
@@ -62,23 +63,20 @@ class IntroOne extends StatelessWidget {
             children: [
               Text(
                 intros[0].title!,
-                style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40,
-                    letterSpacing: 2),
+                style: Constants.boldHeadlineStyle,
               ),
-              SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   intros[0].subtitile!,
-                  style: GoogleFonts.quicksand(
-                      fontSize: 18, fontWeight: FontWeight.w500),
+                  style: Constants.blackBoldNormal.copyWith(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
                   textAlign: TextAlign.center,
                 ),
-              )
+              ),
             ],
           ),
         )
