@@ -17,6 +17,9 @@ void main() {
     ChangeNotifierProvider(
       create: (context) => ApiProvider(),
     ),
+    ChangeNotifierProvider(
+      create: (context) => IndexNotifier(),
+    ),
   ];
 
   runZonedGuarded(() {
