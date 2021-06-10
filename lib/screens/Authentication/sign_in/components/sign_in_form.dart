@@ -18,6 +18,7 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final _signInFormKey = GlobalKey<FormState>();
 
+  ApiProvider? _apiProvider;
   UserModel? user;
   String? identificationValue;
   String? passwordValue;
@@ -129,6 +130,7 @@ class _SignInFormState extends State<SignInForm> {
 
       loginHandler(user!).then((value) {
         if (value.runtimeType == LoginResponse) {
+          _apiProvider!.token = value.token;
           successToast('Welcome ${value.user.name}');
         } else {
           Future.delayed(Duration(milliseconds: 100), () {
@@ -173,49 +175,55 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _signInFormKey,
-      child: Column(
-        children: [
-          buildIdentificationField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildPasswordFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Row(
-            children: [
-              Checkbox(
-                value: canRemember,
-                activeColor: Palette.ksmartPrimary,
-                onChanged: (value) {
-                  setState(() {
-                    canRemember = value!;
-                  });
-                },
-              ),
-              Text('Remember me'),
-              Spacer(),
-              GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                  SlideLeftTransition(
-                    page: ForgotPasswordScreen(),
-                    routeName: 'forgot_password_screen',
+    return Consumer<ApiProvider>(
+      builder: (context, value, child) {
+        _apiProvider = value;
+        return child!;
+      },
+      child: Form(
+        key: _signInFormKey,
+        child: Column(
+          children: [
+            buildIdentificationField(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            buildPasswordFormField(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            Row(
+              children: [
+                Checkbox(
+                  value: canRemember,
+                  activeColor: Palette.ksmartPrimary,
+                  onChanged: (value) {
+                    setState(() {
+                      canRemember = value!;
+                    });
+                  },
+                ),
+                Text('Remember me'),
+                Spacer(),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    SlideLeftTransition(
+                      page: ForgotPasswordScreen(),
+                      routeName: 'forgot_password_screen',
+                    ),
+                  ),
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(decoration: TextDecoration.underline),
                   ),
                 ),
-                child: Text(
-                  'Forgot Password',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-              ),
-            ],
-          ),
-          FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(20)),
-          GlobalActionButton(
-            action: 'Continue',
-            onPressed: loginButtonPressed,
-          ),
-          SizedBox(height: DeviceConfig.screenHeight! * 0.01),
-        ],
+              ],
+            ),
+            FormError(errors: errors),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            GlobalActionButton(
+              action: 'Continue',
+              onPressed: loginButtonPressed,
+            ),
+            SizedBox(height: DeviceConfig.screenHeight! * 0.01),
+          ],
+        ),
       ),
     );
   }
