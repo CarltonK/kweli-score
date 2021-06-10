@@ -10,30 +10,32 @@ class PageIndicator extends StatelessWidget {
       curve: Curves.decelerate,
       width: 10,
       height: 10,
-      margin: EdgeInsets.only(left: 10),
+      margin: const EdgeInsets.only(left: 10),
       decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: isActive ? Colors.black : Colors.transparent,
-          border: Border.all(color: Colors.black, width: 1)),
+        shape: BoxShape.circle,
+        color: isActive ? Colors.black : Colors.transparent,
+        border: Border.all(color: Colors.black, width: 1),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = Provider.of<IndexNotifier>(context).index;
+    final currentIndex = context.watch<IndexNotifier>().index;
 
     List<Widget> _buildIndicator() {
       List<Widget> indicators = [];
 
       for (int i = 0; i < intros.length; i++) {
-        indicators
-            .add(i == currentIndex ? _indicator(true) : _indicator(false));
+        indicators.add(
+          i == currentIndex ? _indicator(true) : _indicator(false),
+        );
       }
       return indicators;
     }
 
     return Padding(
-      padding: EdgeInsets.only(left: 18),
+      padding: const EdgeInsets.only(left: 18),
       child: Row(
         children: _buildIndicator(),
       ),
