@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 
 Future dialogExitApp(BuildContext context, Function yesClick) {
@@ -33,6 +34,27 @@ Future dialogSuccess(BuildContext context, String message) {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
+    ),
+  );
+}
+
+Future dialogComingSoon(BuildContext context) {
+  return showCupertinoModalPopup(
+    context: context,
+    builder: (context) => CupertinoAlertDialog(
+      title: Text(
+        'COMING SOON',
+        textAlign: TextAlign.center,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(
+            'GOT IT',
+            style: Constants.kPositiveButtonStyle,
+          ),
+        )
+      ],
     ),
   );
 }
