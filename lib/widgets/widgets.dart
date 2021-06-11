@@ -17,3 +17,4 @@ export 'global/global_multi_info_action_button.dart';
 export 'global/global_form_error.dart';
 export 'global/global_icon.dart';
 export 'global/global_circle_button.dart';
+export 'global/global_menu_item.dart';

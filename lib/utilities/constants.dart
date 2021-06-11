@@ -75,6 +75,12 @@ class Constants {
   /*
   DECORATIONS AND BORDERS
   */
+
+  static BoxDecoration kAvatarDecoration = BoxDecoration(
+    shape: BoxShape.circle,
+    border: Border.all(width: 4, color: Palette.ksmartPrimary),
+  );
+
   static const BoxDecoration kBoxDecoration = BoxDecoration(
     color: Colors.greenAccent,
     boxShadow: [

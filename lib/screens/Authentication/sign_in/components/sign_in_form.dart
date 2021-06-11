@@ -162,7 +162,9 @@ class _SignInFormState extends State<SignInForm> {
   Future retrieveSavedIdentificationValue() async {
     SharedPreferences stringPrefs = await SharedPreferences.getInstance();
     identificationValue = stringPrefs.getString('identificationValue');
-    _editingController!.text = identificationValue!;
+    identificationValue != null
+        ? _editingController!.text = identificationValue!
+        : _editingController!.text = '';
   }
 
   Future checkFirstSeen() async {
