@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class Palette {
   static const Color backgroundWhite = Color(0XFFFFFFFF);
 
+  static const Color backgroundGrey = Color(0XFFF5F6F9);
+
   static const Color ksmartPrimary = Colors.orange;
   static const Color ksmartSecondary = Color.fromRGBO(41, 46, 64, 1);
 
