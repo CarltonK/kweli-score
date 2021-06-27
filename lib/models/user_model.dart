@@ -19,6 +19,20 @@ class UserModel {
     this.otp,
     this.pin,
     this.pinConfirm,
+    this.principalPhone,
+    this.genderProfile,
+    this.emailProfile,
+    this.age,
+    this.currentPlan,
+    this.phone2,
+    this.phone3,
+    this.maritalStatus,
+    this.pensionStatus,
+    this.occupationStatus,
+    this.hseOwnStatus,
+    this.rentAmt,
+    this.dependants,
+    this.grossIncome,
   });
 
   String? password;
@@ -35,6 +49,21 @@ class UserModel {
   String? pin;
   String? pinConfirm;
 
+  String? principalPhone;
+  String? genderProfile;
+  String? emailProfile;
+  String? age;
+  String? currentPlan;
+  dynamic phone2;
+  dynamic phone3;
+  String? maritalStatus;
+  String? pensionStatus;
+  String? occupationStatus;
+  String? hseOwnStatus;
+  dynamic rentAmt;
+  int? dependants;
+  String? grossIncome;
+
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         password: json["password"] ?? '',
         name: json["name"] ?? '',
@@ -49,6 +78,26 @@ class UserModel {
         otp: json["otp"] ?? '',
         pin: json["pin"] ?? '',
         pinConfirm: json["pin_confirm"] ?? '',
+        principalPhone:
+            json["Principal Phone"] == null ? null : json["Principal Phone"],
+        genderProfile: json["Gender"] == null ? null : json["Gender"],
+        emailProfile: json["Email"] == null ? null : json["Email"],
+        age: json["Age"] == null ? null : json["Age"],
+        currentPlan: json["Current Plan"] == null ? null : json["Current Plan"],
+        phone2: json["phone_2"],
+        phone3: json["phone_3"],
+        maritalStatus:
+            json["marital_status"] == null ? null : json["marital_status"],
+        pensionStatus:
+            json["pension_status"] == null ? null : json["pension_status"],
+        occupationStatus: json["occupation_status"] == null
+            ? null
+            : json["occupation_status"],
+        hseOwnStatus:
+            json["hse_own_status"] == null ? null : json["hse_own_status"],
+        rentAmt: json["rent_amt"],
+        dependants: json["dependants"] == null ? null : json["dependants"],
+        grossIncome: json["gross_income"] == null ? null : json["gross_income"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,6 +114,19 @@ class UserModel {
         "otp": otp,
         "pin": pin,
         "pin_confirm": pinConfirm,
+        "Principal Phone": principalPhone == null ? null : principalPhone,
+        "Gender": genderProfile == null ? null : genderProfile,
+        "Email": emailProfile == null ? null : emailProfile,
+        "Age": age == null ? null : age,
+        "Current Plan": currentPlan == null ? null : currentPlan,
+        "phone_2": phone2,
+        "phone_3": phone3,
+        "marital_status": maritalStatus == null ? null : maritalStatus,
+        "pension_status": pensionStatus == null ? null : pensionStatus,
+        "occupation_status": occupationStatus == null ? null : occupationStatus,
+        "hse_own_status": hseOwnStatus == null ? null : hseOwnStatus,
+        "rent_amt": rentAmt,
+        "dependants": dependants == null ? null : dependants,
       };
 
   Map<String, dynamic> toRegistrationJson() => {
