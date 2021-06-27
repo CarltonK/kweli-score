@@ -194,6 +194,10 @@ class ApiProvider with ChangeNotifier {
     // Response
     dynamic profileResponse = profileRequest.body;
 
-    return profileResponse;
+    if (profileRequest.statusCode != 200) {
+      return serverResponseFromJson(profileResponse);
+    } else {
+      return userModelFromJson(profileResponse);
+    }
   }
 }
