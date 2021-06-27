@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ApiProvider? _apiProvider;
+  String? token;
+  Future? getUserFuture;
 
   int _index = 0;
   PageController? _controller;
@@ -62,11 +65,37 @@ class _HomePageState extends State<HomePage> {
   }
 
   _body() {
-    return PageView.builder(
-      controller: _controller,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return _pages[_index];
+    return FutureBuilder(
+      future: getUserFuture,
+      builder: (context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            break;
+          case ConnectionState.waiting:
+            return GlobalLoader();
+          case ConnectionState.none:
+            return Center(child: GlobalInfoDialog(message: 'There is no user'));
+          case ConnectionState.done:
+            if (snapshot.data.runtimeType == ServerResponse) {
+              return Center(
+                child: GlobalInfoDialog(message: '${snapshot.data.detail}'),
+              );
+            }
+            return Provider<UserModel>(
+              create: (context) => snapshot.data,
+              child: Consumer<UserModel>(
+                builder: (context, value, child) => child!,
+                child: PageView.builder(
+                  controller: _controller,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return _pages[_index];
+                  },
+                ),
+              ),
+            );
+        }
+        return Container();
       },
     );
   }
@@ -101,6 +130,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _apiProvider = context.read<ApiProvider>();
+    token = _apiProvider!.token;
+    getUserFuture = _apiProvider!.getUser(token!);
+
     _controller = PageController();
     super.initState();
   }

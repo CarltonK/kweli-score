@@ -166,7 +166,7 @@ class ApiProvider with ChangeNotifier {
     String url = BASE_URL + '/start_to_reset_pin_view/';
 
     // Request
-    var dashboardRequest = await http.post(
+    var dashboardRequest = await http.get(
       Uri.parse(url),
       headers: {'Authorization': 'Token $token', ...header},
     );
@@ -176,6 +176,28 @@ class ApiProvider with ChangeNotifier {
     if (dashboardRequest.statusCode == 200) {
     } else {
       return serverResponseFromJson(dashboardResponse);
+    }
+  }
+
+  /// METHOD = GET
+  ///
+  /// PARAMS = Token
+  Future getUser(String token) async {
+    // Url
+    String url = BASE_URL + '/user_profile/';
+
+    // Request
+    var profileRequest = await http.get(
+      Uri.parse(url),
+      headers: {'Authorization': 'Token $token', ...header},
+    );
+    // Response
+    dynamic profileResponse = profileRequest.body;
+
+    if (profileRequest.statusCode != 200) {
+      return serverResponseFromJson(profileResponse);
+    } else {
+      return userModelFromJson(profileResponse);
     }
   }
 }
