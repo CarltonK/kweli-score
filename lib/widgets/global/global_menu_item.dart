@@ -38,7 +38,7 @@ class GlobalMenuItem extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        color: Palette.backgroundWhite,
+        color: Palette.backgroundGrey,
         onPressed: press,
         child: Row(
           children: [
