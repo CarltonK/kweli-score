@@ -29,13 +29,8 @@ class SimbaDash extends StatelessWidget {
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
             GlobalScoreWidget(scorePercentage: 0.8),
-            SizedBox(height: getProportionateScreenHeight(15)),
-            Text(
-              'Credit Factors',
-              style: TextStyle(
-                fontSize: 25,
-              ),
-            ),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            Text('Credit Factors', style: TextStyle(fontSize: 25)),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
