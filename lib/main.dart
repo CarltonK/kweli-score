@@ -50,37 +50,36 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: Constants.appTheme,
       navigatorObservers: <NavigatorObserver>[observer],
-      home: SimbaDash(),
-      // FutureBuilder<FirebaseApp>(
-      //   future: _initialization,
-      //   builder: (context, snapshot) {
-      //     DeviceConfig().init(context);
-      //     if (snapshot.hasError) {
-      //       return GlobalErrorContained(
-      //         errorMessage: '${snapshot.error.toString()}',
-      //       );
-      //     }
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       // Pass all uncaught errors to Crashlytics.
-      //       FirebaseCrashlytics instance = FirebaseCrashlytics.instance;
-      //       FlutterError.onError = instance.recordFlutterError;
+      home: FutureBuilder<FirebaseApp>(
+        future: _initialization,
+        builder: (context, snapshot) {
+          DeviceConfig().init(context);
+          if (snapshot.hasError) {
+            return GlobalErrorContained(
+              errorMessage: '${snapshot.error.toString()}',
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            // Pass all uncaught errors to Crashlytics.
+            FirebaseCrashlytics instance = FirebaseCrashlytics.instance;
+            FlutterError.onError = instance.recordFlutterError;
 
-      //       return Consumer<ApiProvider>(
-      //         builder: (context, value, child) {
-      //           if (value.status == Status.Authenticated) {
-      //             return HomePage();
-      //           }
-      //           if (value.status == Status.Authenticating) {
-      //             return GlobalLoader();
-      //           }
-      //           return child!;
-      //         },
-      //         child: SignInScreen(),
-      //       );
-      //     }
-      //     return GlobalLoader();
-      //   },
-      // ),
+            return Consumer<ApiProvider>(
+              builder: (context, value, child) {
+                if (value.status == Status.Authenticated) {
+                  return HomePage();
+                }
+                if (value.status == Status.Authenticating) {
+                  return GlobalLoader();
+                }
+                return child!;
+              },
+              child: SignInScreen(),
+            );
+          }
+          return GlobalLoader();
+        },
+      ),
     );
   }
 }
