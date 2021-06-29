@@ -29,6 +29,128 @@ class SimbaDash extends StatelessWidget {
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
             GlobalScoreWidget(scorePercentage: 0.8),
+            SizedBox(height: getProportionateScreenHeight(15)),
+            Text(
+              'Credit Factors',
+              style: TextStyle(
+                fontSize: 25,
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    elevation: 5,
+                    margin: const EdgeInsets.only(top: 10, right: 10),
+                    color: Palette.ksmartPrimary,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 30,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'TOTAL SPENT THIS MONTH',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            'KSH 38,068',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            'DAILY AVERAGE',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            'KSH 1,312',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    elevation: 5,
+                    margin: const EdgeInsets.only(top: 10, right: 10),
+                    color: Palette.ksmartPrimary,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 30,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'TOTAL SPENT THIS MONTH',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            'KSH 38,068',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            'FAMILY AND FRIENDS',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          Text(
+                            'KSH 22,593',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
