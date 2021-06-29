@@ -45,7 +45,10 @@ class SimbaDash extends StatelessWidget {
                       borderRadius: BorderRadius.circular(9),
                     ),
                     elevation: 5,
-                    margin: const EdgeInsets.only(top: 10, right: 10),
+                    margin: EdgeInsets.symmetric(
+                      vertical: getProportionateScreenHeight(10),
+                      horizontal: getProportionateScreenWidth(5),
+                    ),
                     color: Palette.ksmartPrimary,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -99,7 +102,10 @@ class SimbaDash extends StatelessWidget {
                       borderRadius: BorderRadius.circular(9),
                     ),
                     elevation: 5,
-                    margin: const EdgeInsets.only(top: 10, right: 10),
+                    margin: EdgeInsets.symmetric(
+                      vertical: getProportionateScreenHeight(10),
+                      horizontal: getProportionateScreenWidth(5),
+                    ),
                     color: Palette.ksmartPrimary,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
