@@ -18,3 +18,4 @@ export 'global/global_form_error.dart';
 export 'global/global_icon.dart';
 export 'global/global_circle_button.dart';
 export 'global/global_menu_item.dart';
+export 'global/global_score_widget.dart';

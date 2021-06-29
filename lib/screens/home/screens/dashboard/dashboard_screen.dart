@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/screens/home/home.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -15,6 +16,7 @@ class DashboardScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: getProportionateScreenWidth(20),
             ),
+            child: SimbaDash(),
           ),
         ),
       ),
