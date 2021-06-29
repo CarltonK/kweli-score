@@ -56,9 +56,7 @@ class _GlobalScoreWidgetState extends State<GlobalScoreWidget> {
                         color: Palette.ksmartPrimary,
                       ),
                     ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(15),
-                    ),
+                    SizedBox(height: getProportionateScreenHeight(15)),
                     Text(
                       'Last Updated: 27th June 2021',
                       style: TextStyle(fontWeight: FontWeight.w300),

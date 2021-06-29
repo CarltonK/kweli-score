@@ -101,9 +101,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _pageSwitcher(int index) {
-    setState(() {
-      _index = index;
-    });
+    setState(() => _index = index);
     _controller!.animateToPage(
       _index,
       duration: Constants.veryFluidDuration,
@@ -111,9 +109,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _exitApp() {
-    _apiProvider!.status = Status.Unauthenticated;
-  }
+  _exitApp() => _apiProvider!.status = Status.Unauthenticated;
 
   _buildPopStack() {
     if (_index != 0) {
