@@ -44,7 +44,7 @@ class SimbaDash extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(9),
                     ),
-                    elevation: 5,
+                    elevation: 3,
                     margin: EdgeInsets.symmetric(
                       vertical: getProportionateScreenHeight(10),
                       horizontal: getProportionateScreenWidth(5),
@@ -101,7 +101,7 @@ class SimbaDash extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(9),
                     ),
-                    elevation: 5,
+                    elevation: 3,
                     margin: EdgeInsets.symmetric(
                       vertical: getProportionateScreenHeight(10),
                       horizontal: getProportionateScreenWidth(5),
