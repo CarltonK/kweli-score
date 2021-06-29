@@ -47,7 +47,7 @@ class _SignInFormState extends State<SignInForm> {
   TextFormField buildIdentificationField() {
     return TextFormField(
       textInputAction: TextInputAction.next,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
       controller: _editingController,
       onSaved: (newValue) => identificationValue = newValue,
       onChanged: (value) {

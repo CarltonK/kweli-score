@@ -13,8 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ApiProvider? _apiProvider;
-  String? token;
+  late ApiProvider _apiProvider;
+  late String token;
   Future? getUserFuture;
 
   int _index = 0;
@@ -70,7 +70,6 @@ class _HomePageState extends State<HomePage> {
       builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.active:
-            break;
           case ConnectionState.waiting:
             return GlobalLoader();
           case ConnectionState.none:
@@ -95,25 +94,20 @@ class _HomePageState extends State<HomePage> {
               ),
             );
         }
-        return Container();
       },
     );
   }
 
   _pageSwitcher(int index) {
-    setState(() {
-      _index = index;
-    });
+    setState(() => _index = index);
     _controller!.animateToPage(
       _index,
-      duration: Constants.veryFluidDuration,
-      curve: Constants.verySmoothCurve,
+      duration: Duration(milliseconds: 100),
+      curve: Curves.easeOutCubic,
     );
   }
 
-  _exitApp() {
-    _apiProvider!.status = Status.Unauthenticated;
-  }
+  _exitApp() => _apiProvider.status = Status.Unauthenticated;
 
   _buildPopStack() {
     if (_index != 0) {
@@ -130,8 +124,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _apiProvider = context.read<ApiProvider>();
-    token = _apiProvider!.token;
-    getUserFuture = _apiProvider!.getUser(token!);
+    token = _apiProvider.token;
+    getUserFuture = _apiProvider.getUser(token);
 
     _controller = PageController();
     super.initState();

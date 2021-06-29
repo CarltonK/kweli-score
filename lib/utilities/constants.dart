@@ -167,5 +167,5 @@ class Constants {
   /*
   Curves
   */
-  static Curve verySmoothCurve = Curves.easeInOut;
+  static Curve verySmoothCurve = Curves.easeOutCubic;
 }
