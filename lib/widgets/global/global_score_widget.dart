@@ -37,32 +37,30 @@ class _GlobalScoreWidgetState extends State<GlobalScoreWidget> {
                 strokeWidth: 8,
                 backgroundColor: Colors.grey,
               ),
-              Positioned(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '720',
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '720',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      'Good Job',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                        color: Palette.ksmartPrimary,
-                      ),
+                  ),
+                  Text(
+                    'Good Job',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                      color: Palette.ksmartPrimary,
                     ),
-                    SizedBox(height: getProportionateScreenHeight(15)),
-                    Text(
-                      'Last Updated: 27th June 2021',
-                      style: TextStyle(fontWeight: FontWeight.w300),
-                    )
-                  ],
-                ),
+                  ),
+                  SizedBox(height: getProportionateScreenHeight(15)),
+                  Text(
+                    'Last Updated: 27th June 2021',
+                    style: TextStyle(fontWeight: FontWeight.w300),
+                  )
+                ],
               )
             ],
           ),

@@ -9,3 +9,6 @@ export 'screens/pricing/pricing.dart';
 
 // Profile
 export 'screens/profile/profile.dart';
+
+//Spending Breakdown
+export 'screens/spendingBreakdown/spending.dart';
