@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late ApiProvider _apiProvider;
+  ApiProvider? _apiProvider;
   late String token;
   Future? getUserFuture;
 
@@ -83,15 +83,12 @@ class _HomePageState extends State<HomePage> {
             // Provide a user then provide the dashboard
             return Provider<UserModel>(
               create: (context) => snapshot.data,
-              child: Consumer<UserModel>(
-                builder: (context, value, child) => child!,
-                child: PageView.builder(
-                  controller: _controller,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return _pages[_index];
-                  },
-                ),
+              child: PageView.builder(
+                controller: _controller,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return _pages[_index];
+                },
               ),
             );
         }
@@ -108,7 +105,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _exitApp() => _apiProvider.status = Status.Unauthenticated;
+  _exitApp() => _apiProvider!.status = Status.Unauthenticated;
 
   _buildPopStack() {
     if (_index != 0) {
@@ -127,8 +124,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     _apiProvider = context.read<ApiProvider>();
-    token = _apiProvider.token;
-    getUserFuture = _apiProvider.getUser(token);
+    token = _apiProvider!.token;
+    getUserFuture = _apiProvider!.getUser(token);
     _controller = PageController();
   }
 
