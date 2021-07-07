@@ -20,7 +20,7 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  String? _token;
+  late String? _token;
   String get token => _token!;
   set token(String newToken) {
     _token = newToken;
@@ -163,7 +163,7 @@ class ApiProvider with ChangeNotifier {
   /// PARAMS = Token
   Future getDashboard(String token) async {
     // Url
-    String url = BASE_URL + '/start_to_reset_pin_view/';
+    String url = BASE_URL + '/ukombele/';
 
     // Request
     var dashboardRequest = await http.get(
@@ -174,6 +174,7 @@ class ApiProvider with ChangeNotifier {
     dynamic dashboardResponse = dashboardRequest.body;
 
     if (dashboardRequest.statusCode == 200) {
+      print('Dashboard retrieved');
     } else {
       return serverResponseFromJson(dashboardResponse);
     }
