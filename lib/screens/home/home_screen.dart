@@ -124,17 +124,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
+
     _apiProvider = context.read<ApiProvider>();
     token = _apiProvider.token;
     getUserFuture = _apiProvider.getUser(token);
-
     _controller = PageController();
-    super.initState();
   }
 
   @override
   void dispose() {
     _controller!.dispose();
+
     super.dispose();
   }
 
