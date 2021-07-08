@@ -4,7 +4,14 @@ import 'package:kweliscore/utilities/utilities.dart';
 class SpendingCard extends StatelessWidget {
   const SpendingCard({
     Key? key,
+    this.isIncoming = false,
+    required this.name,
+    required this.phoneNumber,
+    required this.amount,
   }) : super(key: key);
+
+  final bool isIncoming;
+  final String name, phoneNumber, amount;
 
   @override
   Widget build(BuildContext context) {
@@ -13,47 +20,22 @@ class SpendingCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       elevation: 5,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 20,
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(12),
+        leading: CircleAvatar(
+          backgroundColor:
+              isIncoming ? Colors.lightGreen[100] : Colors.red[100],
+          child: Icon(
+            isIncoming ? Icons.arrow_downward : Icons.arrow_upward,
+            color: isIncoming ? Colors.greenAccent[700] : Colors.red[900],
+          ),
         ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              child: Icon(Icons.verified_user),
-            ),
-            SizedBox(width: getProportionateScreenWidth(15)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Mark Carlton'),
-                SizedBox(height: getProportionateScreenHeight(7)),
-                Container(
-                  width: 150,
-                  child: LinearProgressIndicator(
-                    value: 0.8,
-                    color: Palette.ksmartPrimary,
-                    minHeight: 5,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(width: getProportionateScreenWidth(15)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text('Ksh 15,000'),
-                SizedBox(height: getProportionateScreenHeight(7)),
-                Text(
-                  '70%',
-                  style: TextStyle(
-                    color: Palette.ksmartPrimary,
-                  ),
-                )
-              ],
-            ),
-          ],
+        title: Text(name),
+        subtitle: Text(phoneNumber),
+        trailing: Text(
+          amount,
+          style: TextStyle(
+              color: isIncoming ? Colors.greenAccent[700] : Colors.red[900]),
         ),
       ),
     );
