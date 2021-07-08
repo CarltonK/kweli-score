@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/utilities/utilities.dart';
 
-class SpendingCard extends StatelessWidget {
-  const SpendingCard({
+class SingleTransactionCard extends StatelessWidget {
+  const SingleTransactionCard({
     Key? key,
     this.isIncoming = false,
     required this.name,
-    required this.phoneNumber,
+    required this.phone,
     required this.amount,
   }) : super(key: key);
 
   final bool isIncoming;
-  final String name, phoneNumber, amount;
+  final String name, phone, amount;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class SpendingCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      elevation: 5,
+      elevation: 3,
       child: ListTile(
         contentPadding: const EdgeInsets.all(12),
         leading: CircleAvatar(
@@ -31,11 +30,12 @@ class SpendingCard extends StatelessWidget {
           ),
         ),
         title: Text(name),
-        subtitle: Text(phoneNumber),
+        subtitle: Text(phone),
         trailing: Text(
           amount,
           style: TextStyle(
-              color: isIncoming ? Colors.greenAccent[700] : Colors.red[900]),
+            color: isIncoming ? Colors.greenAccent[700] : Colors.red[900],
+          ),
         ),
       ),
     );

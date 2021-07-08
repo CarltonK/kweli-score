@@ -10,9 +10,12 @@ class TabWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: Text(title,
-          style:
-              Constants.blackBoldNormal.copyWith(fontWeight: FontWeight.w400)),
+      child: Text(
+        title,
+        style: Constants.blackBoldNormal.copyWith(
+          fontWeight: FontWeight.w400,
+        ),
+      ),
     );
   }
 }
