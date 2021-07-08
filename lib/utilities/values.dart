@@ -2,3 +2,7 @@
 // ignore: non_constant_identifier_names
 final String BASE_URL =
     'https://gcptesting-310611.uc.r.appspot.com/api_score/v31';
+
+/// Internal Server Error
+// ignore: non_constant_identifier_names
+final String GLOBAL_ERROR = 'Internal Server Error';
