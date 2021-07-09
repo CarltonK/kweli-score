@@ -54,40 +54,60 @@ class SimbaDash extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'TOTAL SPENT THIS MONTH',
+                            'PERSONA TRANSACTIONS',
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 15,
                               color: Colors.white70,
                             ),
                           ),
-                          Text(
-                            'KSH 38,068',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
+                          Divider(height: 1),
                           const SizedBox(
-                            height: 40,
+                            height: 20,
                           ),
-                          Text(
-                            'DAILY AVERAGE',
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 15,
-                              color: Colors.white70,
+                          AnimatedContainer(
+                            duration: Constants.fluidDuration,
+                            height: 12,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.red,
                             ),
                           ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(2),
+                          ),
                           Text(
-                            'KSH 1,312',
+                            'Outgoing',
                             style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
                               color: Colors.white,
                             ),
-                          )
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(7),
+                          ),
+                          AnimatedContainer(
+                            duration: Constants.fluidDuration,
+                            height: 12,
+                            width: 70,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.greenAccent,
+                            ),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(2),
+                          ),
+                          Text(
+                            'Incoming',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -122,40 +142,60 @@ class SimbaDash extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'TOTAL SPENT THIS MONTH',
+                            'PAYBILL TRANSACTIONS',
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 15,
                               color: Colors.white70,
                             ),
                           ),
-                          Text(
-                            'KSH 38,068',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
+                          Divider(height: 1),
                           const SizedBox(
-                            height: 40,
+                            height: 20,
                           ),
-                          Text(
-                            'FAMILY AND FRIENDS',
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 15,
-                              color: Colors.white70,
+                          AnimatedContainer(
+                            duration: Constants.fluidDuration,
+                            height: 12,
+                            width: 130,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.red,
                             ),
                           ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(2),
+                          ),
                           Text(
-                            'KSH 22,593',
+                            'Outgoing',
                             style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
                               color: Colors.white,
                             ),
-                          )
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(7),
+                          ),
+                          AnimatedContainer(
+                            duration: Constants.fluidDuration,
+                            height: 12,
+                            width: 90,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.greenAccent,
+                            ),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(2),
+                          ),
+                          Text(
+                            'Incoming',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                     ),
