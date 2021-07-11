@@ -15,21 +15,31 @@ class CategoryBuilder extends StatefulWidget {
 
 class _CategoryBuilderState extends State<CategoryBuilder> {
   PageController? _controller;
-  double _animatedWidth = 0;
+  double _animatedWidth = 100;
+
   @override
   void initState() {
-    _controller = PageController(
-      viewportFraction: 0.7,
-    );
-
     super.initState();
+
+    _controller = PageController(viewportFraction: 0.7);
+    _autoAnimation();
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
   void dispose() {
     _controller!.dispose();
+
     super.dispose();
   }
+
+  _autoAnimation() => Future.delayed(Constants.veryFluidDuration, _widthSizer);
 
   _widthSizer() {
     setState(() {
@@ -39,7 +49,6 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Constants.veryFluidDuration, _widthSizer);
     return Container(
       height: getProportionateScreenHeight(150),
       child: PageView.builder(
@@ -84,9 +93,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: getProportionateScreenHeight(10)),
                     AnimatedContainer(
                       curve: Constants.verySmoothCurve,
                       duration: Constants.fluidDuration,
@@ -97,9 +104,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                         color: Colors.red,
                       ),
                     ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(2),
-                    ),
+                    SizedBox(height: getProportionateScreenHeight(2)),
                     Text(
                       'Outgoing',
                       style: TextStyle(
@@ -108,9 +113,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(7),
-                    ),
+                    SizedBox(height: getProportionateScreenHeight(7)),
                     AnimatedContainer(
                       duration: Constants.fluidDuration,
                       height: 12,
@@ -120,9 +123,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                         color: Colors.greenAccent,
                       ),
                     ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(2),
-                    ),
+                    SizedBox(height: getProportionateScreenHeight(2)),
                     Text(
                       'Incoming',
                       style: TextStyle(
