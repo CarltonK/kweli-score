@@ -57,7 +57,7 @@ class _SignUpFormState extends State<SignUpForm> {
     return TextFormField(
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.text,
-      onSaved: (newValue) => fullName = newValue,
+      onSaved: (newValue) => fullName = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kNamelNullError);
@@ -88,7 +88,7 @@ class _SignUpFormState extends State<SignUpForm> {
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
       focusNode: _focusEmail,
-      onSaved: (newValue) => emailAddress = newValue,
+      onSaved: (newValue) => emailAddress = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kInvalidEmailError);
@@ -124,7 +124,7 @@ class _SignUpFormState extends State<SignUpForm> {
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.text,
       focusNode: _focusIdentificationValue,
-      onSaved: (newValue) => identificationValue = newValue,
+      onSaved: (newValue) => identificationValue = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kIdNumberNullError);
@@ -155,7 +155,7 @@ class _SignUpFormState extends State<SignUpForm> {
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.phone,
       focusNode: _focusPhoneNumber,
-      onSaved: (newValue) => phoneNumber = newValue,
+      onSaved: (newValue) => phoneNumber = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kPhoneNumberNullError);
@@ -192,7 +192,7 @@ class _SignUpFormState extends State<SignUpForm> {
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_focusConfirmPin);
       },
-      onSaved: (newValue) => pinValue = newValue,
+      onSaved: (newValue) => pinValue = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kPassNullError);
@@ -232,7 +232,7 @@ class _SignUpFormState extends State<SignUpForm> {
         registrationButtonPressed();
       },
       maxLength: 4,
-      onSaved: (newValue) => confirmPinValue = newValue,
+      onSaved: (newValue) => confirmPinValue = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kPassNullError);

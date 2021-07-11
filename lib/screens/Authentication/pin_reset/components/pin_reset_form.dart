@@ -59,7 +59,7 @@ class _PinResetFormState extends State<PinResetForm> {
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_focusConfirmPin);
       },
-      onSaved: (newValue) => pinValue = newValue,
+      onSaved: (newValue) => pinValue = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kPassNullError);
@@ -99,7 +99,7 @@ class _PinResetFormState extends State<PinResetForm> {
         resetButtonPressed();
       },
       maxLength: 4,
-      onSaved: (newValue) => confirmPinValue = newValue,
+      onSaved: (newValue) => confirmPinValue = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kPassNullError);
