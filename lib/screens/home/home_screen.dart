@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                 child: GlobalInfoDialog(message: '${snapshot.data.detail}'),
               );
             }
-            // Provide a user then provide the dashboard
+            // Provide a user
             return Provider<UserModel>(
               create: (context) => snapshot.data,
               child: PageView.builder(
