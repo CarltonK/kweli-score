@@ -10,6 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 // ignore: constant_identifier_names
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
+// ignore: constant_identifier_names
+enum Dashboard { Stale, Swara, Chui, Simba }
+
 class ApiProvider with ChangeNotifier {
   final Map<String, String> header = {"Content-type": "application/json"};
 
@@ -20,7 +23,14 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  String? _token;
+  Dashboard _dash = Dashboard.Simba;
+  Dashboard get dash => _dash;
+  set dash(Dashboard newDashboard) {
+    _dash = newDashboard;
+    notifyListeners();
+  }
+
+  late String? _token;
   String get token => _token!;
   set token(String newToken) {
     _token = newToken;
@@ -163,7 +173,7 @@ class ApiProvider with ChangeNotifier {
   /// PARAMS = Token
   Future getDashboard(String token) async {
     // Url
-    String url = BASE_URL + '/start_to_reset_pin_view/';
+    String url = BASE_URL + '/ukombele/';
 
     // Request
     var dashboardRequest = await http.get(
@@ -174,6 +184,19 @@ class ApiProvider with ChangeNotifier {
     dynamic dashboardResponse = dashboardRequest.body;
 
     if (dashboardRequest.statusCode == 200) {
+      // Select dashboard to show
+      if (dashboardResponse.detail == 'stale') {
+        _dash = Dashboard.Stale;
+        notifyListeners();
+
+        return serverResponseFromJson(dashboardResponse);
+      } else {
+        if (dashboardResponse.detail['Current Plan'] == 'Swara') {
+          _dash = Dashboard.Stale;
+          notifyListeners();
+        }
+        return dashboardResponseFromJson(dashboardResponse);
+      }
     } else {
       return serverResponseFromJson(dashboardResponse);
     }

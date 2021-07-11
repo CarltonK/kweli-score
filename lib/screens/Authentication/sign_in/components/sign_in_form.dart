@@ -49,7 +49,7 @@ class _SignInFormState extends State<SignInForm> {
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.text,
       controller: _editingController,
-      onSaved: (newValue) => identificationValue = newValue,
+      onSaved: (newValue) => identificationValue = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kIdNumberNullError);
@@ -86,7 +86,7 @@ class _SignInFormState extends State<SignInForm> {
         loginButtonPressed();
       },
       maxLength: 4,
-      onSaved: (newValue) => passwordValue = newValue,
+      onSaved: (newValue) => passwordValue = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kPassNullError);

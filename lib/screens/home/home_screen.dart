@@ -13,9 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late ApiProvider _apiProvider;
+  ApiProvider? _apiProvider;
   late String token;
-  Future? getUserFuture;
+  Future? getUserFuture, getDashFuture;
 
   int _index = 0;
   PageController? _controller;
@@ -80,17 +80,15 @@ class _HomePageState extends State<HomePage> {
                 child: GlobalInfoDialog(message: '${snapshot.data.detail}'),
               );
             }
+            // Provide a user
             return Provider<UserModel>(
               create: (context) => snapshot.data,
-              child: Consumer<UserModel>(
-                builder: (context, value, child) => child!,
-                child: PageView.builder(
-                  controller: _controller,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return _pages[_index];
-                  },
-                ),
+              child: PageView.builder(
+                controller: _controller,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return _pages[_index];
+                },
               ),
             );
         }
@@ -107,7 +105,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _exitApp() => _apiProvider.status = Status.Unauthenticated;
+  _exitApp() => _apiProvider!.status = Status.Unauthenticated;
 
   _buildPopStack() {
     if (_index != 0) {
@@ -123,17 +121,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _apiProvider = context.read<ApiProvider>();
-    token = _apiProvider.token;
-    getUserFuture = _apiProvider.getUser(token);
-
-    _controller = PageController();
     super.initState();
+
+    _apiProvider = context.read<ApiProvider>();
+    token = _apiProvider!.token;
+    getUserFuture = _apiProvider!.getUser(token);
+    getDashFuture = _apiProvider!.getDashboard(token);
+    _controller = PageController();
   }
 
   @override
   void dispose() {
     _controller!.dispose();
+
     super.dispose();
   }
 

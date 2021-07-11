@@ -103,7 +103,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   TextFormField buildIdentificationField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => identificationValue = newValue,
+      onSaved: (newValue) => identificationValue = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kIdNumberNullError);
