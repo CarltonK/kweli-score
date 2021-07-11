@@ -17,7 +17,7 @@ class _GlobalScoreWidgetState extends State<GlobalScoreWidget> {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: getProportionateScreenHeight(27),
-        vertical: getProportionateScreenHeight(15),
+        vertical: getProportionateScreenHeight(10),
       ),
       child: AspectRatio(
         aspectRatio: 1,
@@ -52,10 +52,9 @@ class _GlobalScoreWidgetState extends State<GlobalScoreWidget> {
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 20,
-                      color: Palette.ksmartPrimary,
                     ),
                   ),
-                  SizedBox(height: getProportionateScreenHeight(15)),
+                  SizedBox(height: getProportionateScreenHeight(10)),
                   Text(
                     'Last Updated: 27th June 2021',
                     style: TextStyle(fontWeight: FontWeight.w300),
