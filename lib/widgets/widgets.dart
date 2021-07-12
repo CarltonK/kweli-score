@@ -22,3 +22,4 @@ export 'global/global_score_widget.dart';
 export 'global/global_single_transaction_card.dart';
 export 'global/global_tab_widget.dart';
 export 'global/global_circular_tab_indicator.dart';
+export 'global/global_analysis_loader.dart';
