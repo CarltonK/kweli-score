@@ -146,6 +146,14 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         body: _body(),
         bottomNavigationBar: _bottomBar(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print('Download report');
+          },
+          backgroundColor: Palette.ksmartPrimary,
+          child: Icon(Icons.arrow_downward),
+        ),
       ),
     );
   }
