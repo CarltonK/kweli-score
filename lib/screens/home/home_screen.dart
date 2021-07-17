@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/screens/screens.dart';
+import 'package:kweliscore/utilities/palette.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -59,6 +60,7 @@ class _HomePageState extends State<HomePage> {
       notchSmoothness: NotchSmoothness.smoothEdge,
       leftCornerRadius: 32,
       rightCornerRadius: 0,
+      gapLocation: GapLocation.end,
       splashSpeedInMilliseconds: 200,
     );
   }
@@ -137,6 +139,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -145,13 +148,7 @@ class _HomePageState extends State<HomePage> {
         body: _body(),
         bottomNavigationBar: _bottomBar(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print('Download report');
-          },
-          backgroundColor: Palette.ksmartPrimary,
-          child: Icon(Icons.arrow_downward),
-        ),
+        floatingActionButton: CustomFab(),
       ),
     );
   }
