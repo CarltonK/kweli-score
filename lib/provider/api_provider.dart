@@ -183,18 +183,28 @@ class ApiProvider with ChangeNotifier {
     // Response
     dynamic dashboardResponse = dashboardRequest.body;
 
+    dynamic dashboardResponseJson = json.decode(dashboardResponse);
+
     if (dashboardRequest.statusCode == 200) {
       // Select dashboard to show
-      if (dashboardResponse.detail == 'stale') {
+      if (dashboardResponseJson['detail'] == 'stale') {
         _dash = Dashboard.Stale;
         notifyListeners();
 
         return serverResponseFromJson(dashboardResponse);
       } else {
-        if (dashboardResponse.detail['Current Plan'] == 'Swara') {
-          _dash = Dashboard.Stale;
+        String currentPlan = dashboardResponseJson['detail']['Current Plan'];
+        if (currentPlan == 'Swara') {
+          _dash = Dashboard.Swara;
+          notifyListeners();
+        } else if (currentPlan == 'Chui') {
+          _dash = Dashboard.Chui;
+          notifyListeners();
+        } else if (currentPlan == 'Simba') {
+          _dash = Dashboard.Simba;
           notifyListeners();
         }
+
         return dashboardResponseFromJson(dashboardResponse);
       }
     } else {
