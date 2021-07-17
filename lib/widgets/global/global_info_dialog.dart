@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 
 class GlobalInfoDialog extends StatelessWidget {
   final String message;
@@ -16,11 +17,15 @@ class GlobalInfoDialog extends StatelessWidget {
         children: [
           Icon(
             Icons.sentiment_dissatisfied,
-            size: 150,
-            color: Theme.of(context).primaryColor,
+            size: getProportionateScreenHeight(150),
+            color: Palette.ksmartPrimary,
           ),
-          const SizedBox(height: 5),
-          Text(message, textAlign: TextAlign.center),
+          SizedBox(height: getProportionateScreenHeight(5)),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: Constants.kHeadlineBlackStyle,
+          ),
         ],
       ),
     );

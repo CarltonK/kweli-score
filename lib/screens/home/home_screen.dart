@@ -57,7 +57,6 @@ class _HomePageState extends State<HomePage> {
       activeIndex: _index,
       onTap: _pageSwitcher,
       notchSmoothness: NotchSmoothness.smoothEdge,
-      gapLocation: GapLocation.end,
       leftCornerRadius: 32,
       rightCornerRadius: 0,
       splashSpeedInMilliseconds: 200,
@@ -80,17 +79,15 @@ class _HomePageState extends State<HomePage> {
                 child: GlobalInfoDialog(message: '${snapshot.data.detail}'),
               );
             }
+            // Provide a user
             return Provider<UserModel>(
               create: (context) => snapshot.data,
-              child: Consumer<UserModel>(
-                builder: (context, value, child) => child!,
-                child: PageView.builder(
-                  controller: _controller,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return _pages[_index];
-                  },
-                ),
+              child: PageView.builder(
+                controller: _controller,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return _pages[_index];
+                },
               ),
             );
         }
@@ -123,17 +120,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
+
     _apiProvider = context.read<ApiProvider>();
     token = _apiProvider.token;
     getUserFuture = _apiProvider.getUser(token);
-
     _controller = PageController();
-    super.initState();
   }
 
   @override
   void dispose() {
     _controller!.dispose();
+
     super.dispose();
   }
 
