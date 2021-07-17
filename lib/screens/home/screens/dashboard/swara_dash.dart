@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/utilities/utilities.dart';
