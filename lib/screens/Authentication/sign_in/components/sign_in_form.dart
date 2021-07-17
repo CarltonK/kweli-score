@@ -194,14 +194,16 @@ class _SignInFormState extends State<SignInForm> {
   @override
   void initState() {
     super.initState();
-    _editingController = TextEditingController();
+
     checkFirstSeen();
     retrieveSavedIdentificationValue();
+    _editingController = TextEditingController();
   }
 
   @override
   void dispose() {
     _editingController!.dispose();
+
     super.dispose();
   }
 

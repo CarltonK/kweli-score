@@ -57,7 +57,6 @@ class _HomePageState extends State<HomePage> {
       activeIndex: _index,
       onTap: _pageSwitcher,
       notchSmoothness: NotchSmoothness.smoothEdge,
-      gapLocation: GapLocation.end,
       leftCornerRadius: 32,
       rightCornerRadius: 0,
       splashSpeedInMilliseconds: 200,

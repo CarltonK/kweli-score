@@ -33,7 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           width: double.infinity,
           child: FutureBuilder(
               future: _userDashboard,
-              builder: (context, snapshot) {
+              builder: (context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.active:
                   case ConnectionState.none:
@@ -43,24 +43,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   case ConnectionState.waiting:
                     return GlobalLoader();
                   case ConnectionState.done:
-                    // print(snapshot.data);
-                    // if (!snapshot.hasData) {
-                    //   return Center(
-                    //     child: GlobalInfoDialog(message: GLOBAL_ERROR),
-                    //   );
-                    // }
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: GlobalInfoDialog(message: GLOBAL_ERROR),
+                      );
+                    }
                     return Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: getProportionateScreenWidth(20),
                       ),
                       child: Consumer<ApiProvider>(
                         builder: (context, value, child) {
-                          if (value.dash == Dashboard.Stale) {
-                            return GlobalLoader();
+                          // Switch Case
+                          switch (value.dash) {
+                            case Dashboard.Stale:
+                              return GlobalLoader();
+                            case Dashboard.Swara:
+                              return SwaraDash();
+                            case Dashboard.Chui:
+                              return ChuiDash();
+                            case Dashboard.Simba:
+                              return SimbaDash();
                           }
-                          return child!;
                         },
-                        child: SimbaDash(),
                       ),
                     );
                 }
