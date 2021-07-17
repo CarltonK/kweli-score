@@ -13,9 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ApiProvider? _apiProvider;
+  late ApiProvider _apiProvider;
   late String token;
-  Future? getUserFuture, getDashFuture;
+  Future? getUserFuture;
 
   int _index = 0;
   PageController? _controller;
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _exitApp() => _apiProvider!.status = Status.Unauthenticated;
+  _exitApp() => _apiProvider.status = Status.Unauthenticated;
 
   _buildPopStack() {
     if (_index != 0) {
@@ -123,9 +123,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     _apiProvider = context.read<ApiProvider>();
-    token = _apiProvider!.token;
-    getUserFuture = _apiProvider!.getUser(token);
-    getDashFuture = _apiProvider!.getDashboard(token);
+    token = _apiProvider.token;
+    getUserFuture = _apiProvider.getUser(token);
     _controller = PageController();
   }
 
