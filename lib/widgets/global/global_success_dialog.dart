@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kweliscore/utilities/utilities.dart';
 
 class GlobalSuccessDialog extends StatelessWidget {
   final String message;
@@ -16,11 +17,15 @@ class GlobalSuccessDialog extends StatelessWidget {
         children: [
           Icon(
             Icons.sentiment_very_satisfied,
-            size: 150,
+            size: getProportionateScreenHeight(150),
             color: Colors.green,
           ),
-          const SizedBox(height: 5),
-          Text(message, textAlign: TextAlign.center),
+          SizedBox(height: getProportionateScreenHeight(5)),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: Constants.kHeadlineBlackStyle,
+          ),
         ],
       ),
     );

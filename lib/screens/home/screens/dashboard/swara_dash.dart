@@ -68,6 +68,24 @@ class _SwaraDashState extends State<SwaraDash> {
           _buildLocations(),
           SizedBox(height: getProportionateScreenHeight(20)),
           SummaryBuilder(summary: dash!.detail!.quickSummaries!),
+          // SizedBox(height: getProportionateScreenHeight(25)),
+          // Text('Transactional Data', style: Constants.kHeadlineStyle),
+          SizedBox(height: getProportionateScreenHeight(25)),
+          Text('Top Brands', style: Constants.kHeadlineStyle),
+          SizedBox(height: getProportionateScreenHeight(10)),
+          BrandsBuilder(
+            categories: [
+              'Petrol Stations',
+              'Restaurants',
+              'Insurance',
+              'Investments',
+              'Lifestyle',
+              'Supermarkets',
+              'Pharmacy',
+              // 'Internet and TV',
+            ],
+            brands: dash!.detail!.brands!,
+          )
         ],
       ),
     );

@@ -141,40 +141,46 @@ class Brands {
 
   List<Lifestyle>? petrolStations;
   List<Lifestyle>? restaurants;
-  dynamic insurance;
-  List<InvestPensionsSvng>? investPensionsSvngs;
+  List<Lifestyle>? insurance;
+  List<Lifestyle>? investPensionsSvngs;
   List<Lifestyle>? lifestyle;
   List<Lifestyle>? supermarkets;
   List<HomeInternetAndTv>? homeInternetAndTv;
-  dynamic pharmacy;
+  List<Lifestyle>? pharmacy;
 
   factory Brands.fromJson(Map<String, dynamic> json) => Brands(
         petrolStations: json["petrol_stations"] == null
-            ? null
+            ? []
             : List<Lifestyle>.from(
                 json["petrol_stations"].map((x) => Lifestyle.fromJson(x))),
         restaurants: json["restaurants"] == null
-            ? null
+            ? []
             : List<Lifestyle>.from(
                 json["restaurants"].map((x) => Lifestyle.fromJson(x))),
-        insurance: json["insurance"],
+        insurance: json["insurance"] == null
+            ? []
+            : List<Lifestyle>.from(
+                json["insurance"].map((x) => Lifestyle.fromJson(x))),
         investPensionsSvngs: json["invest_pensions_svngs"] == null
-            ? null
-            : List<InvestPensionsSvng>.from(json["invest_pensions_svngs"]
-                .map((x) => InvestPensionsSvng.fromJson(x))),
+            ? []
+            : List<Lifestyle>.from(json["invest_pensions_svngs"]
+                .map((x) => Lifestyle.fromJson(x))),
         lifestyle: json["lifestyle"] == null
-            ? null
+            ? []
             : List<Lifestyle>.from(
                 json["lifestyle"].map((x) => Lifestyle.fromJson(x))),
         supermarkets: json["supermarkets"] == null
-            ? null
+            ? []
             : List<Lifestyle>.from(
                 json["supermarkets"].map((x) => Lifestyle.fromJson(x))),
         homeInternetAndTv: json["home_internet_and_tv"] == null
-            ? null
+            ? []
             : List<HomeInternetAndTv>.from(json["home_internet_and_tv"]
                 .map((x) => HomeInternetAndTv.fromJson(x))),
-        pharmacy: json["pharmacy"],
+        pharmacy: json["pharmacy"] == null
+            ? []
+            : List<Lifestyle>.from(
+                json["pharmacy"].map((x) => Lifestyle.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -227,27 +233,6 @@ class HomeInternetAndTv {
       };
 }
 
-class InvestPensionsSvng {
-  InvestPensionsSvng({
-    this.name,
-    this.spent,
-  });
-
-  String? name;
-  String? spent;
-
-  factory InvestPensionsSvng.fromJson(Map<String, dynamic> json) =>
-      InvestPensionsSvng(
-        name: json["name"] == null ? null : json["name"],
-        spent: json["Spent"] == null ? null : json["Spent"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name == null ? null : name,
-        "Spent": spent == null ? null : spent,
-      };
-}
-
 class Lifestyle {
   Lifestyle({
     this.name,
@@ -261,8 +246,7 @@ class Lifestyle {
 
   factory Lifestyle.fromJson(Map<String, dynamic> json) => Lifestyle(
         name: json["name"] == null ? null : json["name"],
-        transactions:
-            json["transactions"] == null ? null : json["transactions"],
+        transactions: json["transactions"] == null ? 1 : json["transactions"],
         spent: json["Spent"] == null ? null : json["Spent"],
       );
 

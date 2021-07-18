@@ -18,7 +18,7 @@ class Palette {
 
   static const List<Color> paletteColors = [
     Colors.red,
-    Colors.blue,
+    ksmartPrimary,
     Colors.green,
     Colors.yellow,
     Colors.pink,
