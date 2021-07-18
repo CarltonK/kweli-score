@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/screens/screens.dart';
+// import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 
@@ -29,7 +29,7 @@ class SimbaDash extends StatelessWidget {
           SizedBox(height: getProportionateScreenHeight(10)),
           Text('Credit Factors', style: TextStyle(fontSize: 25)),
           SizedBox(height: getProportionateScreenHeight(10)),
-          CategoryBuilder(),
+          // CategoryBuilder(),
         ],
       ),
     );
