@@ -44,7 +44,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   case ConnectionState.waiting:
                     return GlobalLoader();
                   case ConnectionState.done:
-                    print(snapshot.data.toJson());
                     if (!snapshot.hasData) {
                       return Center(
                         child: GlobalInfoDialog(message: GLOBAL_ERROR),
