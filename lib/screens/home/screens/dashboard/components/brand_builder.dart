@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:kweliscore/widgets/global/global_info_dialog.dart';
+import 'package:kweliscore/widgets/widgets.dart';
 
 class BrandsBuilder extends StatefulWidget {
   BrandsBuilder({
@@ -18,7 +18,7 @@ class BrandsBuilder extends StatefulWidget {
 }
 
 class _BrandBuilderState extends State<BrandsBuilder> {
-  int selectedIndex = 0;
+  int? selectedIndex;
   int itemCount = 0;
   List<dynamic>? currentBrand;
 
@@ -93,45 +93,56 @@ class _BrandBuilderState extends State<BrandsBuilder> {
               },
             ),
           ),
-          Flexible(
-            child: itemCount != 0
-                ? ListView.builder(
-                    itemCount: itemCount,
-                    itemBuilder: (context, index) {
-                      print('Count $itemCount');
-                      return Card(
-                        elevation: 3,
-                        child: ListTile(
-                          leading: Icon(Icons.trending_flat),
-                          title: Text(
-                            '${currentBrand![index].name}',
-                            style: Constants.boldSubheadlineStyle,
-                          ),
-                          isThreeLine: true,
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'KES ${currentBrand![index].spent}',
-                                style: Constants.boldSubheadlineStyle.copyWith(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.normal,
+          selectedIndex != null
+              ? Flexible(
+                  child: itemCount != 0
+                      ? ListView.builder(
+                          itemCount: itemCount,
+                          itemBuilder: (context, index) {
+                            String transaction =
+                                currentBrand![index].transactions == 1
+                                    ? 'transaction'
+                                    : 'transactions';
+                            return Card(
+                              elevation: 3,
+                              child: ListTile(
+                                leading: Icon(Icons.trending_flat),
+                                title: Text(
+                                  '${currentBrand![index].name}',
+                                  style: Constants.boldSubheadlineStyle,
+                                ),
+                                isThreeLine: true,
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'KES ${currentBrand![index].spent}',
+                                      style: Constants.boldSubheadlineStyle
+                                          .copyWith(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(5)),
+                                    Text(
+                                      '${currentBrand![index].transactions} $transaction',
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(height: getProportionateScreenHeight(5)),
-                              Text(
-                                '${currentBrand![index].transactions} transactions',
-                              ),
-                            ],
-                          ),
+                            );
+                          },
+                        )
+                      : GlobalInfoDialog(
+                          message:
+                              'No transactions recorded under this category',
                         ),
-                      );
-                    },
-                  )
-                : GlobalInfoDialog(
-                    message: 'No transactions recorded under this category',
-                  ),
-          ),
+                )
+              : GlobalSuccessDialog(
+                  message: 'Tap a brand to get started',
+                ),
         ],
       ),
     );
