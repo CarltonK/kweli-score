@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -30,8 +29,8 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  late String? _token;
-  String get token => _token!;
+  late String _token;
+  String get token => _token;
   set token(String newToken) {
     _token = newToken;
     notifyListeners();

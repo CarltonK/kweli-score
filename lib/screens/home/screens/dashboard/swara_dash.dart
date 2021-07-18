@@ -1,222 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:kweliscore/widgets/widgets.dart';
+// import 'package:kweliscore/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
-class SwaraDash extends StatelessWidget {
+class SwaraDash extends StatefulWidget {
   const SwaraDash({Key? key}) : super(key: key);
 
   @override
+  _SwaraDashState createState() => _SwaraDashState();
+}
+
+class _SwaraDashState extends State<SwaraDash> {
+  UserModel? user;
+  DashboardResponse? dash;
+
+  @override
+  void initState() {
+    super.initState();
+
+    dash = context.read<DashboardResponse>();
+    user = context.read<UserModel>();
+  }
+
+  _buildLocations() {
+    List<String> locations = dash!.detail!.quickSummaries!.yourTopLocations!;
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: 'Based on your transactions, you are likely to be within ',
+            style: Constants.blackBoldNormal.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 16,
+            ),
+          ),
+          TextSpan(
+            text: '${locations.join(', ')}.',
+            style: Constants.blackBoldNormal.copyWith(fontSize: 20),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          bottom: TabBar(
-            indicatorColor: Palette.ksmartPrimary,
-            tabs: [
-              Tab(
-                child: Text('Personal',
-                    style: Constants.kHeadlineStyle.copyWith(fontSize: 17)),
-              ),
-              Tab(
-                child: Text('Paybill',
-                    style: Constants.kHeadlineStyle.copyWith(fontSize: 17)),
-              ),
-              Tab(
-                child: Text('Agent',
-                    style: Constants.kHeadlineStyle.copyWith(fontSize: 17)),
-              ),
-            ],
-          ),
-        ),
-        body: TabBarView(children: [
-          SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: getProportionateScreenHeight(10),
-                  ),
-                  Text('INCOMING', style: TextStyle(fontSize: 20)),
-                  Divider(
-                    height: 20,
-                    color: Colors.grey,
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '0712345678',
-                    name: 'K-Smart User',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '0712345678',
-                    name: 'K-Smart User',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '0712345678',
-                    name: 'K-Smart User',
-                    amount: '17,500',
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(15),
-                  ),
-                  Text('OUTGOING', style: TextStyle(fontSize: 20)),
-                  Divider(
-                    height: 20,
-                    color: Colors.grey,
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '0712345678',
-                    name: 'K-Smart User',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '0712345678',
-                    name: 'K-Smart User',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '0712345678',
-                    name: 'K-Smart User',
-                    amount: '17,500',
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: getProportionateScreenHeight(10),
-                  ),
-                  Text('INCOMING', style: TextStyle(fontSize: 20)),
-                  Divider(
-                    height: 20,
-                    color: Colors.grey,
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '13456',
-                    name: 'Paybill Name',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '13456',
-                    name: 'Paybill Name',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '13456',
-                    name: 'Paybill Name',
-                    amount: '17,500',
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(15),
-                  ),
-                  Text('OUTGOING', style: TextStyle(fontSize: 20)),
-                  Divider(
-                    height: 20,
-                    color: Colors.grey,
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '13456',
-                    name: 'Paybill Name',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '13456',
-                    name: 'Paybill Name',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '13456',
-                    name: 'Paybill Name',
-                    amount: '17,500',
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: getProportionateScreenHeight(10),
-                  ),
-                  Text('INCOMING', style: TextStyle(fontSize: 20)),
-                  Divider(
-                    height: 20,
-                    color: Colors.grey,
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '815698',
-                    name: 'Agent Name',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '815698',
-                    name: 'Agent Name',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: true,
-                    phone: '815698',
-                    name: 'Agent Name',
-                    amount: '17,500',
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(15),
-                  ),
-                  Text('OUTGOING', style: TextStyle(fontSize: 20)),
-                  Divider(
-                    height: 20,
-                    color: Colors.grey,
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '815698',
-                    name: 'Agent Name',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '815698',
-                    name: 'Agent Name',
-                    amount: '17,500',
-                  ),
-                  SingleTransactionCard(
-                    isIncoming: false,
-                    phone: '815698',
-                    name: 'Agent Name',
-                    amount: '17,500',
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ]),
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        top: getProportionateScreenHeight(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...[
+            IntroWidget(
+              name: user!.name!,
+              balance: dash!.detail!.usualBalance!,
+              expiryDate: dash!.detail!.expiryDate!,
+              period: dash!.detail!.statement!,
+              records: dash!.detail!.records!,
+            )
+          ],
+          Text('Quick Summary', style: Constants.kHeadlineStyle),
+          SizedBox(height: getProportionateScreenHeight(10)),
+          _buildLocations(),
+          SizedBox(height: getProportionateScreenHeight(20)),
+          SummaryBuilder(summary: dash!.detail!.quickSummaries!),
+        ],
       ),
     );
   }

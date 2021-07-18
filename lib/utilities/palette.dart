@@ -15,4 +15,12 @@ class Palette {
     end: Alignment.bottomCenter,
     colors: [backgroundWhite, backgroundWhite],
   );
+
+  static const List<Color> paletteColors = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.pink,
+  ];
 }
