@@ -1,13 +1,25 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:kweliscore/screens/screens.dart';
+import 'package:kweliscore/models/models.dart';
+// import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 
 class CategoryBuilder extends StatefulWidget {
   const CategoryBuilder({
     Key? key,
+    required this.p2pIncoming,
+    required this.p2pOutgoing,
+    required this.paybillIncoming,
+    required this.paybillOutgoing,
+    required this.agentDeposits,
+    required this.agentWithdrawals,
   }) : super(key: key);
+  final P2PIncoming p2pIncoming;
+  final P2POutgoing p2pOutgoing;
+  final PayBillsIncoming paybillIncoming;
+  final PaybillPymts paybillOutgoing;
+  final IncomingAgentDeposits agentDeposits;
+  final OutgoingAgentWithdrawals agentWithdrawals;
 
   @override
   _CategoryBuilderState createState() => _CategoryBuilderState();
@@ -15,14 +27,30 @@ class CategoryBuilder extends StatefulWidget {
 
 class _CategoryBuilderState extends State<CategoryBuilder> {
   PageController? _controller;
-  double _animatedWidth = 100;
+  double? _animatedWidth;
+  List? displayItems, displayTags;
 
   @override
   void initState() {
     super.initState();
 
+    displayItems = [
+      widget.p2pIncoming,
+      widget.p2pOutgoing,
+      widget.paybillIncoming,
+      widget.paybillOutgoing,
+      widget.agentDeposits,
+      widget.agentWithdrawals,
+    ];
+    displayTags = [
+      'P2P Incoming',
+      'P2P Outgoing',
+      'Paybills Incoming',
+      'Paybills Outgoing',
+      'Agent Deposits',
+      'Agent Withdrawals',
+    ];
     _controller = PageController(viewportFraction: 0.7);
-    _autoAnimation();
   }
 
   @override
@@ -39,31 +67,30 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
     super.dispose();
   }
 
-  _autoAnimation() => Future.delayed(Constants.veryFluidDuration, _widthSizer);
-
-  _widthSizer() {
-    setState(() {
-      _animatedWidth = 150;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getProportionateScreenHeight(150),
+      height: getProportionateScreenHeight(100),
       child: PageView.builder(
+        itemCount: 6,
         controller: _controller,
         physics: AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, index) {
+          // Convert total String to double
+          String total = displayItems![index].total;
+          String totalFormatted = total.split(',').join();
+
+          _animatedWidth = double.parse(totalFormatted);
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      TabbedViewTransactions(title: 'Paybills'),
-                ),
-              );
+              print(totalFormatted);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) =>
+              //         TabbedViewTransactions(title: 'Paybills'),
+              //   ),
+              // );
             },
             child: Card(
               shape: RoundedRectangleBorder(
@@ -86,46 +113,23 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Personal transactions',
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                        color: Colors.black,
-                      ),
+                      '${displayTags![index]}',
+                      style: Constants.boldHeadlineStyle.copyWith(fontSize: 20),
                     ),
                     SizedBox(height: getProportionateScreenHeight(10)),
                     AnimatedContainer(
                       curve: Constants.verySmoothCurve,
                       duration: Constants.fluidDuration,
-                      height: 12,
-                      width: _animatedWidth,
+                      height: 15,
+                      width: _animatedWidth!,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Colors.red,
+                        color: Palette.ksmartPrimary,
                       ),
                     ),
-                    SizedBox(height: getProportionateScreenHeight(2)),
+                    SizedBox(height: getProportionateScreenHeight(10)),
                     Text(
-                      'Outgoing',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 15,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: getProportionateScreenHeight(7)),
-                    AnimatedContainer(
-                      duration: Constants.fluidDuration,
-                      height: 12,
-                      width: _animatedWidth,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.greenAccent,
-                      ),
-                    ),
-                    SizedBox(height: getProportionateScreenHeight(2)),
-                    Text(
-                      'Incoming',
+                      'Total',
                       style: TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 15,
