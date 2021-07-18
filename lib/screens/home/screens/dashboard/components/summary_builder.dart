@@ -56,11 +56,24 @@ class _SummaryBuilderState extends State<SummaryBuilder> {
     return chartData;
   }
 
+  Map<String, double> mpesaCharges() {
+    Map<String, double> chartData = {};
+    Map<String, MpesaCharge> chargeSources = widget.summary.mpesaCharges!;
+    MpesaCharge paybillCharge = chargeSources["1"] as MpesaCharge;
+    MpesaCharge p2pCharge = chargeSources["2"] as MpesaCharge;
+    MpesaCharge agentCharge = chargeSources["3"] as MpesaCharge;
+    MpesaCharge tillCharge = chargeSources["4"] as MpesaCharge;
+    chartData.putIfAbsent(
+        'Paybills', () => amountToDouble(paybillCharge.charge!));
+    chartData.putIfAbsent('Tills', () => amountToDouble(tillCharge.charge!));
+    chartData.putIfAbsent('Mobiles', () => amountToDouble(p2pCharge.charge!));
+    chartData.putIfAbsent('Agents', () => amountToDouble(agentCharge.charge!));
+    return chartData;
+  }
+
   @override
   void initState() {
     super.initState();
-
-    chartOutgoingSources();
 
     // Populate Pages
     _pages.add(GlobalPieChart(
@@ -75,13 +88,17 @@ class _SummaryBuilderState extends State<SummaryBuilder> {
       chartData: chartOutgoingSources(),
       chartTitle: 'Outgoing Sources',
     ));
+    _pages.add(GlobalPieChart(
+      chartData: mpesaCharges(),
+      chartTitle: 'Mpesa Charges',
+    ));
     _controller = PageController(viewportFraction: 0.7);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getProportionateScreenHeight(200),
+      height: getProportionateScreenHeight(250),
       child: PageView.builder(
         controller: _controller,
         itemCount: _pages.length,
