@@ -17,39 +17,33 @@ class GlobalPieChart extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 3,
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              chartTitle,
-              style: Constants.kHeadlineStyle.copyWith(fontSize: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            chartTitle,
+            style: Constants.kHeadlineStyle.copyWith(fontSize: 20),
+          ),
+          PieChart(
+            dataMap: chartData,
+            chartLegendSpacing: 2,
+            initialAngleInDegree: 0,
+            chartType: ChartType.disc,
+            colorList: Palette.paletteColors,
+            legendOptions: const LegendOptions(
+              showLegendsInRow: false,
+              legendPosition: LegendPosition.right,
+              showLegends: true,
+              legendShape: BoxShape.circle,
             ),
-            PieChart(
-              dataMap: chartData,
-              chartLegendSpacing: 4,
-              initialAngleInDegree: 0,
-              chartType: ChartType.disc,
-              colorList: Palette.paletteColors,
-              legendOptions: LegendOptions(
-                showLegendsInRow: false,
-                legendPosition: LegendPosition.right,
-                showLegends: true,
-                legendShape: BoxShape.circle,
-                legendTextStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              chartValuesOptions: ChartValuesOptions(
-                showChartValueBackground: false,
-                showChartValues: true,
-                showChartValuesInPercentage: true,
-                showChartValuesOutside: false,
-              ),
+            chartValuesOptions: const ChartValuesOptions(
+              showChartValueBackground: false,
+              showChartValues: true,
+              showChartValuesInPercentage: true,
+              showChartValuesOutside: false,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
