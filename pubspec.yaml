@@ -45,6 +45,8 @@ dependencies:
   fluttertoast: ^8.0.7
   # Bottom Bar
   animated_bottom_navigation_bar: ^0.3.2
+  #focused menu
+  focused_menu: ^1.0.5
 
 dev_dependencies:
   flutter_test:
