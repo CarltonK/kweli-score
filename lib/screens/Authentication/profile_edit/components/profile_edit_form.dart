@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
-// import 'package:kweliscore/provider/providers.dart';
-// import 'package:kweliscore/screens/screens.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileEditForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -31,7 +30,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
       currentGrossIncomeBracket,
       currentCounty,
       currentHouseOwnershipStatus,
-      currentDob;
+      currentDob,
+      token;
 
   bool isRented = false;
 
@@ -41,7 +41,6 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
   final int _hundredYearsInDays = 36500;
 
   final _focusPhoneNumber3 = FocusNode();
-  final _focusDob = FocusNode();
 
   TextEditingController? _dobController;
   DatePrettier? _dateConverter;
@@ -314,8 +313,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
     );
   }
 
-  _profileEditHandler(UserModel model) async {
-    print('Profile: ${user!.toProfileEditJson()}');
+  Future _profileEditHandler(UserModel model) async {
+    return await context.read<ApiProvider>().patchUser(model, token!);
   }
 
   registrationButtonPressed() {
@@ -351,23 +350,68 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
 
         KeyboardUtil.hideKeyboard(context);
 
+        String county =
+            (Constants.kenyanCounties.indexOf(currentCounty!) + 1).toString();
+        String gender =
+            (Constants.genderOptions.indexOf(currentGender!) + 1).toString();
+        String maritalStatus =
+            (Constants.maritalStatus.indexOf(currentMaritalStatus!) + 1)
+                .toString();
+        String pensionStatus =
+            (Constants.pensionOptions.indexOf(currentPensionStatus!) + 1)
+                .toString();
+        String occupationStatus =
+            (Constants.occupationStatus.indexOf(currentOccupationStatus!) + 1)
+                .toString();
+        String hseOwnStatus = (Constants.houseOwnershipOptions
+                    .indexOf(currentHouseOwnershipStatus!) +
+                1)
+            .toString();
+        String grossIncome =
+            (Constants.grossIncomeOptions.indexOf(currentGrossIncomeBracket!) +
+                    1)
+                .toString();
+
         user = UserModel(
           phone2: phoneNumber2,
           phone3: phoneNumber3,
-          maritalStatus: currentMaritalStatus,
-          pensionStatus: currentPensionStatus,
-          gender: currentGender,
+          maritalStatus: maritalStatus,
+          pensionStatus: pensionStatus,
+          gender: gender,
           dob: currentDob,
-          occupationStatus: currentOccupationStatus,
-          hseOwnStatus: currentHouseOwnershipStatus,
+          occupationStatus: occupationStatus,
+          hseOwnStatus: hseOwnStatus,
           rentAmt: currentRentAmount,
           dependants: currentDependants,
-          grossIncome: currentGrossIncomeBracket,
-          county: currentCounty,
+          grossIncome: grossIncome,
+          county: county,
         );
 
         // Connect the backend
-        _profileEditHandler(user!);
+        _profileEditHandler(user!).then((value) async {
+          if (value.detail != null &&
+                  (value.detail.toString().contains('no change')) ||
+              (value.detail.toString().contains('made'))) {
+            await successToast('${value.detail}');
+            Navigator.of(context).pop();
+          } else {
+            Future.delayed(Duration(milliseconds: 100), () {
+              dialogInfo(
+                widget.scaffoldKey.currentContext!,
+                '${value.detail}',
+                'Error',
+              );
+            });
+          }
+        }).catchError((error) {
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(
+              widget.scaffoldKey.currentContext!,
+              '${error.toString()}',
+              'Error',
+            );
+          });
+        });
       }
     }
   }
@@ -376,6 +420,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
   void initState() {
     super.initState();
 
+    token = context.read<ApiProvider>().token;
     _dobController = TextEditingController(text: '');
   }
 
@@ -417,9 +462,16 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          GlobalActionButton(
-            action: 'Submit',
-            onPressed: registrationButtonPressed,
+          AnimatedSwitcher(
+            duration: Constants.veryFluidDuration,
+            switchInCurve: Curves.easeInCubic,
+            switchOutCurve: Curves.easeOutCubic,
+            child: Provider.of<ApiProvider>(context).isLoading
+                ? CircularProgressIndicator(color: Palette.ksmartPrimary)
+                : GlobalActionButton(
+                    action: 'Submit',
+                    onPressed: registrationButtonPressed,
+                  ),
           ),
           SizedBox(height: DeviceConfig.screenHeight! * 0.01),
         ],
