@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
-// import 'package:kweliscore/provider/providers.dart';
-// import 'package:kweliscore/screens/screens.dart';
+import 'package:kweliscore/provider/providers.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileEditForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -31,7 +30,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
       currentGrossIncomeBracket,
       currentCounty,
       currentHouseOwnershipStatus,
-      currentDob;
+      currentDob,
+      token;
 
   bool isRented = false;
 
@@ -41,7 +41,6 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
   final int _hundredYearsInDays = 36500;
 
   final _focusPhoneNumber3 = FocusNode();
-  final _focusDob = FocusNode();
 
   TextEditingController? _dobController;
   DatePrettier? _dateConverter;
@@ -314,8 +313,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
     );
   }
 
-  _profileEditHandler(UserModel model) async {
-    print('Profile: ${user!.toProfileEditJson()}');
+  Future _profileEditHandler(UserModel model) async {
+    return await context.read<ApiProvider>().patchUser(model, token!);
   }
 
   registrationButtonPressed() {
@@ -363,11 +362,39 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
           rentAmt: currentRentAmount,
           dependants: currentDependants,
           grossIncome: currentGrossIncomeBracket,
-          county: currentCounty,
+          county: Constants.kenyanCounties.indexOf(currentCounty!).toString(),
         );
 
         // Connect the backend
-        _profileEditHandler(user!);
+        _profileEditHandler(user!).then((value) {
+          if (value.detail != null &&
+                  (value.detail.toString().contains('same')) ||
+              (value.detail.toString().contains('made'))) {
+            Future.delayed(Duration(milliseconds: 100), () {
+              dialogInfo(
+                widget.scaffoldKey.currentContext!,
+                '${value.detail}',
+                'Success',
+              );
+            });
+          } else {
+            Future.delayed(Duration(milliseconds: 100), () {
+              dialogInfo(
+                widget.scaffoldKey.currentContext!,
+                '${value.detail}',
+                'Error',
+              );
+            });
+          }
+        }).catchError((error) {
+          Future.delayed(Duration(milliseconds: 100), () {
+            dialogInfo(
+              widget.scaffoldKey.currentContext!,
+              '${error.toString()}',
+              'Error',
+            );
+          });
+        });
       }
     }
   }
@@ -376,6 +403,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
   void initState() {
     super.initState();
 
+    token = context.read<ApiProvider>().token;
     _dobController = TextEditingController(text: '');
   }
 
@@ -417,9 +445,16 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          GlobalActionButton(
-            action: 'Submit',
-            onPressed: registrationButtonPressed,
+          AnimatedSwitcher(
+            duration: Constants.veryFluidDuration,
+            switchInCurve: Curves.easeInCubic,
+            switchOutCurve: Curves.easeOutCubic,
+            child: Provider.of<ApiProvider>(context).isLoading
+                ? CircularProgressIndicator(color: Palette.ksmartPrimary)
+                : GlobalActionButton(
+                    action: 'Submit',
+                    onPressed: registrationButtonPressed,
+                  ),
           ),
           SizedBox(height: DeviceConfig.screenHeight! * 0.01),
         ],
