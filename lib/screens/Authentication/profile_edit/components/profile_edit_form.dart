@@ -350,33 +350,50 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
 
         KeyboardUtil.hideKeyboard(context);
 
+        String county =
+            (Constants.kenyanCounties.indexOf(currentCounty!) + 1).toString();
+        String gender =
+            (Constants.genderOptions.indexOf(currentGender!) + 1).toString();
+        String maritalStatus =
+            (Constants.maritalStatus.indexOf(currentMaritalStatus!) + 1)
+                .toString();
+        String pensionStatus =
+            (Constants.pensionOptions.indexOf(currentPensionStatus!) + 1)
+                .toString();
+        String occupationStatus =
+            (Constants.occupationStatus.indexOf(currentOccupationStatus!) + 1)
+                .toString();
+        String hseOwnStatus = (Constants.houseOwnershipOptions
+                    .indexOf(currentHouseOwnershipStatus!) +
+                1)
+            .toString();
+        String grossIncome =
+            (Constants.grossIncomeOptions.indexOf(currentGrossIncomeBracket!) +
+                    1)
+                .toString();
+
         user = UserModel(
           phone2: phoneNumber2,
           phone3: phoneNumber3,
-          maritalStatus: currentMaritalStatus,
-          pensionStatus: currentPensionStatus,
-          gender: currentGender,
+          maritalStatus: maritalStatus,
+          pensionStatus: pensionStatus,
+          gender: gender,
           dob: currentDob,
-          occupationStatus: currentOccupationStatus,
-          hseOwnStatus: currentHouseOwnershipStatus,
+          occupationStatus: occupationStatus,
+          hseOwnStatus: hseOwnStatus,
           rentAmt: currentRentAmount,
           dependants: currentDependants,
-          grossIncome: currentGrossIncomeBracket,
-          county: Constants.kenyanCounties.indexOf(currentCounty!).toString(),
+          grossIncome: grossIncome,
+          county: county,
         );
 
         // Connect the backend
-        _profileEditHandler(user!).then((value) {
+        _profileEditHandler(user!).then((value) async {
           if (value.detail != null &&
-                  (value.detail.toString().contains('same')) ||
+                  (value.detail.toString().contains('no change')) ||
               (value.detail.toString().contains('made'))) {
-            Future.delayed(Duration(milliseconds: 100), () {
-              dialogInfo(
-                widget.scaffoldKey.currentContext!,
-                '${value.detail}',
-                'Success',
-              );
-            });
+            await successToast('${value.detail}');
+            Navigator.of(context).pop();
           } else {
             Future.delayed(Duration(milliseconds: 100), () {
               dialogInfo(
