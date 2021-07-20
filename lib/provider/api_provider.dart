@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 // ignore: constant_identifier_names
-enum Dashboard { Stale, Swara, Chui, Simba }
+enum Dashboard { Stale, NoReport, UpdateProfile, Swara, Chui, Simba }
 
 class ApiProvider with ChangeNotifier {
   final Map<String, String> header = {"Content-type": "application/json"};
@@ -33,6 +33,14 @@ class ApiProvider with ChangeNotifier {
   String get token => _token;
   set token(String newToken) {
     _token = newToken;
+    notifyListeners();
+  }
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  set isLoading(bool newLoading) {
+    _isLoading = newLoading;
     notifyListeners();
   }
 
@@ -191,6 +199,18 @@ class ApiProvider with ChangeNotifier {
         notifyListeners();
 
         return serverResponseFromJson(dashboardResponse);
+      } else if (dashboardResponseJson['detail'] == 'no report') {
+        _dash = Dashboard.NoReport;
+        notifyListeners();
+
+        return serverResponseFromJson(dashboardResponse);
+      } else if (dashboardResponseJson['detail']
+          .toString()
+          .contains("update")) {
+        _dash = Dashboard.UpdateProfile;
+        notifyListeners();
+
+        return serverResponseFromJson(dashboardResponse);
       } else {
         String currentPlan = dashboardResponseJson['detail']['Current Plan'];
         if (currentPlan == 'Swara') {
@@ -231,5 +251,35 @@ class ApiProvider with ChangeNotifier {
     } else {
       return userModelFromJson(profileResponse);
     }
+  }
+
+  /// METHOD = PATCH
+  ///
+  /// PARAMS = Token
+  Future patchUser(UserModel user, String token) async {
+    // Load
+    _isLoading = true;
+    notifyListeners();
+
+    // Url
+    String url = BASE_URL + '/user_profile/';
+
+    // Payload
+    var body = jsonEncode(user.toProfileEditJson());
+
+    // Request
+    var profileRequest = await http.patch(
+      Uri.parse(url),
+      headers: {'Authorization': 'Token $token', ...header},
+      body: body,
+    );
+
+    // Stop loading
+    _isLoading = false;
+    notifyListeners();
+    // Response
+    dynamic profileEditResponse = profileRequest.body;
+
+    return serverResponseFromJson(profileEditResponse);
   }
 }

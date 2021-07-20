@@ -29,10 +29,14 @@ class ProfileScreen extends StatelessWidget {
                 ProfilePic(),
                 SizedBox(height: DeviceConfig.screenHeight! * 0.04),
                 GlobalMenuItem(
-                  text: 'My Account',
-                  icon: Icons.person,
-                  press: () => dialogComingSoon(context),
-                ),
+                    text: 'My Account',
+                    icon: Icons.person,
+                    press: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfileEditScreen()))
+                    //dialogComingSoon(context),
+                    ),
                 GlobalMenuItem(
                   text: 'Settings',
                   icon: Icons.settings,
