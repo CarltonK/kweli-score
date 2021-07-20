@@ -23,6 +23,9 @@ class NoReportDash extends StatelessWidget {
   Widget build(BuildContext context) {
     final String name = context.select((UserModel user) => user.name!);
     return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: getProportionateScreenWidth(20),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [_buildName(name), Text('NO REPORT')],
