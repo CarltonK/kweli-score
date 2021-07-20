@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/provider/api_provider.dart';
 import 'package:kweliscore/screens/home/home.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/global/global_loader.dart';
 import 'package:kweliscore/widgets/widgets.dart';
@@ -58,6 +59,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           return StaleDash();
                         case Dashboard.NoReport:
                           return NoReportDash();
+                        case Dashboard.UpdateProfile:
+                          return ProfileEditScreen();
                         default:
                           return Center(
                             child: GlobalInfoDialog(
@@ -86,6 +89,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 return SimbaDash();
                               case Dashboard.NoReport:
                                 return NoReportDash();
+                              case Dashboard.UpdateProfile:
+                                return ProfileEditScreen();
                             }
                           },
                         ),

@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 // ignore: constant_identifier_names
-enum Dashboard { Stale, NoReport, Swara, Chui, Simba }
+enum Dashboard { Stale, NoReport, UpdateProfile, Swara, Chui, Simba }
 
 class ApiProvider with ChangeNotifier {
   final Map<String, String> header = {"Content-type": "application/json"};
@@ -201,6 +201,13 @@ class ApiProvider with ChangeNotifier {
         return serverResponseFromJson(dashboardResponse);
       } else if (dashboardResponseJson['detail'] == 'no report') {
         _dash = Dashboard.NoReport;
+        notifyListeners();
+
+        return serverResponseFromJson(dashboardResponse);
+      } else if (dashboardResponseJson['detail']
+          .toString()
+          .contains("update")) {
+        _dash = Dashboard.UpdateProfile;
         notifyListeners();
 
         return serverResponseFromJson(dashboardResponse);
