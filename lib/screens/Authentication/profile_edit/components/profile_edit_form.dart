@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/helpers/helpers.dart';
 import 'package:kweliscore/models/models.dart';
 // import 'package:kweliscore/provider/providers.dart';
 // import 'package:kweliscore/screens/screens.dart';
@@ -29,13 +30,21 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
       currentDependants,
       currentGrossIncomeBracket,
       currentCounty,
-      currentHouseOwnershipStatus;
+      currentHouseOwnershipStatus,
+      currentDob;
 
   bool isRented = false;
 
   final List<String> errors = [];
 
+  final int _eighteenYearsInDays = 6570;
+  final int _hundredYearsInDays = 36500;
+
   final _focusPhoneNumber3 = FocusNode();
+  final _focusDob = FocusNode();
+
+  TextEditingController? _dobController;
+  DatePrettier? _dateConverter;
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -104,7 +113,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
         return null;
       },
       onFieldSubmitted: (value) {
-        FocusScope.of(context).unfocus();
+        FocusScope.of(context).requestFocus(_focusDob);
       },
       decoration: InputDecoration(
         labelText: 'Alternate Number',
@@ -112,6 +121,54 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
         hintText: 'Enter an alternate number',
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: GlobalIcon(svgIcon: "assets/icons/phone.svg"),
+      ),
+    );
+  }
+
+  _pickDate() async {
+    final DateTime now = DateTime.now();
+
+    DateTime? _dob = await showDatePicker(
+      context: context,
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      initialDate: now.subtract(
+        Duration(days: _eighteenYearsInDays + 1),
+      ),
+      firstDate: now.subtract(
+        Duration(days: _hundredYearsInDays),
+      ),
+      lastDate: now.subtract(
+        Duration(days: _eighteenYearsInDays),
+      ),
+    );
+
+    if (_dob != null) {
+      _dateConverter = DatePrettier(_dob);
+      setState(() {
+        currentDob = _dateConverter!.convertToymd();
+        _dobController!.text = currentDob!;
+      });
+    }
+  }
+
+  buildDobField() {
+    return InkWell(
+      onTap: _pickDate,
+      child: IgnorePointer(
+        child: TextFormField(
+          focusNode: _focusDob,
+          controller: _dobController,
+          onFieldSubmitted: (value) {
+            FocusScope.of(context).unfocus();
+          },
+          decoration: InputDecoration(
+            labelText: 'Date of Birth',
+            helperText: 'You must be over 18 years old',
+            hintText: 'Please enter your date of birth',
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            suffixIcon: GlobalIcon(svgIcon: "assets/icons/calendar.svg"),
+          ),
+        ),
       ),
     );
   }
@@ -212,7 +269,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                     labelText: 'Rent Amount',
                     hintText: 'How much do you pay in rent?',
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    suffixIcon: GlobalIcon(svgIcon: "assets/icons/phone.svg"),
+                    suffixIcon: GlobalIcon(svgIcon: "assets/icons/cash.svg"),
                   ),
                 ),
                 SizedBox(height: getProportionateScreenHeight(30)),
@@ -275,10 +332,14 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
   @override
   void initState() {
     super.initState();
+
+    _dobController = TextEditingController(text: '');
   }
 
   @override
   void dispose() {
+    _dobController!.dispose();
+
     super.dispose();
   }
 
@@ -291,6 +352,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
           buildPhoneNumber2Field(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPhoneNumber3Field(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildDobField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildGenderField(),
           SizedBox(height: getProportionateScreenHeight(30)),
