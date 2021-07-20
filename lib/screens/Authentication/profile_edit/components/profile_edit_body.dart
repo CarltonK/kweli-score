@@ -26,7 +26,7 @@ class ProfileBody extends StatelessWidget {
                     'Please update your details for a more personalized and accurate report',
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: DeviceConfig.screenHeight! * 0.08),
+                  SizedBox(height: DeviceConfig.screenHeight! * 0.04),
                   ProfileEditForm(scaffoldKey: scaffoldKey),
                   SizedBox(height: DeviceConfig.screenHeight! * 0.08),
                   SizedBox(height: getProportionateScreenHeight(20)),

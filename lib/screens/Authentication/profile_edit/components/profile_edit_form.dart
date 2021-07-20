@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
-import 'package:kweliscore/provider/providers.dart';
-import 'package:kweliscore/screens/screens.dart';
+// import 'package:kweliscore/provider/providers.dart';
+// import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class ProfileEditForm extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -19,23 +19,23 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
 
   UserModel? user;
 
-  String? identificationValue;
-  String? phoneNumber;
-  String? emailAddress;
-  String? fullName;
-  String? pinValue;
-  String? confirmPinValue;
+  String? phoneNumber2,
+      phoneNumber3,
+      currentMaritalStatus,
+      currentPensionStatus,
+      currentGender,
+      currentOccupationStatus,
+      currentRentAmount,
+      currentDependants,
+      currentGrossIncomeBracket,
+      currentCounty,
+      currentHouseOwnershipStatus;
+
+  bool isRented = false;
 
   final List<String> errors = [];
 
-  final _focusPin = FocusNode();
-  final _focusConfirmPin = FocusNode();
-  final _focusIdentificationValue = FocusNode();
   final _focusPhoneNumber3 = FocusNode();
-  final _focusEmail = FocusNode();
-
-  TextEditingController? pinTextController;
-  TextEditingController? confirmPinTextController;
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -57,7 +57,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
     return TextFormField(
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.phone,
-      onSaved: (newValue) => phoneNumber = newValue!.trim(),
+      onSaved: (newValue) => phoneNumber2 = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kPhoneNumberNullError);
@@ -89,7 +89,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.phone,
       focusNode: _focusPhoneNumber3,
-      onSaved: (newValue) => phoneNumber = newValue!.trim(),
+      onSaved: (newValue) => phoneNumber3 = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: Constants.kPhoneNumberNullError);
@@ -104,7 +104,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
         return null;
       },
       onFieldSubmitted: (value) {
-        FocusScope.of(context).requestFocus(_focusPin);
+        FocusScope.of(context).unfocus();
       },
       decoration: InputDecoration(
         labelText: 'Alternate Number',
@@ -116,31 +116,147 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
     );
   }
 
-  DropdownButtonFormField buildDropDownField(
-      List<DropdownMenuItem<String>> item,
-      String value,
-      Function(dynamic)? onChanged) {
-    return DropdownButtonFormField(
-      items: item,
-      value: value,
-      onChanged: onChanged,
+  buildMaritalStatusField() {
+    return GlobalDropdownWidget(
+      items: Constants.maritalStatus
+          .map((e) => DropdownMenuItem<String>(child: Text(e), value: e))
+          .toList(),
+      value: currentMaritalStatus,
+      onChanged: (newValue) => setState(() => currentMaritalStatus = newValue),
+      label: 'Marital Status',
     );
   }
 
-  navigateToOtpPage() {
-    Navigator.of(context).push(
-      SlideLeftTransition(
-        page: OtpScreen(),
-        routeName: 'otp_screen',
-      ),
+  buildPensionStatusField() {
+    return GlobalDropdownWidget(
+      items: Constants.pensionOptions
+          .map((e) => DropdownMenuItem<String>(child: Text(e), value: e))
+          .toList(),
+      value: currentPensionStatus,
+      onChanged: (newValue) => setState(() => currentPensionStatus = newValue),
+      label: 'Pension Status',
     );
   }
 
-  _registrationHandler(UserModel model) async {
-    return await context
-        .read<ApiProvider>()
-        .verifyDetailsBeforeRegistration(model);
+  buildGenderField() {
+    return GlobalDropdownWidget(
+      items: Constants.genderOptions
+          .map((e) => DropdownMenuItem<String>(child: Text(e), value: e))
+          .toList(),
+      value: currentGender,
+      onChanged: (newValue) => setState(() => currentGender = newValue),
+      label: 'Gender',
+    );
   }
+
+  buildOccupationStatusField() {
+    return GlobalDropdownWidget(
+      items: Constants.occupationStatus
+          .map((e) => DropdownMenuItem<String>(child: Text(e), value: e))
+          .toList(),
+      value: currentOccupationStatus,
+      onChanged: (newValue) =>
+          setState(() => currentOccupationStatus = newValue),
+      label: 'Occupation Status',
+    );
+  }
+
+  buildHouseOwnershipStatusField() {
+    return GlobalDropdownWidget(
+      items: Constants.houseOwnershipOptions
+          .map((e) => DropdownMenuItem<String>(child: Text(e), value: e))
+          .toList(),
+      value: currentHouseOwnershipStatus,
+      onChanged: (newValue) {
+        setState(() => currentHouseOwnershipStatus = newValue);
+        if (newValue == 'Rented') {
+          setState(() => isRented = true);
+        } else {
+          setState(() => isRented = false);
+        }
+      },
+      label: 'House Ownership Status',
+    );
+  }
+
+  buildRentAmountField() {
+    return AnimatedSwitcher(
+      duration: Constants.fluidDuration,
+      switchInCurve: Curves.easeInCubic,
+      switchOutCurve: Curves.easeInCubic,
+      child: isRented
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.number,
+                  onSaved: (newValue) => currentRentAmount = newValue!.trim(),
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      removeError(error: Constants.kRentAmountNullError);
+                    }
+                    return null;
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      addError(error: Constants.kRentAmountNullError);
+                      return "";
+                    }
+                    return null;
+                  },
+                  onFieldSubmitted: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Rent Amount',
+                    hintText: 'How much do you pay in rent?',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    suffixIcon: GlobalIcon(svgIcon: "assets/icons/phone.svg"),
+                  ),
+                ),
+                SizedBox(height: getProportionateScreenHeight(30)),
+              ],
+            )
+          : Container(),
+    );
+  }
+
+  buildGrossIncomeField() {
+    return GlobalDropdownWidget(
+      items: Constants.grossIncomeOptions
+          .map((e) => DropdownMenuItem<String>(child: Text(e), value: e))
+          .toList(),
+      value: currentGrossIncomeBracket,
+      onChanged: (newValue) =>
+          setState(() => currentGrossIncomeBracket = newValue),
+      label: 'Gross Income',
+    );
+  }
+
+  buildCountyOptionsField() {
+    return GlobalDropdownWidget(
+      items: Constants.kenyanCounties
+          .map((e) => DropdownMenuItem<String>(child: Text(e), value: e))
+          .toList(),
+      value: currentCounty,
+      onChanged: (newValue) => setState(() => currentCounty = newValue),
+      label: 'County',
+    );
+  }
+
+  buildDependantOptionsField() {
+    return GlobalDropdownWidget(
+      items: Constants.dependantOptions
+          .map((e) => DropdownMenuItem<String>(child: Text(e), value: e))
+          .toList(),
+      value: currentDependants,
+      onChanged: (newValue) => setState(() => currentDependants = newValue),
+      label: 'Dependants',
+    );
+  }
+
+  _profileEditHandler(UserModel model) async {}
 
   registrationButtonPressed() {
     final FormState _formState = _profileEditFormKey.currentState!;
@@ -152,21 +268,17 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
       user = UserModel();
 
       // Connect the backend
-      _registrationHandler() {}
+      _profileEditHandler(user!);
     }
   }
 
   @override
   void initState() {
-    pinTextController = TextEditingController();
-    confirmPinTextController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    pinTextController!.dispose();
-    confirmPinTextController!.dispose();
     super.dispose();
   }
 
@@ -180,18 +292,22 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPhoneNumber3Field(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildDropDownField(
-              Constants.maritalStatus
-                  .map((e) => DropdownMenuItem<String>(
-                        child: Text(e),
-                        value: e,
-                      ))
-                  .toList(),
-              '',
-              null),
+          buildGenderField(),
           SizedBox(height: getProportionateScreenHeight(30)),
+          buildMaritalStatusField(),
           SizedBox(height: getProportionateScreenHeight(30)),
+          buildDependantOptionsField(),
           SizedBox(height: getProportionateScreenHeight(30)),
+          buildPensionStatusField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildOccupationStatusField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildHouseOwnershipStatusField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildRentAmountField(),
+          buildGrossIncomeField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildCountyOptionsField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
