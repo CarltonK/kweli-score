@@ -55,9 +55,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           context.select((ApiProvider value) => value.dash);
                       switch (dash) {
                         case Dashboard.Stale:
-                          return GlobalLoader();
-                        // case Dashboard.NoReport:
-                        //   return GlobalLoader();
+                          return StaleDash();
+                        case Dashboard.NoReport:
+                          return NoReportDash();
                         default:
                           return Center(
                             child: GlobalInfoDialog(
@@ -77,7 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             // Switch Case
                             switch (value.dash) {
                               case Dashboard.Stale:
-                                return GlobalLoader();
+                                return StaleDash();
                               case Dashboard.Swara:
                                 return SwaraDash();
                               case Dashboard.Chui:
@@ -85,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               case Dashboard.Simba:
                                 return SimbaDash();
                               case Dashboard.NoReport:
-                                return GlobalLoader();
+                                return NoReportDash();
                             }
                           },
                         ),
