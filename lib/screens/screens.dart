@@ -6,6 +6,7 @@ export 'Authentication/registration_otp/registration_otp.dart';
 export 'Authentication/forgot_password/forgotPassword.dart';
 export 'Authentication/pass_reset_otp/pass_reset_otp.dart';
 export 'Authentication/pin_reset/pin_reset.dart';
+export 'Authentication/profile_edit/profile_edit.dart';
 
 // Package
 export 'packages/package.dart';

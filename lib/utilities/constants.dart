@@ -168,4 +168,51 @@ class Constants {
   Curves
   */
   static Curve verySmoothCurve = Curves.easeOutCubic;
+
+  /*
+  DropDown List
+  */
+  static const List<String> maritalStatus = [
+    'Single',
+    'Married',
+    'Divorced',
+    'Widowed',
+    'Separated'
+  ];
+  static const List<String> occupationStatus = [
+    'Business',
+    'Student',
+    'Employed',
+    'Civil Servant',
+    'Retired',
+    'Unemployed'
+  ];
+  static const List<String> grossIncomeOptions = [
+    '1 - 25,000',
+    '25,001 - 50,000',
+    '50,001 - 100,000',
+    '100,001 - 150,000',
+    '150,001 - 250,000',
+    '> 250,000'
+  ];
+  static const List<String> gender = [
+    'Male',
+    'Female',
+    'Other',
+  ];
+  static const List<String> pensionOptions = [
+    'No pension',
+    'NSSF only',
+    'Employer pension',
+    'Personal pension plan(PPP)',
+    'Employer pension + PPP',
+  ];
+  static const List<String> houseOwnershipOptions = [
+    'Rented',
+    'Fully owned',
+    'Mortgage/TPS',
+    'Company Provided',
+    'Living with others',
+  ];
+  
 }

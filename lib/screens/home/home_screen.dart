@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late ApiProvider _apiProvider;
-  String? token;
+  late String token;
   Future? getUserFuture;
 
   int _index = 0;
@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
 
     _apiProvider = context.read<ApiProvider>();
     token = _apiProvider.token;
-    getUserFuture = _apiProvider.getUser(token!);
+    getUserFuture = _apiProvider.getUser(token);
     _controller = PageController();
   }
 
