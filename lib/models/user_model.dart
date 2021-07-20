@@ -62,7 +62,7 @@ class UserModel {
   String? occupationStatus;
   String? hseOwnStatus;
   dynamic rentAmt;
-  int? dependants;
+  dynamic dependants;
   String? grossIncome;
   String? county;
 
@@ -175,8 +175,8 @@ class UserModel {
       };
 
   Map<String, dynamic> toProfileEditJson() => {
-        "phone_2": phone2,
-        "phone_3": phone3,
+        "phone_2": phone2 == null ? null : phone2,
+        "phone_3": phone3 == null ? null : phone3,
         "marital_status": maritalStatus == null ? null : maritalStatus,
         "pension_status": pensionStatus == null ? null : pensionStatus,
         "gender": gender == null ? null : gender,
