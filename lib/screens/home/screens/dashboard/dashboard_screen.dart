@@ -33,54 +33,56 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: SizedBox(
           width: double.infinity,
           child: FutureBuilder(
-              future: _userDashboard,
-              builder: (context, AsyncSnapshot snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.active:
-                  case ConnectionState.none:
+            future: _userDashboard,
+            builder: (context, AsyncSnapshot snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.active:
+                case ConnectionState.none:
+                  return Center(
+                    child: GlobalInfoDialog(message: GLOBAL_ERROR),
+                  );
+                case ConnectionState.waiting:
+                  return GlobalLoader();
+                case ConnectionState.done:
+                  if (!snapshot.hasData) {
                     return Center(
                       child: GlobalInfoDialog(message: GLOBAL_ERROR),
                     );
-                  case ConnectionState.waiting:
-                    return GlobalLoader();
-                  case ConnectionState.done:
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: GlobalInfoDialog(message: GLOBAL_ERROR),
-                      );
-                    }
-                    if (snapshot.data.runtimeType == ServerResponse) {
-                      String message = snapshot.data.detail;
-                      return Center(
-                        child: GlobalInfoDialog(
-                            message: '$message Please login again'),
-                      );
-                    }
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getProportionateScreenWidth(20),
-                      ),
-                      child: Provider<DashboardResponse>(
-                        create: (context) => snapshot.data,
-                        child: Consumer<ApiProvider>(
-                          builder: (context, value, child) {
-                            // Switch Case
-                            switch (value.dash) {
-                              case Dashboard.Stale:
-                                return GlobalLoader();
-                              case Dashboard.Swara:
-                                return SwaraDash();
-                              case Dashboard.Chui:
-                                return ChuiDash();
-                              case Dashboard.Simba:
-                                return SimbaDash();
-                            }
-                          },
-                        ),
+                  }
+                  if (snapshot.data.runtimeType == ServerResponse) {
+                    String message = snapshot.data.detail;
+                    return Center(
+                      child: GlobalInfoDialog(
+                        message: '$message Please login again',
                       ),
                     );
-                }
-              }),
+                  }
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenWidth(20),
+                    ),
+                    child: Provider<DashboardResponse>(
+                      create: (context) => snapshot.data,
+                      child: Consumer<ApiProvider>(
+                        builder: (context, value, child) {
+                          // Switch Case
+                          switch (value.dash) {
+                            case Dashboard.Stale:
+                              return GlobalLoader();
+                            case Dashboard.Swara:
+                              return SwaraDash();
+                            case Dashboard.Chui:
+                              return ChuiDash();
+                            case Dashboard.Simba:
+                              return SimbaDash();
+                          }
+                        },
+                      ),
+                    ),
+                  );
+              }
+            },
+          ),
         ),
       ),
     );
