@@ -179,6 +179,8 @@ class UserModel {
         "phone_3": phone3,
         "marital_status": maritalStatus == null ? null : maritalStatus,
         "pension_status": pensionStatus == null ? null : pensionStatus,
+        "gender": gender == null ? null : gender,
+        "dob": dob == null ? null : dob,
         "occupation_status": occupationStatus == null ? null : occupationStatus,
         "hse_own_status": hseOwnStatus == null ? null : hseOwnStatus,
         "rent_amt": rentAmt,
