@@ -156,6 +156,9 @@ class Constants {
   static const String kMatchPassError = 'Passwords don\'t match';
   static const String kNamelNullError = 'Please enter your name';
   static const String kPhoneNumberNullError = 'Please enter your Phone Number';
+  static const String kMaritalStatusNullError =
+      'Please enter your Marital Status';
+  static const String kRentAmountNullError = 'Please enter your Rent Amount';
   static const String kAddressNullError = "Please enter your address";
 
   /*
@@ -207,7 +210,7 @@ class Constants {
     'No pension',
     'NSSF only',
     'Employer pension',
-    'Personal pension plan(PPP)',
+    'Personal pension plan (PPP)',
     'Employer pension + PPP',
   ];
 
@@ -217,5 +220,68 @@ class Constants {
     'Mortgage/TPS',
     'Company Provided',
     'Living with others',
+  ];
+
+  static const List<String> kenyanCounties = [
+    'Mombasa',
+    'Kwale',
+    'Kilifi',
+    'Tana River',
+    'Lamu',
+    'Taita Taveta',
+    'Garissa',
+    'Wajir',
+    'Mandera',
+    'Marsabit',
+    'Isiolo',
+    'Meru',
+    'Tharaka-Nithi',
+    'Embu',
+    'Kitui',
+    'Machakos',
+    'Makueni',
+    'Nyandarua',
+    'Nyeri',
+    'Kirinyaga',
+    'Murang\'a',
+    'Kiambu',
+    'Turkana',
+    'West Pokot',
+    'Samburu',
+    'Trans Nzoia',
+    'Uasin Gishu',
+    'Elgeyo Marakwet',
+    'Nandi',
+    'Baringo',
+    'Laikipia',
+    'Nakuru',
+    'Narok',
+    'Kajiado',
+    'Kericho',
+    'Bomet',
+    'Kakamega',
+    'Vihiga',
+    'Bungoma',
+    'Busia',
+    'Siaya',
+    'Kisumu',
+    'Homa Bay',
+    'Migori',
+    'Kisii',
+    'Nyamira',
+    'Nairobi City'
+  ];
+
+  static const List<String> dependantOptions = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
   ];
 }
