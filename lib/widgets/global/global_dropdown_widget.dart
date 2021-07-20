@@ -5,7 +5,7 @@ class GlobalDropdownWidget extends StatelessWidget {
   const GlobalDropdownWidget({
     Key? key,
     required this.items,
-    this.value,
+    required this.value,
     required this.onChanged,
     required this.label,
   }) : super(key: key);
