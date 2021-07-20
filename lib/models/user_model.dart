@@ -33,6 +33,7 @@ class UserModel {
     this.rentAmt,
     this.dependants,
     this.grossIncome,
+    this.county,
   });
 
   String? password;
@@ -63,6 +64,7 @@ class UserModel {
   dynamic rentAmt;
   int? dependants;
   String? grossIncome;
+  String? county;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         password: json["password"] ?? '',
@@ -98,6 +100,7 @@ class UserModel {
         rentAmt: json["rent_amt"],
         dependants: json["dependants"] == null ? null : json["dependants"],
         grossIncome: json["gross_income"] == null ? null : json["gross_income"],
+        county: json["county"] == null ? null : json["county"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -127,6 +130,8 @@ class UserModel {
         "hse_own_status": hseOwnStatus == null ? null : hseOwnStatus,
         "rent_amt": rentAmt,
         "dependants": dependants == null ? null : dependants,
+        "gross_income": grossIncome == null ? null : grossIncome,
+        "county": county == null ? null : county,
       };
 
   Map<String, dynamic> toRegistrationJson() => {
@@ -167,5 +172,18 @@ class UserModel {
         'otp': otp,
         'pin': pin,
         'pin_confirm': pinConfirm,
+      };
+
+  Map<String, dynamic> toProfileEditJson() => {
+        "phone_2": phone2,
+        "phone_3": phone3,
+        "marital_status": maritalStatus == null ? null : maritalStatus,
+        "pension_status": pensionStatus == null ? null : pensionStatus,
+        "occupation_status": occupationStatus == null ? null : occupationStatus,
+        "hse_own_status": hseOwnStatus == null ? null : hseOwnStatus,
+        "rent_amt": rentAmt,
+        "dependants": dependants == null ? null : dependants,
+        "gross_income": grossIncome == null ? null : grossIncome,
+        "county": county == null ? null : county,
       };
 }
