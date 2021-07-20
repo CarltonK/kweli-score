@@ -66,6 +66,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
     return TextFormField(
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.phone,
+      maxLength: 10,
       onSaved: (newValue) => phoneNumber2 = newValue!.trim(),
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -73,13 +74,14 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
         }
         return null;
       },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: Constants.kPhoneNumberNullError);
-          return "";
-        }
-        return null;
-      },
+      // No need to validate this field as it is optional
+      // validator: (value) {
+      //   if (value!.isEmpty) {
+      //     addError(error: Constants.kPhoneNumberNullError);
+      //     return "";
+      //   }
+      //   return null;
+      // },
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_focusPhoneNumber3);
       },
@@ -95,7 +97,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
 
   TextFormField buildPhoneNumber3Field() {
     return TextFormField(
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
+      maxLength: 10,
       keyboardType: TextInputType.phone,
       focusNode: _focusPhoneNumber3,
       onSaved: (newValue) => phoneNumber3 = newValue!.trim(),
@@ -105,15 +108,16 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
         }
         return null;
       },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: Constants.kPhoneNumberNullError);
-          return "";
-        }
-        return null;
-      },
+      // No need to validate this field as it is optional
+      // validator: (value) {
+      //   if (value!.isEmpty) {
+      //     addError(error: Constants.kPhoneNumberNullError);
+      //     return "";
+      //   }
+      //   return null;
+      // },
       onFieldSubmitted: (value) {
-        FocusScope.of(context).requestFocus(_focusDob);
+        FocusScope.of(context).unfocus();
       },
       decoration: InputDecoration(
         labelText: 'Alternate Number',
@@ -156,11 +160,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
       onTap: _pickDate,
       child: IgnorePointer(
         child: TextFormField(
-          focusNode: _focusDob,
           controller: _dobController,
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).unfocus();
-          },
           decoration: InputDecoration(
             labelText: 'Date of Birth',
             helperText: 'You must be over 18 years old',
@@ -250,6 +250,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                   keyboardType: TextInputType.number,
                   onSaved: (newValue) => currentRentAmount = newValue!.trim(),
                   onChanged: (value) {
+                    currentRentAmount = value;
                     if (value.isNotEmpty) {
                       removeError(error: Constants.kRentAmountNullError);
                     }
@@ -313,19 +314,61 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
     );
   }
 
-  _profileEditHandler(UserModel model) async {}
+  _profileEditHandler(UserModel model) async {
+    print('Profile: ${user!.toProfileEditJson()}');
+  }
 
   registrationButtonPressed() {
     final FormState _formState = _profileEditFormKey.currentState!;
-    if (_formState.validate()) {
-      _formState.save();
+    if (currentDob == null ||
+        currentGender == null ||
+        currentMaritalStatus == null ||
+        currentDependants == null ||
+        currentPensionStatus == null ||
+        currentOccupationStatus == null ||
+        currentHouseOwnershipStatus == null ||
+        currentGrossIncomeBracket == null ||
+        currentCounty == null) {
+      Future.delayed(Duration(milliseconds: 100), () {
+        dialogInfo(
+          widget.scaffoldKey.currentContext!,
+          'Please ensure all fields are selected',
+          'Error',
+        );
+      });
+    } else if (currentHouseOwnershipStatus == 'Rented' &&
+        currentRentAmount == null) {
+      Future.delayed(Duration(milliseconds: 100), () {
+        dialogInfo(
+          widget.scaffoldKey.currentContext!,
+          'Please enter your rent amount',
+          'Error',
+        );
+      });
+    } else {
+      if (_formState.validate()) {
+        _formState.save();
 
-      KeyboardUtil.hideKeyboard(context);
+        KeyboardUtil.hideKeyboard(context);
 
-      user = UserModel();
+        user = UserModel(
+          phone2: phoneNumber2,
+          phone3: phoneNumber3,
+          maritalStatus: currentMaritalStatus,
+          pensionStatus: currentPensionStatus,
+          gender: currentGender,
+          dob: currentDob,
+          occupationStatus: currentOccupationStatus,
+          hseOwnStatus: currentHouseOwnershipStatus,
+          rentAmt: currentRentAmount,
+          dependants: currentDependants,
+          grossIncome: currentGrossIncomeBracket,
+          county: currentCounty,
+        );
 
-      // Connect the backend
-      _profileEditHandler(user!);
+        // Connect the backend
+        _profileEditHandler(user!);
+      }
     }
   }
 
