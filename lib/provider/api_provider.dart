@@ -36,6 +36,14 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  set isLoading(bool newLoading) {
+    _isLoading = newLoading;
+    notifyListeners();
+  }
+
   /// METHOD = POST
   ///
   /// PARAMS = id_number (String), password (String)
@@ -231,5 +239,35 @@ class ApiProvider with ChangeNotifier {
     } else {
       return userModelFromJson(profileResponse);
     }
+  }
+
+  /// METHOD = PATCH
+  ///
+  /// PARAMS = Token
+  Future patchUser(UserModel user, String token) async {
+    // Load
+    _isLoading = true;
+    notifyListeners();
+
+    // Url
+    String url = BASE_URL + '/user_profile/';
+
+    // Payload
+    var body = jsonEncode(user.toProfileEditJson());
+
+    // Request
+    var profileRequest = await http.patch(
+      Uri.parse(url),
+      headers: {'Authorization': 'Token $token', ...header},
+      body: body,
+    );
+
+    // Stop loading
+    _isLoading = false;
+    notifyListeners();
+    // Response
+    dynamic profileEditResponse = profileRequest.body;
+
+    return serverResponseFromJson(profileEditResponse);
   }
 }
