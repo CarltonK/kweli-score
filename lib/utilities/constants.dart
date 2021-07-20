@@ -179,6 +179,7 @@ class Constants {
     'Widowed',
     'Separated'
   ];
+
   static const List<String> occupationStatus = [
     'Business',
     'Student',
@@ -187,6 +188,7 @@ class Constants {
     'Retired',
     'Unemployed'
   ];
+
   static const List<String> grossIncomeOptions = [
     '1 - 25,000',
     '25,001 - 50,000',
@@ -195,7 +197,8 @@ class Constants {
     '150,001 - 250,000',
     '> 250,000'
   ];
-  static const List<String> gender = [
+
+  static const List<String> genderOptions = [
     'Male',
     'Female',
     'Other',
@@ -207,6 +210,7 @@ class Constants {
     'Personal pension plan(PPP)',
     'Employer pension + PPP',
   ];
+
   static const List<String> houseOwnershipOptions = [
     'Rented',
     'Fully owned',
@@ -214,5 +218,4 @@ class Constants {
     'Company Provided',
     'Living with others',
   ];
-  
 }
