@@ -51,10 +51,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     }
                     if (snapshot.data.runtimeType == ServerResponse) {
                       String message = snapshot.data.detail;
-                      return Center(
-                        child: GlobalInfoDialog(
-                            message: '$message Please login again'),
-                      );
+                      Dashboard dash =
+                          context.select((ApiProvider value) => value.dash);
+                      switch (dash) {
+                        case Dashboard.Stale:
+                          return GlobalLoader();
+                        // case Dashboard.NoReport:
+                        //   return GlobalLoader();
+                        default:
+                          return Center(
+                            child: GlobalInfoDialog(
+                              message: '$message Please login again',
+                            ),
+                          );
+                      }
                     }
                     return Padding(
                       padding: EdgeInsets.symmetric(
@@ -74,6 +84,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 return ChuiDash();
                               case Dashboard.Simba:
                                 return SimbaDash();
+                              case Dashboard.NoReport:
+                                return GlobalLoader();
                             }
                           },
                         ),
