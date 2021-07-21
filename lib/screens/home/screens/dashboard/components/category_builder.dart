@@ -28,7 +28,6 @@ class CategoryBuilder extends StatefulWidget {
 
 class _CategoryBuilderState extends State<CategoryBuilder> {
   PageController? _controller;
-  double? _animatedWidth;
   List? displayItems, displayTags;
 
   @override
@@ -53,7 +52,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
       'Agent Withdrawals',
     ];
 
-    _controller = PageController(viewportFraction: 0.7);
+    _controller = PageController(viewportFraction: 0.8);
   }
 
   @override

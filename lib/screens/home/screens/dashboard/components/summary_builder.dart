@@ -92,7 +92,7 @@ class _SummaryBuilderState extends State<SummaryBuilder> {
       chartData: mpesaCharges(),
       chartTitle: 'Mpesa Charges',
     ));
-    _controller = PageController(viewportFraction: 0.7);
+    _controller = PageController(viewportFraction: 0.8);
   }
 
   @override

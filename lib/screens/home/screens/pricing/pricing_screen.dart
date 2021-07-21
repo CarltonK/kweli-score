@@ -96,7 +96,7 @@ class _PricingScreenState extends State<PricingScreen> {
                   style: Constants.kHeadlineStyle,
                 ),
                 mainBody(),
-                SizedBox(height: DeviceConfig.screenHeight! * 0.08),
+                SizedBox(height: DeviceConfig.screenHeight! * 0.04),
               ],
             ),
           ),
