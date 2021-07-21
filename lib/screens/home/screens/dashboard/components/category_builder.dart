@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
 // import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:kweliscore/widgets/widgets.dart';
 
 class CategoryBuilder extends StatefulWidget {
   const CategoryBuilder({
@@ -42,6 +43,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
       widget.agentDeposits,
       widget.agentWithdrawals,
     ];
+
     displayTags = [
       'P2P Incoming',
       'P2P Outgoing',
@@ -50,6 +52,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
       'Agent Deposits',
       'Agent Withdrawals',
     ];
+
     _controller = PageController(viewportFraction: 0.7);
   }
 
@@ -70,31 +73,22 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getProportionateScreenHeight(100),
+      height: getProportionateScreenHeight(160),
       child: PageView.builder(
-        itemCount: 6,
+        itemCount: displayItems!.length,
         controller: _controller,
         physics: AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          // Convert total String to double
           String total = displayItems![index].total;
-          String totalFormatted = total.split(',').join();
+          // Check the direction in which money flows
+          // In if index % 2 == 0
+          String moneyDirection = index % 2 == 0 ? 'received' : 'sent';
 
-          _animatedWidth = double.parse(totalFormatted);
           return GestureDetector(
-            onTap: () {
-              print(totalFormatted);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (BuildContext context) =>
-              //         TabbedViewTransactions(title: 'Paybills'),
-              //   ),
-              // );
-            },
+            onTap: () {},
             child: Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(9),
+                borderRadius: BorderRadius.circular(6),
               ),
               elevation: 3,
               margin: EdgeInsets.symmetric(
@@ -112,28 +106,44 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      '${displayTags![index]}',
-                      style: Constants.boldHeadlineStyle.copyWith(fontSize: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${displayTags![index]}',
+                          style: Constants.boldHeadlineStyle
+                              .copyWith(fontSize: 20),
+                        ),
+                        GlobalCircleButton(
+                          onPressed: () {},
+                          icon: Icons.info,
+                          color: Palette.ksmartPrimary,
+                        ),
+                      ],
                     ),
                     SizedBox(height: getProportionateScreenHeight(10)),
-                    AnimatedContainer(
-                      curve: Constants.verySmoothCurve,
-                      duration: Constants.fluidDuration,
-                      height: 15,
-                      width: _animatedWidth!,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Palette.ksmartPrimary,
-                      ),
-                    ),
+                    moneyDirection == 'received'
+                        ? Icon(Icons.trending_up, color: Colors.green)
+                        : Icon(Icons.trending_down, color: Colors.red),
                     SizedBox(height: getProportionateScreenHeight(10)),
-                    Text(
-                      'Total',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 15,
-                        color: Colors.black,
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'You have $moneyDirection a total of ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'KES $total',
+                            style: Constants.blackBoldNormal.copyWith(
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

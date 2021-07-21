@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:kweliscore/widgets/widgets.dart';
 
@@ -66,10 +67,10 @@ class _BrandBuilderState extends State<BrandsBuilder> {
                         currentBrand = widget.brands.pharmacy;
                         itemCount = currentBrand!.length;
                         return;
-                      // case 7:
-                      //   currentBrand = widget.brands.homeInternetAndTv;
-                      //   itemCount = currentBrand!.length;
-                      //   return;
+                      case 7:
+                        currentBrand = widget.brands.homeInternetAndTv;
+                        itemCount = currentBrand!.length;
+                        return;
                     }
                   }),
                   child: Padding(
@@ -99,40 +100,7 @@ class _BrandBuilderState extends State<BrandsBuilder> {
                       ? ListView.builder(
                           itemCount: itemCount,
                           itemBuilder: (context, index) {
-                            String transaction =
-                                currentBrand![index].transactions == 1
-                                    ? 'transaction'
-                                    : 'transactions';
-                            return Card(
-                              elevation: 3,
-                              child: ListTile(
-                                leading: Icon(Icons.trending_flat),
-                                title: Text(
-                                  '${currentBrand![index].name}',
-                                  style: Constants.boldSubheadlineStyle,
-                                ),
-                                isThreeLine: true,
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'KES ${currentBrand![index].spent}',
-                                      style: Constants.boldSubheadlineStyle
-                                          .copyWith(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(5)),
-                                    Text(
-                                      '${currentBrand![index].transactions} $transaction',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                            return BrandItem(lifestyle: currentBrand![index]);
                           },
                         )
                       : GlobalInfoDialog(
