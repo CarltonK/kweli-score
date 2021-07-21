@@ -49,58 +49,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     return Center(
                       child: GlobalInfoDialog(message: GLOBAL_ERROR),
                     );
-                  case ConnectionState.waiting:
-                    return GlobalLoader();
-                  case ConnectionState.done:
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: GlobalInfoDialog(message: GLOBAL_ERROR),
-                      );
+                  }
+                  if (snapshot.data.runtimeType == ServerResponse) {
+                    String message = snapshot.data.detail;
+                    Dashboard dash =
+                        context.select((ApiProvider value) => value.dash);
+                    switch (dash) {
+                      case Dashboard.Stale:
+                        return StaleDash();
+                      case Dashboard.NoReport:
+                        return NoReportDash();
+                      case Dashboard.UpdateProfile:
+                        return ProfileEditScreen();
+                      default:
+                        return Center(
+                          child: GlobalInfoDialog(
+                            message: '$message Please login again',
+                          ),
+                        );
                     }
-                    if (snapshot.data.runtimeType == ServerResponse) {
-                      String message = snapshot.data.detail;
-                      Dashboard dash =
-                          context.select((ApiProvider value) => value.dash);
-                      switch (dash) {
-                        case Dashboard.Stale:
-                          return StaleDash();
-                        case Dashboard.NoReport:
-                          return NoReportDash();
-                        case Dashboard.UpdateProfile:
-                          return ProfileEditScreen();
-                        default:
-                          return Center(
-                            child: GlobalInfoDialog(
-                              message: '$message Please login again',
-                            ),
-                          );
-                      }
-                    }
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getProportionateScreenWidth(20),
-                      ),
-                      child: Provider<DashboardResponse>(
-                        create: (context) => snapshot.data,
-                        child: Consumer<ApiProvider>(
-                          builder: (context, value, child) {
-                            // Switch Case
-                            switch (value.dash) {
-                              case Dashboard.Stale:
-                                return StaleDash();
-                              case Dashboard.Swara:
-                                return SwaraDash();
-                              case Dashboard.Chui:
-                                return ChuiDash();
-                              case Dashboard.Simba:
-                                return SimbaDash();
-                              case Dashboard.NoReport:
-                                return NoReportDash();
-                              case Dashboard.UpdateProfile:
-                                return ProfileEditScreen();
-                            }
-                          },
-                        ),
+                  }
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenWidth(20),
+                    ),
+                    child: Provider<DashboardResponse>(
+                      create: (context) => snapshot.data,
+                      child: Consumer<ApiProvider>(
+                        builder: (context, value, child) {
+                          // Switch Case
+                          switch (value.dash) {
+                            case Dashboard.Stale:
+                              return StaleDash();
+                            case Dashboard.Swara:
+                              return SwaraDash();
+                            case Dashboard.Chui:
+                              return ChuiDash();
+                            case Dashboard.Simba:
+                              return SimbaDash();
+                            case Dashboard.NoReport:
+                              return NoReportDash();
+                            case Dashboard.UpdateProfile:
+                              return ProfileEditScreen();
+                          }
+                        },
                       ),
                     ),
                   );
