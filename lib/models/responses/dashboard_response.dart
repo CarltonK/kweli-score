@@ -145,7 +145,7 @@ class Brands {
   List<Lifestyle>? investPensionsSvngs;
   List<Lifestyle>? lifestyle;
   List<Lifestyle>? supermarkets;
-  List<HomeInternetAndTv>? homeInternetAndTv;
+  List<Lifestyle>? homeInternetAndTv;
   List<Lifestyle>? pharmacy;
 
   factory Brands.fromJson(Map<String, dynamic> json) => Brands(
@@ -175,8 +175,8 @@ class Brands {
                 json["supermarkets"].map((x) => Lifestyle.fromJson(x))),
         homeInternetAndTv: json["home_internet_and_tv"] == null
             ? []
-            : List<HomeInternetAndTv>.from(json["home_internet_and_tv"]
-                .map((x) => HomeInternetAndTv.fromJson(x))),
+            : List<Lifestyle>.from(
+                json["home_internet_and_tv"].map((x) => Lifestyle.fromJson(x))),
         pharmacy: json["pharmacy"] == null
             ? []
             : List<Lifestyle>.from(
@@ -204,32 +204,6 @@ class Brands {
             ? null
             : List<dynamic>.from(homeInternetAndTv!.map((x) => x.toJson())),
         "pharmacy": pharmacy,
-      };
-}
-
-class HomeInternetAndTv {
-  HomeInternetAndTv({
-    this.name,
-    this.transactions,
-    this.spent,
-  });
-
-  String? name;
-  int? transactions;
-  String? spent;
-
-  factory HomeInternetAndTv.fromJson(Map<String, dynamic> json) =>
-      HomeInternetAndTv(
-        name: json["name"] == null ? null : json["name"],
-        transactions:
-            json["transactions"] == null ? null : json["transactions"],
-        spent: json["spent"] == null ? null : json["spent"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name == null ? null : name,
-        "transactions": transactions == null ? null : transactions,
-        "spent": spent == null ? null : spent,
       };
 }
 
@@ -292,326 +266,325 @@ class Fuliza {
 
 class IncomingAgentDeposits {
   IncomingAgentDeposits({
-    this.the1,
-    this.the2,
+    this.records,
     this.total,
   });
 
-  IncomingAgentDeposits1? the1;
-  IncomingAgentDeposits1? the2;
+  List<RecordIncomingAgentDeposits>? records;
   String? total;
 
   factory IncomingAgentDeposits.fromJson(Map<String, dynamic> json) =>
       IncomingAgentDeposits(
-        the1: json["1"] == null
+        records: json["records"] == null
             ? null
-            : IncomingAgentDeposits1.fromJson(json["1"]),
-        the2: json["2"] == null
-            ? null
-            : IncomingAgentDeposits1.fromJson(json["2"]),
+            : List<RecordIncomingAgentDeposits>.from(json["records"]
+                .map((x) => RecordIncomingAgentDeposits.fromJson(x))),
         total: json["Total"] == null ? null : json["Total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "1": the1 == null ? null : the1!.toJson(),
-        "2": the2 == null ? null : the2!.toJson(),
+        "records": records == null
+            ? null
+            : List<dynamic>.from(records!.map((x) => x.toJson())),
         "Total": total == null ? null : total,
       };
 }
 
-class IncomingAgentDeposits1 {
-  IncomingAgentDeposits1({
+class RecordIncomingAgentDeposits {
+  RecordIncomingAgentDeposits({
+    this.nos,
     this.tillNos,
-    this.paidIn,
     this.tillOwner,
+    this.amt,
   });
 
+  int? nos;
   String? tillNos;
-  String? paidIn;
   String? tillOwner;
+  String? amt;
 
-  factory IncomingAgentDeposits1.fromJson(Map<String, dynamic> json) =>
-      IncomingAgentDeposits1(
+  factory RecordIncomingAgentDeposits.fromJson(Map<String, dynamic> json) =>
+      RecordIncomingAgentDeposits(
+        nos: json["nos"] == null ? null : json["nos"],
         tillNos: json["Till Nos"] == null ? null : json["Till Nos"],
-        paidIn: json["Paid In"] == null ? null : json["Paid In"],
         tillOwner: json["Till Owner"] == null ? null : json["Till Owner"],
+        amt: json["amt"] == null ? null : json["amt"],
       );
 
   Map<String, dynamic> toJson() => {
+        "nos": nos == null ? null : nos,
         "Till Nos": tillNos == null ? null : tillNos,
-        "Paid In": paidIn == null ? null : paidIn,
         "Till Owner": tillOwner == null ? null : tillOwner,
+        "amt": amt == null ? null : amt,
       };
 }
 
 class OutgoingAgentWithdrawals {
   OutgoingAgentWithdrawals({
-    this.the1,
-    this.the2,
-    this.the3,
+    this.records,
     this.total,
   });
 
-  OutgoingAgentWithdrawals1? the1;
-  OutgoingAgentWithdrawals1? the2;
-  OutgoingAgentWithdrawals1? the3;
+  List<RecordOutgoingAgentWithdrawals>? records;
   String? total;
 
   factory OutgoingAgentWithdrawals.fromJson(Map<String, dynamic> json) =>
       OutgoingAgentWithdrawals(
-        the1: json["1"] == null
+        records: json["records"] == null
             ? null
-            : OutgoingAgentWithdrawals1.fromJson(json["1"]),
-        the2: json["2"] == null
-            ? null
-            : OutgoingAgentWithdrawals1.fromJson(json["2"]),
-        the3: json["3"] == null
-            ? null
-            : OutgoingAgentWithdrawals1.fromJson(json["3"]),
+            : List<RecordOutgoingAgentWithdrawals>.from(json["records"]
+                .map((x) => RecordOutgoingAgentWithdrawals.fromJson(x))),
         total: json["Total"] == null ? null : json["Total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "1": the1 == null ? null : the1!.toJson(),
-        "2": the2 == null ? null : the2!.toJson(),
-        "3": the3 == null ? null : the3!.toJson(),
+        "records": records == null
+            ? null
+            : List<dynamic>.from(records!.map((x) => x.toJson())),
         "Total": total == null ? null : total,
       };
 }
 
-class OutgoingAgentWithdrawals1 {
-  OutgoingAgentWithdrawals1({
+class RecordOutgoingAgentWithdrawals {
+  RecordOutgoingAgentWithdrawals({
+    this.nos,
     this.tillNos,
-    this.withdrawn,
     this.tillOwner,
+    this.amt,
   });
 
+  int? nos;
   String? tillNos;
-  String? withdrawn;
   String? tillOwner;
+  String? amt;
 
-  factory OutgoingAgentWithdrawals1.fromJson(Map<String, dynamic> json) =>
-      OutgoingAgentWithdrawals1(
+  factory RecordOutgoingAgentWithdrawals.fromJson(Map<String, dynamic> json) =>
+      RecordOutgoingAgentWithdrawals(
+        nos: json["nos"] == null ? null : json["nos"],
         tillNos: json["Till Nos"] == null ? null : json["Till Nos"],
-        withdrawn: json["Withdrawn"] == null ? null : json["Withdrawn"],
         tillOwner: json["Till Owner"] == null ? null : json["Till Owner"],
+        amt: json["amt"] == null ? null : json["amt"],
       );
 
   Map<String, dynamic> toJson() => {
+        "nos": nos == null ? null : nos,
         "Till Nos": tillNos == null ? null : tillNos,
-        "Withdrawn": withdrawn == null ? null : withdrawn,
         "Till Owner": tillOwner == null ? null : tillOwner,
+        "amt": amt == null ? null : amt,
       };
 }
 
 class P2PIncoming {
   P2PIncoming({
-    this.the1,
-    this.the2,
-    this.the3,
+    this.records,
     this.total,
   });
 
-  P2PIncoming1? the1;
-  P2PIncoming1? the2;
-  P2PIncoming1? the3;
+  List<RecordP2PIncoming>? records;
   String? total;
 
   factory P2PIncoming.fromJson(Map<String, dynamic> json) => P2PIncoming(
-        the1: json["1"] == null ? null : P2PIncoming1.fromJson(json["1"]),
-        the2: json["2"] == null ? null : P2PIncoming1.fromJson(json["2"]),
-        the3: json["3"] == null ? null : P2PIncoming1.fromJson(json["3"]),
+        records: json["records"] == null
+            ? null
+            : List<RecordP2PIncoming>.from(
+                json["records"].map((x) => RecordP2PIncoming.fromJson(x))),
         total: json["Total"] == null ? null : json["Total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "1": the1 == null ? null : the1!.toJson(),
-        "2": the2 == null ? null : the2!.toJson(),
-        "3": the3 == null ? null : the3!.toJson(),
+        "records": records == null
+            ? null
+            : List<dynamic>.from(records!.map((x) => x.toJson())),
         "Total": total == null ? null : total,
       };
 }
 
-class P2PIncoming1 {
-  P2PIncoming1({
+class RecordP2PIncoming {
+  RecordP2PIncoming({
+    this.nos,
     this.name,
-    this.number,
-    this.paidIn,
+    this.amt,
   });
 
+  int? nos;
   String? name;
-  String? number;
-  String? paidIn;
+  String? amt;
 
-  factory P2PIncoming1.fromJson(Map<String, dynamic> json) => P2PIncoming1(
-        name: json["Name"] == null ? null : json["Name"],
-        number: json["number"] == null ? null : json["number"],
-        paidIn: json["Paid In"] == null ? null : json["Paid In"],
+  factory RecordP2PIncoming.fromJson(Map<String, dynamic> json) =>
+      RecordP2PIncoming(
+        nos: json["nos"] == null ? null : json["nos"],
+        name: json["name"] == null ? null : json["name"],
+        amt: json["amt"] == null ? null : json["amt"],
       );
 
   Map<String, dynamic> toJson() => {
-        "Name": name == null ? null : name,
-        "number": number == null ? null : number,
-        "Paid In": paidIn == null ? null : paidIn,
+        "nos": nos == null ? null : nos,
+        "name": name == null ? null : name,
+        "amt": amt == null ? null : amt,
       };
 }
 
 class P2POutgoing {
   P2POutgoing({
-    this.the1,
-    this.the2,
-    this.the3,
+    this.records,
     this.total,
   });
 
-  P2POutgoing1? the1;
-  P2POutgoing1? the2;
-  P2POutgoing1? the3;
+  List<RecordP2POutgoing>? records;
   String? total;
 
   factory P2POutgoing.fromJson(Map<String, dynamic> json) => P2POutgoing(
-        the1: json["1"] == null ? null : P2POutgoing1.fromJson(json["1"]),
-        the2: json["2"] == null ? null : P2POutgoing1.fromJson(json["2"]),
-        the3: json["3"] == null ? null : P2POutgoing1.fromJson(json["3"]),
+        records: json["records"] == null
+            ? null
+            : List<RecordP2POutgoing>.from(
+                json["records"].map((x) => RecordP2POutgoing.fromJson(x))),
         total: json["Total"] == null ? null : json["Total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "1": the1 == null ? null : the1!.toJson(),
-        "2": the2 == null ? null : the2!.toJson(),
-        "3": the3 == null ? null : the3!.toJson(),
+        "records": records == null
+            ? null
+            : List<dynamic>.from(records!.map((x) => x.toJson())),
         "Total": total == null ? null : total,
       };
 }
 
-class P2POutgoing1 {
-  P2POutgoing1({
+class RecordP2POutgoing {
+  RecordP2POutgoing({
+    this.nos,
     this.name,
     this.number,
-    this.withdrawn,
+    this.amt,
   });
 
+  int? nos;
   String? name;
   String? number;
-  String? withdrawn;
+  String? amt;
 
-  factory P2POutgoing1.fromJson(Map<String, dynamic> json) => P2POutgoing1(
+  factory RecordP2POutgoing.fromJson(Map<String, dynamic> json) =>
+      RecordP2POutgoing(
+        nos: json["nos"] == null ? null : json["nos"],
         name: json["Name"] == null ? null : json["Name"],
         number: json["number"] == null ? null : json["number"],
-        withdrawn: json["Withdrawn"] == null ? null : json["Withdrawn"],
+        amt: json["amt"] == null ? null : json["amt"],
       );
 
   Map<String, dynamic> toJson() => {
+        "nos": nos == null ? null : nos,
         "Name": name == null ? null : name,
         "number": number == null ? null : number,
-        "Withdrawn": withdrawn == null ? null : withdrawn,
+        "amt": amt == null ? null : amt,
       };
 }
 
 class PayBillsIncoming {
   PayBillsIncoming({
-    this.the1,
-    this.the2,
-    this.the3,
+    this.records,
     this.total,
   });
 
-  PayBillsIncoming1? the1;
-  PayBillsIncoming1? the2;
-  PayBillsIncoming1? the3;
+  List<RecordPaybillsIncoming>? records;
   String? total;
 
   factory PayBillsIncoming.fromJson(Map<String, dynamic> json) =>
       PayBillsIncoming(
-        the1: json["1"] == null ? null : PayBillsIncoming1.fromJson(json["1"]),
-        the2: json["2"] == null ? null : PayBillsIncoming1.fromJson(json["2"]),
-        the3: json["3"] == null ? null : PayBillsIncoming1.fromJson(json["3"]),
+        records: json["records"] == null
+            ? null
+            : List<RecordPaybillsIncoming>.from(
+                json["records"].map((x) => RecordPaybillsIncoming.fromJson(x))),
         total: json["Total"] == null ? null : json["Total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "1": the1 == null ? null : the1!.toJson(),
-        "2": the2 == null ? null : the2!.toJson(),
-        "3": the3 == null ? null : the3!.toJson(),
+        "records": records == null
+            ? null
+            : List<dynamic>.from(records!.map((x) => x.toJson())),
         "Total": total == null ? null : total,
       };
 }
 
-class PayBillsIncoming1 {
-  PayBillsIncoming1({
+class RecordPaybillsIncoming {
+  RecordPaybillsIncoming({
+    this.nos,
     this.b2CPaybill,
     this.b2CPaybillName,
-    this.paidIn,
+    this.amt,
   });
 
+  int? nos;
   String? b2CPaybill;
   String? b2CPaybillName;
-  String? paidIn;
+  String? amt;
 
-  factory PayBillsIncoming1.fromJson(Map<String, dynamic> json) =>
-      PayBillsIncoming1(
+  factory RecordPaybillsIncoming.fromJson(Map<String, dynamic> json) =>
+      RecordPaybillsIncoming(
+        nos: json["nos"] == null ? null : json["nos"],
         b2CPaybill: json["B2C_Paybill"] == null ? null : json["B2C_Paybill"],
         b2CPaybillName:
             json["B2C_Paybill_name"] == null ? null : json["B2C_Paybill_name"],
-        paidIn: json["Paid In"] == null ? null : json["Paid In"],
+        amt: json["amt"] == null ? null : json["amt"],
       );
 
   Map<String, dynamic> toJson() => {
+        "nos": nos == null ? null : nos,
         "B2C_Paybill": b2CPaybill == null ? null : b2CPaybill,
         "B2C_Paybill_name": b2CPaybillName == null ? null : b2CPaybillName,
-        "Paid In": paidIn == null ? null : paidIn,
+        "amt": amt == null ? null : amt,
       };
 }
 
 class PaybillPymts {
   PaybillPymts({
-    this.the1,
-    this.the2,
-    this.the3,
+    this.records,
     this.total,
   });
 
-  PaybillPymts1? the1;
-  PaybillPymts1? the2;
-  PaybillPymts1? the3;
+  List<RecordPaybillPymts>? records;
   String? total;
 
   factory PaybillPymts.fromJson(Map<String, dynamic> json) => PaybillPymts(
-        the1: json["1"] == null ? null : PaybillPymts1.fromJson(json["1"]),
-        the2: json["2"] == null ? null : PaybillPymts1.fromJson(json["2"]),
-        the3: json["3"] == null ? null : PaybillPymts1.fromJson(json["3"]),
+        records: json["records"] == null
+            ? null
+            : List<RecordPaybillPymts>.from(
+                json["records"].map((x) => RecordPaybillPymts.fromJson(x))),
         total: json["Total"] == null ? null : json["Total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "1": the1 == null ? null : the1!.toJson(),
-        "2": the2 == null ? null : the2!.toJson(),
-        "3": the3 == null ? null : the3!.toJson(),
+        "records": records == null
+            ? null
+            : List<dynamic>.from(records!.map((x) => x.toJson())),
         "Total": total == null ? null : total,
       };
 }
 
-class PaybillPymts1 {
-  PaybillPymts1({
+class RecordPaybillPymts {
+  RecordPaybillPymts({
+    this.nos,
     this.paybill,
-    this.withdrawn,
     this.paybillName,
+    this.amt,
   });
 
+  int? nos;
   String? paybill;
-  String? withdrawn;
   String? paybillName;
+  String? amt;
 
-  factory PaybillPymts1.fromJson(Map<String, dynamic> json) => PaybillPymts1(
+  factory RecordPaybillPymts.fromJson(Map<String, dynamic> json) =>
+      RecordPaybillPymts(
+        nos: json["nos"] == null ? null : json["nos"],
         paybill: json["Paybill"] == null ? null : json["Paybill"],
-        withdrawn: json["Withdrawn"] == null ? null : json["Withdrawn"],
         paybillName: json["Paybill_name"] == null ? null : json["Paybill_name"],
+        amt: json["amt"] == null ? null : json["amt"],
       );
 
   Map<String, dynamic> toJson() => {
+        "nos": nos == null ? null : nos,
         "Paybill": paybill == null ? null : paybill,
-        "Withdrawn": withdrawn == null ? null : withdrawn,
         "Paybill_name": paybillName == null ? null : paybillName,
+        "amt": amt == null ? null : amt,
       };
 }
 
