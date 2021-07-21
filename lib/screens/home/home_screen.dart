@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     setState(() => _index = index);
     _controller!.animateToPage(
       _index,
-      duration: Duration(milliseconds: 100),
+      duration: Constants.veryFluidDuration,
       curve: Curves.easeOutCubic,
     );
   }

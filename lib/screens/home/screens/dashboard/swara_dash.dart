@@ -45,6 +45,26 @@ class _SwaraDashState extends State<SwaraDash> {
     );
   }
 
+  _buildBalance() {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: 'Your usual balance is ',
+            style: Constants.blackBoldNormal.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 17,
+            ),
+          ),
+          TextSpan(
+            text: ' ~ KES ${dash!.detail!.usualBalance}',
+            style: Constants.blackBoldNormal.copyWith(fontSize: 20),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -57,7 +77,6 @@ class _SwaraDashState extends State<SwaraDash> {
           ...[
             IntroWidget(
               name: user!.name!,
-              balance: dash!.detail!.usualBalance!,
               expiryDate: dash!.detail!.expiryDate!,
               period: dash!.detail!.statement!,
               records: dash!.detail!.records!,
@@ -65,11 +84,22 @@ class _SwaraDashState extends State<SwaraDash> {
           ],
           Text('Quick Summary', style: Constants.kHeadlineStyle),
           SizedBox(height: getProportionateScreenHeight(10)),
+          _buildBalance(),
+          SizedBox(height: getProportionateScreenHeight(10)),
           _buildLocations(),
           SizedBox(height: getProportionateScreenHeight(20)),
           SummaryBuilder(summary: dash!.detail!.quickSummaries!),
-          // SizedBox(height: getProportionateScreenHeight(25)),
-          // Text('Transactional Data', style: Constants.kHeadlineStyle),
+          SizedBox(height: getProportionateScreenHeight(25)),
+          Text('Transactional Data', style: Constants.kHeadlineStyle),
+          SizedBox(height: getProportionateScreenHeight(10)),
+          CategoryBuilder(
+            p2pIncoming: dash!.detail!.p2PIncoming!,
+            p2pOutgoing: dash!.detail!.p2POutgoing!,
+            paybillIncoming: dash!.detail!.payBillsIncoming!,
+            paybillOutgoing: dash!.detail!.paybillPymts!,
+            agentDeposits: dash!.detail!.incomingAgentDeposits!,
+            agentWithdrawals: dash!.detail!.outgoingAgentWithdrawals!,
+          ),
           SizedBox(height: getProportionateScreenHeight(25)),
           Text('Top Brands', style: Constants.kHeadlineStyle),
           SizedBox(height: getProportionateScreenHeight(10)),
@@ -82,7 +112,7 @@ class _SwaraDashState extends State<SwaraDash> {
               'Lifestyle',
               'Supermarkets',
               'Pharmacy',
-              // 'Internet and TV',
+              'Internet and TV',
             ],
             brands: dash!.detail!.brands!,
           )
