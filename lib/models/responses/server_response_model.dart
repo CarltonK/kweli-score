@@ -13,7 +13,7 @@ class ServerResponse {
   String? detail;
 
   factory ServerResponse.fromJson(Map<String, dynamic> json) => ServerResponse(
-        detail: json["detail"],
+        detail: json["detail"] == null ? null : json["detail"],
       );
 
   Map<String, dynamic> toJson() => {
