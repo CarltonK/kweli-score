@@ -22,7 +22,7 @@ class SinglePriceCard extends StatelessWidget {
         }
         return Center(
           child: SizedBox(
-            height: Curves.easeInOut.transform(value) * 500,
+            height: Curves.easeInOut.transform(value) * 600,
             width: Curves.easeInOut.transform(value) * 400,
             child: child,
           ),

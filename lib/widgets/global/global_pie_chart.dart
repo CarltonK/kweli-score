@@ -15,7 +15,7 @@ class GlobalPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       elevation: 3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

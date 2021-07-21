@@ -5,13 +5,12 @@ import 'package:kweliscore/utilities/utilities.dart';
 class IntroWidget extends StatelessWidget {
   const IntroWidget({
     Key? key,
-    required this.balance,
     required this.expiryDate,
     required this.name,
     required this.period,
     required this.records,
   }) : super(key: key);
-  final String balance, period, expiryDate, name;
+  final String period, expiryDate, name;
   final int records;
 
   _buildName() {
@@ -23,26 +22,6 @@ class IntroWidget extends StatelessWidget {
     return Text(
       'Hello ${nameFormatted} $ola',
       style: Constants.kHeadlineStyle.copyWith(fontSize: 25),
-    );
-  }
-
-  _buildBalance() {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: 'Your usual balance is ',
-            style: Constants.blackBoldNormal.copyWith(
-              fontWeight: FontWeight.w400,
-              fontSize: 17,
-            ),
-          ),
-          TextSpan(
-            text: ' ~ KES $balance',
-            style: Constants.blackBoldNormal.copyWith(fontSize: 20),
-          ),
-        ],
-      ),
     );
   }
 
@@ -96,8 +75,6 @@ class IntroWidget extends StatelessWidget {
         _buildName(),
         SizedBox(height: getProportionateScreenHeight(10)),
         _buildAnalysisBackground(),
-        SizedBox(height: getProportionateScreenHeight(10)),
-        _buildBalance(),
         SizedBox(height: getProportionateScreenHeight(25)),
       ],
     );

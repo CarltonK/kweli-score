@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kweliscore/models/models.dart';
 import 'package:kweliscore/screens/home/home.dart';
 import 'package:kweliscore/utilities/utilities.dart';
+import 'package:provider/provider.dart';
 
 class PricingScreen extends StatefulWidget {
   const PricingScreen({Key? key}) : super(key: key);
@@ -10,10 +12,11 @@ class PricingScreen extends StatefulWidget {
 }
 
 class _PricingScreenState extends State<PricingScreen> {
-  final int _numPages = 3;
+  final int _numPages = currentPackages.length;
   int _currentPage = 0;
   Color? color;
   PageController? pageController;
+  UserModel? user;
 
   Widget _indicator(bool isActive) {
     return AnimatedContainer(
@@ -67,13 +70,16 @@ class _PricingScreenState extends State<PricingScreen> {
 
   @override
   void initState() {
-    pageController = PageController(viewportFraction: 0.8, initialPage: 0);
     super.initState();
+
+    pageController = PageController(viewportFraction: 0.8, initialPage: 0);
+    user = context.read<UserModel>();
   }
 
   @override
   void dispose() {
     pageController!.dispose();
+
     super.dispose();
   }
 
@@ -96,7 +102,7 @@ class _PricingScreenState extends State<PricingScreen> {
                   style: Constants.kHeadlineStyle,
                 ),
                 mainBody(),
-                SizedBox(height: DeviceConfig.screenHeight! * 0.08),
+                SizedBox(height: DeviceConfig.screenHeight! * 0.04),
               ],
             ),
           ),
