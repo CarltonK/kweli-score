@@ -1,9 +1,7 @@
-// import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kweliscore/models/models.dart';
-// import 'package:kweliscore/screens/screens.dart';
+import 'package:kweliscore/screens/screens.dart';
 import 'package:kweliscore/utilities/utilities.dart';
-import 'package:kweliscore/widgets/widgets.dart';
 
 class CategoryBuilder extends StatefulWidget {
   const CategoryBuilder({
@@ -83,72 +81,11 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
           // In if index % 2 == 0
           String moneyDirection = index % 2 == 0 ? 'received' : 'sent';
 
-          return GestureDetector(
-            onTap: () {},
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
-              elevation: 3,
-              margin: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(10),
-                horizontal: getProportionateScreenWidth(5),
-              ),
-              color: Colors.grey[100],
-              child: Container(
-                width: getProportionateScreenWidth(250),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${displayTags![index]}',
-                          style: Constants.boldHeadlineStyle
-                              .copyWith(fontSize: 20),
-                        ),
-                        GlobalCircleButton(
-                          onPressed: () {},
-                          icon: Icons.info,
-                          color: Palette.ksmartPrimary,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: getProportionateScreenHeight(10)),
-                    moneyDirection == 'received'
-                        ? Icon(Icons.trending_up, color: Colors.green)
-                        : Icon(Icons.trending_down, color: Colors.red),
-                    SizedBox(height: getProportionateScreenHeight(10)),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'You have $moneyDirection a total of ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 15,
-                              color: Colors.black,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'KES $total',
-                            style: Constants.blackBoldNormal.copyWith(
-                              fontSize: 17,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          return CategoryItem(
+            title: displayTags![index],
+            moneyDirection: moneyDirection,
+            total: total,
+            listItems: displayItems![index].records,
           );
         },
       ),

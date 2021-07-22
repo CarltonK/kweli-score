@@ -16,7 +16,10 @@ class BrandItem extends StatelessWidget {
     return Card(
       elevation: 1.5,
       child: ListTile(
-        leading: Icon(Icons.trending_flat),
+        leading: Icon(
+          Icons.trending_flat,
+          color: Palette.ksmartPrimary,
+        ),
         title: Text(
           '${lifestyle.name}',
           style: Constants.boldSubheadlineStyle,

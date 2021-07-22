@@ -21,7 +21,6 @@ class ProfileBody extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: DeviceConfig.screenHeight! * 0.04), // 4%
-
                   Text(
                     'Please update your details for a more personalized and accurate report',
                     textAlign: TextAlign.center,
