@@ -98,7 +98,7 @@ class _SummaryBuilderState extends State<SummaryBuilder> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getProportionateScreenHeight(250),
+      height: getProportionateScreenHeight(275),
       child: PageView.builder(
         controller: _controller,
         itemCount: _pages.length,
