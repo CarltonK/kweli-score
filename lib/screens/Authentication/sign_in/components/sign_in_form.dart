@@ -167,24 +167,6 @@ class _SignInFormState extends State<SignInForm> {
         : _editingController!.text = '';
   }
 
-  Future checkFirstSeen() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _seen = (prefs.getBool('seen') ?? false);
-    if (!_seen) {
-      // Proceed to OnBoarding Screen
-      await Navigator.push(
-        context,
-        SlideLeftTransition(
-          page: OnBoarding(),
-          routeName: 'onboarding_screen',
-        ),
-      );
-      await prefs.setBool('seen', true);
-    } else {
-      await prefs.setBool('seen', true);
-    }
-  }
-
   checkBoxChanged(value) async {
     setState(() {
       canRemember = value!;
@@ -194,8 +176,7 @@ class _SignInFormState extends State<SignInForm> {
   @override
   void initState() {
     super.initState();
-
-    checkFirstSeen();
+    _editingController = TextEditingController();
     retrieveSavedIdentificationValue();
     _editingController = TextEditingController();
   }
