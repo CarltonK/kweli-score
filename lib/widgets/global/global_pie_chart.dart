@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kweliscore/utilities/palette.dart';
 import 'package:kweliscore/utilities/utilities.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -33,7 +32,13 @@ class GlobalPieChart extends StatelessWidget {
                   chartTitle,
                   style: Constants.kHeadlineStyle.copyWith(fontSize: 20),
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.info))
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.info,
+                    color: Palette.ksmartPrimary,
+                  ),
+                )
               ],
             ),
           ),
