@@ -16,13 +16,26 @@ class GlobalPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      elevation: 3,
+      elevation: 2.5,
+      margin: EdgeInsets.symmetric(
+        vertical: getProportionateScreenHeight(10),
+        horizontal: getProportionateScreenWidth(5),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            chartTitle,
-            style: Constants.kHeadlineStyle.copyWith(fontSize: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  chartTitle,
+                  style: Constants.kHeadlineStyle.copyWith(fontSize: 20),
+                ),
+                IconButton(onPressed: () {}, icon: Icon(Icons.info))
+              ],
+            ),
           ),
           PieChart(
             dataMap: chartData,

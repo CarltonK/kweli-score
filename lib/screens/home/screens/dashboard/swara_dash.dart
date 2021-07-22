@@ -90,7 +90,7 @@ class _SwaraDashState extends State<SwaraDash> {
           SizedBox(height: getProportionateScreenHeight(20)),
           SummaryBuilder(summary: dash!.detail!.quickSummaries!),
           SizedBox(height: getProportionateScreenHeight(25)),
-          Text('Transactional Data', style: Constants.kHeadlineStyle),
+          Text('Transactions', style: Constants.kHeadlineStyle),
           SizedBox(height: getProportionateScreenHeight(10)),
           CategoryBuilder(
             p2pIncoming: dash!.detail!.p2PIncoming!,

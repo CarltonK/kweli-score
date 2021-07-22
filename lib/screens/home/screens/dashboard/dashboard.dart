@@ -12,3 +12,5 @@ export 'components/intro_widget.dart';
 export 'components/brand_builder.dart';
 export 'components/summary_builder.dart';
 export 'components/brand_item.dart';
+export 'components/category_item.dart';
+export 'components/transaction_card.dart';
