@@ -115,7 +115,7 @@ class _SwaraDashState extends State<SwaraDash> {
               'Internet and TV',
             ],
             brands: dash!.detail!.brands!,
-          )
+          ),
         ],
       ),
     );
