@@ -79,18 +79,22 @@ class _SummaryBuilderState extends State<SummaryBuilder> {
     _pages.add(GlobalPieChart(
       chartData: chartIncomingTotalData(),
       chartTitle: 'Incoming Total',
+      canBeSelected: true,
     ));
     _pages.add(GlobalPieChart(
       chartData: chartIncomingTransactionsData(),
       chartTitle: 'Incoming Transactions',
+      canBeSelected: true,
     ));
     _pages.add(GlobalPieChart(
       chartData: chartOutgoingSources(),
       chartTitle: 'Outgoing Sources',
+      canBeSelected: true,
     ));
     _pages.add(GlobalPieChart(
       chartData: mpesaCharges(),
       chartTitle: 'Mpesa Charges',
+      canBeSelected: true,
     ));
     _controller = PageController(viewportFraction: 0.8);
   }

@@ -21,7 +21,13 @@ class TransactionCard extends StatelessWidget {
       elevation: 3,
       child: ListTile(
         contentPadding: const EdgeInsets.all(8),
-        leading: Icon(iconData, size: 40, color: Palette.ksmartPrimary),
+        leading: CircleAvatar(
+          child: Text(
+            '${titleKey![0].toUpperCase()}',
+            style: Constants.whiteBoldSubheadlineStyle,
+          ),
+          backgroundColor: Palette.ksmartPrimary,
+        ),
         title: Text(
           '$titleKey',
           style: Constants.boldSubheadlineStyle.copyWith(
